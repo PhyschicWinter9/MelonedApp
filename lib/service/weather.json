@@ -1,0 +1,46 @@
+{
+    "coord": {
+        "lon": 99.3336,
+        "lat": 9.1318
+    },
+    "weather": [
+        {
+            "id": 804,
+            "main": "Clouds",
+            "description": "เมฆเต็มท้องฟ้า",
+            "icon": "04n"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 23.98,
+        "feels_like": 24.65,
+        "temp_min": 23.98,
+        "temp_max": 23.98,
+        "pressure": 1009,
+        "humidity": 85,
+        "sea_level": 1009,
+        "grnd_level": 1008
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 1.46,
+        "deg": 295,
+        "gust": 1.86
+    },
+    "clouds": {
+        "all": 100
+    },
+    "dt": 1662464018,
+    "sys": {
+        "type": 1,
+        "id": 9270,
+        "country": "TH",
+        "sunrise": 1662419626,
+        "sunset": 1662463741
+    },
+    "timezone": 25200,
+    "id": 1150515,
+    "name": "เทศบาลนครสุราษฎร์ธานี",
+    "cod": 200
+}

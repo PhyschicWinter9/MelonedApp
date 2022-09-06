@@ -103,12 +103,7 @@ class _PeriodState extends State<Period> {
     return json.decode(response.body);
   }
 
-  Future openWeatherAPI(String lat, String lon) async {
-    var url =
-        "https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon.333618&units=metric&lang=th&appid=2d0ed5e7b2b8fed7f13f1890cdc4b8ab";
-    var response = await http.get(Uri.parse(url));
-    return json.decode(response.body);
-  }
+  
 
   @override
   Widget build(BuildContext context) {

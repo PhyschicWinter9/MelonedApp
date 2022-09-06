@@ -4,9 +4,10 @@ import 'package:newmelonedv2/period.dart';
 import 'package:newmelonedv2/daily.dart';
 import 'package:newmelonedv2/analyze.dart';
 import 'package:newmelonedv2/summary.dart';
-import 'package:weather/weather.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:newmelonedv2/service/openweatherapi.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -18,14 +19,31 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
-  String apikey = '2d0ed5e7b2b8fed7f13f1890cdc4b8ab';
+  String? lat;
+  String? lon;
 
-  //weather openweatherapi
-  WeatherFactory wf = new WeatherFactory("2d0ed5e7b2b8fed7f13f1890cdc4b8ab",
-      language: Language.THAI);
+  WeatherApiClient client = WeatherApiClient();
 
-  double? lat;
-  double? lon;
+  //Get Location from GPS and show Weather Widget
+  Future<void> getLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    lat = position.latitude.toString();
+    lon = position.longitude.toString();
+
+    // lat = '9.131790';
+    // lon = '99.333618';
+    print(lat);
+    print(lon);
+    client.getCurretWeather(lat, lon);
+    // client.getCurretWeather(9.131790, 99.333618);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,6 +193,7 @@ class _MainMenuState extends State<MainMenu> {
                                     child: IconButton(
                                         onPressed: () {
                                           setState(() {
+                                            client.getCurretWeather(lat, lon);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
