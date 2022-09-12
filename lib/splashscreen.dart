@@ -24,7 +24,6 @@ class _SplashScreenState extends State<SplashScreen> {
       Permission.storage,
       //Request permission to access camera
       Permission.camera,
-      Permission.systemAlertWindow,
     ].request();
   }
 
@@ -57,7 +56,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     //Cheack Internet Connection after Checking Permission
     checkPermissionAndInternet();

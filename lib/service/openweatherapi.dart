@@ -20,11 +20,12 @@ class WeatherApiClient {
     var response = await http.get(Uri.parse(locationUrl));
     var body = jsonDecode(response.body);
 
+    //Debug Log response
     // print(Weather.fromJson(body));
-    print(Weather.fromJson(body).lat);
-    print(Weather.fromJson(body).lon);
-    // print(Weather.fromJson(body).temp);
-    print(Weather.fromJson(body).cityname);
+    // print(Weather.fromJson(body).lat);
+    // print(Weather.fromJson(body).lon);
+    // // print(Weather.fromJson(body).temp);
+    // print(Weather.fromJson(body).cityname);
     return Weather.fromJson(body);
   }
 }

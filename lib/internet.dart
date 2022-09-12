@@ -1,5 +1,6 @@
-import 'dart:async';
+//THIS FILE IS TEST FILE AND WORKING BUT NOT USE IN APP
 
+import 'dart:async';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 Future<void> main() async {
