@@ -7,7 +7,7 @@ import 'package:newmelonedv2/model/weather.dart';
 class WeatherApiClient {
   // static const baseUrl = 'https://api.openweathermap.org/data/2.5';
   // static const baseUrlv3 = 'https://api.openweathermap.org/data/3.0';
-  // static const apikey = '2d0ed5e7b2b8fed7f13f1890cdc4b8ab';
+  static const apikey = '';
   // static const units = 'metric';
   // static const lang = 'th';
 
@@ -15,7 +15,7 @@ class WeatherApiClient {
 
   Future<Weather>? getCurretWeather(String? lat, String? lon) async {
     final locationUrl =
-        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&lang=th&appid=2d0ed5e7b2b8fed7f13f1890cdc4b8ab';
+        'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&units=metric&lang=th&appid=$apikey';
 
     var response = await http.get(Uri.parse(locationUrl));
     var body = jsonDecode(response.body);
