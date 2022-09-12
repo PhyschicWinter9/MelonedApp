@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:newmelonedv2/model/weather.dart';
 import 'package:newmelonedv2/period.dart';
 import 'package:newmelonedv2/daily.dart';
 import 'package:newmelonedv2/analyze.dart';
@@ -8,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
 import 'package:newmelonedv2/service/openweatherapi.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -19,8 +21,11 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
+  //Variable for get location
   String? lat;
   String? lon;
+  Weather? data;
+
 
   WeatherApiClient client = WeatherApiClient();
 
@@ -30,19 +35,22 @@ class _MainMenuState extends State<MainMenu> {
         desiredAccuracy: LocationAccuracy.high);
     lat = position.latitude.toString();
     lon = position.longitude.toString();
-
-    // lat = '9.131790';
-    // lon = '99.333618';
-    print(lat);
-    print(lon);
-    client.getCurretWeather(lat, lon);
-    // client.getCurretWeather(9.131790, 99.333618);
+    // print(lat);
+    // print(lon);
+    data = await client.getCurretWeather(lat, lon);
   }
+
+  // Future<void> getData() async {
+  //   data = await client.getCurretWeather(lat, lon);
+  // }
 
   @override
   void initState() {
     super.initState();
     getLocation();
+    // getData();
+    // _determinePosition();
+    // client.getCurretWeather('9.11646392925872', '99.26979905705976');
   }
 
   @override
@@ -107,66 +115,83 @@ class _MainMenuState extends State<MainMenu> {
                               Radius.circular(20),
                             ),
                           ),
-                          child: Container(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.sunny,
-                                      size: 60,
-                                      color: Colors.orangeAccent,
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'SUNNY',
-                                          style: GoogleFonts.kanit(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromRGBO(
-                                                  116, 116, 39, 1)),
-                                        ),
-                                        Text(
-                                          '40°C',
-                                          style: GoogleFonts.kanit(
-                                              fontSize: 35,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromRGBO(
-                                                  116, 116, 39, 1)),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.location_pin,
-                                      color: Colors.red,
-                                      size: 30,
-                                    ),
-                                    Text(
-                                      'Bangkok',
-                                      style: GoogleFonts.kanit(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color:
-                                              Color.fromRGBO(116, 116, 39, 1)),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                          child: FutureBuilder(
+                            future: getLocation(),
+                            builder: (context,snapshot){
+                              if(snapshot.connectionState == ConnectionState.done){
+                                return Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.sunny,
+                                            size: 60,
+                                            color: Colors.orangeAccent,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${data?.decoration}',
+                                                style: GoogleFonts.kanit(
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color.fromRGBO(
+                                                        116, 116, 39, 1)),
+                                              ),
+                                              Text(
+                                                '${data?.temp}',
+                                                style: GoogleFonts.kanit(
+                                                    fontSize: 35,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Color.fromRGBO(
+                                                        116, 116, 39, 1)),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.location_pin,
+                                            color: Colors.red,
+                                            size: 30,
+                                          ),
+                                          Text(
+                                            "${data?.cityname}",
+                                            style: GoogleFonts.kanit(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromRGBO(
+                                                    116, 116, 39, 1)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else{
+                                return Center(
+                                  child: LoadingAnimationWidget.prograssiveDots(
+                                      size: 50, color: Colors.orangeAccent,
+                                      
+                                  ),
+                                );
+                              }
+                            },
                           ),
                         ),
                       ),

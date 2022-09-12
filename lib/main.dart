@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:newmelonedv2/menu.dart';
+import 'package:newmelonedv2/splashscreen.dart';
+import 'package:newmelonedv2/internet.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainMenu(),
+      home: SplashScreen(),
     );
   }
 }
