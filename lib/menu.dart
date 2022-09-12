@@ -27,6 +27,8 @@ class _MainMenuState extends State<MainMenu> {
   String? lon;
   Weather? data;
 
+ 
+
   WeatherApiClient client = WeatherApiClient();
 
   //Get Location from GPS and show Weather Widget
@@ -114,68 +116,74 @@ class _MainMenuState extends State<MainMenu> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
-                                return Container(
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.sunny,
-                                            size: 60,
-                                            color: Colors.orangeAccent,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                '${data?.decoration}',
-                                                style: GoogleFonts.kanit(
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromRGBO(
-                                                        116, 116, 39, 1)),
-                                              ),
-                                              Text(
-                                                '${data?.temp}',
-                                                style: GoogleFonts.kanit(
-                                                    fontSize: 35,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Color.fromRGBO(
-                                                        116, 116, 39, 1)),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.location_pin,
-                                            color: Colors.red,
-                                            size: 30,
-                                          ),
-                                          Text(
-                                            "${data?.cityname}",
-                                            style: GoogleFonts.kanit(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Color.fromRGBO(
-                                                    116, 116, 39, 1)),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                return Expanded(
+                                  child: Container(
+                                    padding: EdgeInsets.all(20),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // Icon(
+                                            //   Icons.sunny,
+                                            //   size: 60,
+                                            //   color: Colors.orangeAccent,
+                                            // ),
+                                            Image.network(
+                                              'https://openweathermap.org/img/wn/${data?.icon}@4x.png',
+                                              width: 70,
+                                            ),
+                                            SizedBox(
+                                              width: 15,
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  '${data?.decoration}',
+                                                  style: GoogleFonts.kanit(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Color.fromRGBO(
+                                                          116, 116, 39, 1)),
+                                                ),
+                                                Text(
+                                                  '${data?.temp} °C',
+                                                  style: GoogleFonts.kanit(
+                                                      fontSize: 35,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Color.fromRGBO(
+                                                          116, 116, 39, 1)),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.location_pin,
+                                              color: Colors.red,
+                                              size: 30,
+                                            ),
+                                            Text(
+                                              "${data?.cityname}",
+                                              style: GoogleFonts.kanit(
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color.fromRGBO(
+                                                      116, 116, 39, 1)),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               } else {
