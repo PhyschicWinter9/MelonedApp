@@ -11,7 +11,7 @@ class WeatherApiClient {
   // static const units = 'metric';
   // static const lang = 'th';
 
-  // static const baseUrl1 = 'https://api.openweathermap.org/data/2.5/weather?lat=9.131790&lon=99.333618&units=metric&lang=th&appid=2d0ed5e7b2b8fed7f13f1890cdc4b8ab';
+ 
 
   Future<Weather>? getCurretWeather(String? lat, String? lon) async {
     final locationUrl =
