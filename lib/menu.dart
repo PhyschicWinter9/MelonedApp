@@ -21,13 +21,10 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
- 
   //Variable for get location
   String? lat;
   String? lon;
   Weather? data;
-
- 
 
   WeatherApiClient client = WeatherApiClient();
 
@@ -41,7 +38,6 @@ class _MainMenuState extends State<MainMenu> {
     // print(lon);
     data = await client.getCurretWeather(lat, lon);
   }
-
 
   @override
   void initState() {
@@ -105,6 +101,7 @@ class _MainMenuState extends State<MainMenu> {
                       child: Container(
                         padding: EdgeInsets.all(8),
                         child: Container(
+                          height: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.all(
@@ -116,74 +113,80 @@ class _MainMenuState extends State<MainMenu> {
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.done) {
-                                return Expanded(
-                                  child: Container(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            // Icon(
-                                            //   Icons.sunny,
-                                            //   size: 60,
-                                            //   color: Colors.orangeAccent,
-                                            // ),
-                                            Image.network(
-                                              'https://openweathermap.org/img/wn/${data?.icon}@4x.png',
-                                              width: 70,
-                                            ),
-                                            SizedBox(
-                                              width: 15,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  '${data?.decoration}',
-                                                  style: GoogleFonts.kanit(
-                                                      fontSize: 15,
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Color.fromRGBO(
-                                                          116, 116, 39, 1)),
-                                                ),
-                                                Text(
-                                                  '${data?.temp} °C',
-                                                  style: GoogleFonts.kanit(
-                                                      fontSize: 35,
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Color.fromRGBO(
-                                                          116, 116, 39, 1)),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.location_pin,
-                                              color: Colors.red,
-                                              size: 30,
-                                            ),
-                                            Text(
-                                              "${data?.cityname}",
-                                              style: GoogleFonts.kanit(
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color.fromRGBO(
-                                                      116, 116, 39, 1)),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
+                                return Container(
+                                  padding: EdgeInsets.all(20),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          // Icon(
+                                          //   Icons.sunny,
+                                          //   size: 60,
+                                          //   color: Colors.orangeAccent,
+                                          // ),
+                                          Image.asset(
+                                            'assets/weather/${data?.icon}.png',
+                                            width: 80,
+                                            height: 80,
+                                          ),
+                                          // Image.network(
+                                          //   'https://openweathermap.org/img/w/${data?.icon}.png',
+                                          //   width: 60,
+                                          // ),
+                                          SizedBox(
+                                            width: 15,
+                                          ),
+                                          Column(
+                                            
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${data?.decoration}',
+                                                style: GoogleFonts.kanit(
+                                                    fontSize: 15,
+                                                    fontWeight:
+                                                        FontWeight.bold,
+                                                    color: Color.fromRGBO(
+                                                        116, 116, 39, 1)),
+                                              ),
+                                              Text(
+                                                '${data?.temp} °C',
+                                                style: GoogleFonts.kanit(
+                                                    fontSize: 35,
+                                                    fontWeight:
+                                                        FontWeight.bold,
+                                                    color: Color.fromRGBO(
+                                                        116, 116, 39, 1)),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.location_pin,
+                                            color: Colors.red,
+                                            size: 30,
+                                          ),
+                                          Text(
+                                            "${data?.cityname}",
+                                            style: GoogleFonts.kanit(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color.fromRGBO(
+                                                    116, 116, 39, 1)),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 );
                               } else {
