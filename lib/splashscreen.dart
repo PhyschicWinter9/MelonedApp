@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:newmelonedv2/menu.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -118,8 +119,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 margin: EdgeInsets.fromLTRB(0, 30, 0, 0),
                 child: Column(
                   children: [
-                    CircularProgressIndicator(
+                    LoadingAnimationWidget.staggeredDotsWave(
                       color: Color.fromRGBO(227, 209, 106, 1),
+                      size: 65,
                     ),
                     SizedBox(
                       height: 15,

@@ -94,6 +94,7 @@ class _MainMenuState extends State<MainMenu> {
                 Expanded(
                     flex: 1,
                     child: Container(
+                      height: double.infinity,
                       margin: EdgeInsets.only(left: 10, right: 10),
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(253, 212, 176, 1),
@@ -101,7 +102,6 @@ class _MainMenuState extends State<MainMenu> {
                       child: Container(
                         padding: EdgeInsets.all(8),
                         child: Container(
-                          height: double.infinity,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.all(
