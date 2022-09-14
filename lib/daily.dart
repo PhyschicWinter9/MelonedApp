@@ -59,7 +59,6 @@ class _DailyState extends State<Daily> {
             margin: EdgeInsets.all(20),
             child: Column(
               children: [
-                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -224,10 +223,10 @@ class MyBottomBar extends StatelessWidget {
             Container(
                 child: IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Daily()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const Daily()),
+                // );
               },
               icon: Icon(
                 Icons.favorite,
@@ -365,10 +364,10 @@ class Hamburger1 extends StatelessWidget {
               style: sidemenu,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Daily()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const Daily()),
+              // );
             },
           ),
           ListTile(
