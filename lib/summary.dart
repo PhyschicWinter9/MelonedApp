@@ -5,6 +5,7 @@ import 'package:newmelonedv2/menu.dart';
 import 'package:newmelonedv2/period.dart';
 import 'package:newmelonedv2/daily.dart';
 import 'package:newmelonedv2/analyze.dart';
+
 class Summary extends StatefulWidget {
   const Summary({Key? key}) : super(key: key);
 
@@ -150,9 +151,9 @@ class MyBottomBar extends StatelessWidget {
                 child: IconButton(
                   onPressed: () {
                     Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const MainMenu()),
-                );
+                      context,
+                      MaterialPageRoute(builder: (context) => const MainMenu()),
+                    );
                   },
                   icon: Icon(
                     Icons.home,
@@ -178,10 +179,10 @@ class MyBottomBar extends StatelessWidget {
             Container(
                 child: IconButton(
               onPressed: () {
-                 Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Summary()),
-                );
+                //  Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const Summary()),
+                // );
               },
               icon: Icon(
                 Icons.insights,
@@ -291,10 +292,10 @@ class Hamburger1 extends StatelessWidget {
               style: sidemenu,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Summary()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const Summary()),
+              // );
             },
           ),
         ],

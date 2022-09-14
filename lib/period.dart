@@ -30,12 +30,9 @@ class _PeriodState extends State<Period> {
   //   'โรงเรือน 3',
   // ];
 
-  
-
-    @override
+  @override
   void initState() {
     super.initState();
-    
   }
 
   Future detailpreiod(String period_ID, String create_date, String harvest_date,
@@ -62,8 +59,6 @@ class _PeriodState extends State<Period> {
     });
     return json.decode(response.body);
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -297,10 +292,10 @@ class MyBottomBar extends StatelessWidget {
             Container(
               child: IconButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Period()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => const Period()),
+                  // );
                 },
                 icon: Icon(
                   Icons.calendar_month,
@@ -442,10 +437,10 @@ class Hamburger1 extends StatelessWidget {
               style: sidemenu,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Period()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const Period()),
+              // );
             },
           ),
           ListTile(

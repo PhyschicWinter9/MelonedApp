@@ -208,10 +208,10 @@ class MyBottomBar extends StatelessWidget {
             Container(
                 child: IconButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Analyze()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const Analyze()),
+                // );
               },
               icon: Icon(
                 Icons.troubleshoot,
@@ -323,10 +323,10 @@ class Hamburger1 extends StatelessWidget {
               style: sidemenu,
             ),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const Analyze()),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const Analyze()),
+              // );
             },
           ),
           ListTile(
