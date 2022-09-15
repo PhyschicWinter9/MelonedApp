@@ -21,7 +21,14 @@ class Period extends StatefulWidget {
 }
 
 class _PeriodState extends State<Period> {
+  //Initial Seleted Value
+  // String greenhouse_namevalue = "";
 
+  // var items = [
+  //   'โรงเรือน 1',
+  //   'โรงเรือน 2',
+  //   'โรงเรือน 3',
+  // ];
 
   @override
   void initState() {
