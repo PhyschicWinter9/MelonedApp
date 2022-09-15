@@ -1,10 +1,8 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/menu.dart';
-import 'package:newmelonedv2/period.dart';
-import 'package:newmelonedv2/daily.dart';
-import 'package:newmelonedv2/summary.dart';
+import 'menu.dart';
+import 'period.dart';
+import 'daily.dart';
+import 'summary.dart';
 
 class Analyze extends StatefulWidget {
   const Analyze({Key? key}) : super(key: key);

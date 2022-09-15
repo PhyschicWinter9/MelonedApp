@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newmelonedv2/menu.dart';
-import 'package:newmelonedv2/daily.dart';
-import 'package:newmelonedv2/analyze.dart';
-import 'package:newmelonedv2/sub_period/new_period.dart';
-import 'package:newmelonedv2/sub_period/edit_period.dart';
-import 'package:newmelonedv2/summary.dart';
+import 'menu.dart';
+import 'daily.dart';
+import 'analyze.dart';
+import 'sub_period/new_period.dart';
+import 'sub_period/edit_period.dart';
+import 'summary.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';

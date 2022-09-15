@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/model/weather.dart';
-import 'package:newmelonedv2/period.dart';
-import 'package:newmelonedv2/daily.dart';
-import 'package:newmelonedv2/analyze.dart';
-import 'package:newmelonedv2/summary.dart';
+import 'model/weather.dart';
+import 'period.dart';
+import 'daily.dart';
+import 'analyze.dart';
+import 'summary.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
-import 'package:newmelonedv2/service/openweatherapi.dart';
+import 'service/openweatherapi.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:google_fonts/google_fonts.dart';

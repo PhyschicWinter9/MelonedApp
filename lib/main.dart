@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/menu.dart';
-import 'package:newmelonedv2/splashscreen.dart';
-import 'package:newmelonedv2/internet.dart';
+import 'menu.dart';
+import 'splashscreen.dart';
+
 
 void main() {
   runApp(MyApp());

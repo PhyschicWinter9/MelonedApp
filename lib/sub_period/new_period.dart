@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/menu.dart';
-import 'package:newmelonedv2/period.dart';
-import 'package:newmelonedv2/daily.dart';
-import 'package:newmelonedv2/analyze.dart';
-import 'package:newmelonedv2/summary.dart';
+import '../menu.dart';
+import '../period.dart';
+import '../daily.dart';
+import '../analyze.dart';
+import '../summary.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
