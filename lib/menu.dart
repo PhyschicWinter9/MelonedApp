@@ -123,25 +123,15 @@ class _MainMenuState extends State<MainMenu> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          // Icon(
-                                          //   Icons.sunny,
-                                          //   size: 60,
-                                          //   color: Colors.orangeAccent,
-                                          // ),
                                           Image.asset(
                                             'assets/weather/${data?.icon}.png',
                                             width: 80,
                                             height: 80,
                                           ),
-                                          // Image.network(
-                                          //   'https://openweathermap.org/img/w/${data?.icon}.png',
-                                          //   width: 60,
-                                          // ),
                                           SizedBox(
                                             width: 15,
                                           ),
                                           Column(
-                                            
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
