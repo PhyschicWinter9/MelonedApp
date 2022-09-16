@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (result == true) {
       //if internet connection is available
       //then navigate to home screen
-      Future.delayed(const Duration(seconds: 8), () {
+      Future.delayed(const Duration(seconds: 6), () {
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => MainMenu()));
       });
