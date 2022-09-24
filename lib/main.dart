@@ -12,6 +12,7 @@ import 'splashscreen.dart';
 import 'sub_daily/sub_fert/addfert.dart';
 import 'sub_daily/sub_fert/editfert.dart';
 import 'sub_daily/sub_note/addnote.dart';
+import 'sub_daily/sub_note/editnote.dart';
 import 'sub_period/edit_period.dart';
 import 'sub_period/historyperiod.dart';
 import 'sub_period/new_period.dart';
@@ -49,7 +50,8 @@ class _MyAppState extends State<MyApp> {
         '/historyperiod': (context) => HistoryPeriod(),
         '/addfert': (context) => AddFert(),
         '/editfert': (context) => EditFert(),
-        //'/addnote': (context) => AddNote(),
+        '/addnote': (context) => AddNote(),
+        '/editnote': (context) => EditNote(),
       },
       theme: MyTheme(),
       home: 

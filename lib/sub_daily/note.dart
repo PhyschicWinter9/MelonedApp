@@ -79,7 +79,9 @@ class _NoteCardState extends State<NoteCard> {
               ),
               padding: EdgeInsets.all(20),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/editnote');
+            },
             child: Row(
               children: [
                 Column(
