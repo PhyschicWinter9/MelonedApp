@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newmelonedv2/reuse/container.dart';
-import 'package:newmelonedv2/style/textstyle.dart';
+import 'reuse/container.dart';
+import 'style/textstyle.dart';
 import 'reuse/bottombar.dart';
 import 'reuse/hamburger.dart';
 import 'style/colortheme.dart';

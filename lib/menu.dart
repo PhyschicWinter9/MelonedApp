@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/reuse/container.dart';
-import 'package:newmelonedv2/style/textstyle.dart';
-import 'package:newmelonedv2/sub_menu/weatherapi.dart';
+import 'reuse/container.dart';
+import 'style/textstyle.dart';
+import 'sub_menu/weatherapi.dart';
 import 'period.dart';
 import 'daily.dart';
 import 'analyze.dart';

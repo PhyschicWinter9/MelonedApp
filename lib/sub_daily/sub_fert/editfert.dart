@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/reuse/bottombar.dart';
-import 'package:newmelonedv2/reuse/container.dart';
-import 'package:newmelonedv2/reuse/hamburger.dart';
-import 'package:newmelonedv2/sub_daily/sub_fert/fertdropdown.dart';
+import '/reuse/bottombar.dart';
+import '/reuse/container.dart';
+import '/reuse/hamburger.dart';
+import '/sub_daily/sub_fert/fertdropdown.dart';
 import '../../reuse/sizedbox.dart';
 import '../../style/colortheme.dart';
 import '../../style/textstyle.dart';
