@@ -23,7 +23,7 @@ class SignBtn extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             primary: color,
           ),
-          onPressed: callback,
+          onPressed: (callback),
           child: Text(
             title,
             style: GoogleFonts.kanit(),
