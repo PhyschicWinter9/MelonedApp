@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:newmelonedv2/style/colortheme.dart';
+
 import 'menu.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -65,8 +67,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorCustom.darkgreencolor(),
       body: Container(
-        color: Color.fromRGBO(116, 116, 39, 1),
+        color: ColorCustom.darkgreencolor(),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

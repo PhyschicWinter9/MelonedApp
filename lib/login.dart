@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'widget/extract/form.dart';
-import 'widget/extract/signinSignupBtn.dart';
+import 'style/textstyle.dart';
+import 'sub_login/form.dart';
+import 'sub_login/signinSignupBtn.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
@@ -18,9 +19,14 @@ class _MyWidgetLogin extends State<Login> {
     print("aa");
   }
 
+  void register_route() {
+    Navigator.pushNamed(context, '/register');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Center(
@@ -49,29 +55,14 @@ class _MyWidgetLogin extends State<Login> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Column(
-                          children: [
-                            Text(
-                              'MELO',
-                              style: GoogleFonts.kanit(
-                                fontSize: 30,
-                                color: Color.fromRGBO(245, 176, 103, 1),
-                                fontWeight: FontWeight.bold,
-                              ),
-                            )
-                          ],
+                        Text(
+                          'MELO',
+                          style: TextCustom.logofont1(),
                         ),
-                        Column(
-                          children: [
-                            Text(
-                              'NED',
-                              style: GoogleFonts.kanit(
-                                  fontSize: 30,
-                                  color: Color.fromRGBO(227, 209, 106, 1),
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        )
+                        Text(
+                          'NED',
+                          style: TextCustom.logofont2(),
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -81,6 +72,7 @@ class _MyWidgetLogin extends State<Login> {
                       controller: usernameController,
                       hintText: "Username",
                       hideText: false,
+                      icon: Icon(Icons.account_circle),
                     ),
                     SizedBox(
                       height: 10,
@@ -89,6 +81,7 @@ class _MyWidgetLogin extends State<Login> {
                       controller: passwordController,
                       hintText: "Password",
                       hideText: true,
+                      icon: Icon(Icons.key),
                     ),
                     SizedBox(
                       height: 20,
@@ -126,7 +119,7 @@ class _MyWidgetLogin extends State<Login> {
                       ],
                     ),
                     SignBtn(
-                        callback: testfunc,
+                        callback: register_route,
                         title: "Sign up",
                         color: Color.fromRGBO(245, 176, 103, 1)),
                   ],
