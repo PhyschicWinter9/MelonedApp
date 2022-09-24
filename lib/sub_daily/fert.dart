@@ -23,7 +23,9 @@ class _FertState extends State<Fert> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/addfert');
+                },
                 icon: Icon(
                   Icons.add_circle,
                   color: ColorCustom.lightgreencolor(),
@@ -92,7 +94,9 @@ class _FertCardState extends State<FertCard> {
                         style: TextCustom.normal_dg16()),
                   ],
                 ),
-                IconButton(onPressed: (){}, icon: Icon(Icons.settings,color: ColorCustom.orangecolor(),size: 30,)),
+                IconButton(onPressed: (){
+                  Navigator.pushNamed(context, '/editfert');
+                }, icon: Icon(Icons.settings,color: ColorCustom.orangecolor(),size: 30,)),
               ],
             ),
           ),
@@ -101,3 +105,4 @@ class _FertCardState extends State<FertCard> {
     );
   }
 }
+

@@ -81,4 +81,11 @@ class TextCustom {
     ),
   );
 
+  static TextStyle buttontext() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+    ),
+  );
+
 }

@@ -22,7 +22,9 @@ class _NoteState extends State<Note> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/addnote');
+                },
                 icon: Icon(
                   Icons.add_circle,
                   color: ColorCustom.lightgreencolor(),

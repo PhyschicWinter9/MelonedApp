@@ -16,4 +16,8 @@ class sizedBox{
   static SizedBox Boxh25() => SizedBox(
     height: 25,
   );
+
+  static SizedBox Boxw10() => SizedBox(
+    width: 10,
+  );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newmelonedv2/reuse/sizedbox.dart';
 import '../style/textstyle.dart';
 import '../style/colortheme.dart';
 import 'signuplist.dart';
@@ -26,78 +27,48 @@ class _SignUpFormState extends State<SignUpForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Name',
+          Text('Name',
             style: TextCustom.textboxlabel(),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          sizedBox.Boxh5(),
           SignUpList(
             controller: nameController,
             hintText: 'Name Surname',
             hideText: false,
-            icon: Icon(
-              Icons.badge,
-              color: ColorCustom.lightgreencolor(),
-            )
+            icon: Icon(Icons.badge,)
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Email',
+          sizedBox.Boxh10(),
+          Text('Email',
             style: TextCustom.textboxlabel(),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          sizedBox.Boxh5(),
           SignUpList(
             controller: emailController,
             hintText: 'Email',
             hideText: false,
-            icon: Icon(
-              Icons.email,
-              color: ColorCustom.lightgreencolor(),
-            )
+            icon: Icon(Icons.email,)
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Username',
+          sizedBox.Boxh10(),
+          Text('Username',
             style: TextCustom.textboxlabel(),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          sizedBox.Boxh10(),
           SignUpList(
             controller: usernameController,
             hintText: 'Username',
             hideText: false,
-            icon: Icon(
-              Icons.account_circle,
-              color: ColorCustom.lightgreencolor(),
-            )
+            icon: Icon(Icons.account_circle,)
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            'Password',
+          sizedBox.Boxh10(),
+          Text('Password',
             style: TextCustom.textboxlabel(),
           ),
-          SizedBox(
-            height: 5,
-          ),
+          sizedBox.Boxh10(),
           SignUpList(
             controller: passwordController,
             hintText: 'Password',
             hideText: false,
-            icon: Icon(
-              Icons.key,
-              color: ColorCustom.lightgreencolor(),
-            )
+            icon: Icon(Icons.key,)
           ),
         ]
       )
