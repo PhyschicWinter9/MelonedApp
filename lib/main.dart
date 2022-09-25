@@ -57,7 +57,7 @@ class _MyAppState extends State<MyApp> {
       },
       theme: MyTheme(),
       home: 
-        MainMenu(),
+        SplashScreen(),
     );
   }
 }
