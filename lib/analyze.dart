@@ -1,97 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:newmelonedv2/reuse/container.dart';
 import 'menu.dart';
 import 'period.dart';
 import 'daily.dart';
+import 'style/colortheme.dart';
+import 'style/textstyle.dart';
 import 'summary.dart';
 import 'reuse/bottombar.dart';
 import 'reuse/hamburger.dart';
 
 class Analyze extends StatefulWidget {
-  const Analyze({Key? key}) : super(key: key);
+  Analyze({Key? key}) : super(key: key);
 
   @override
   State<Analyze> createState() => _AnalyzeState();
 }
 
 class _AnalyzeState extends State<Analyze> {
+  List<AnalyzeItem> analyzeitem = [
+    AnalyzeItem('โรงเรือน 1', 60, 20),
+    AnalyzeItem('โรงเรือน 2', 60, 0),
+    AnalyzeItem('โรงเรือน 3', 60, 0)
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Quality Analyze',),
+        title: Text(
+          'คุณภาพเมลอน',
+        ),
       ),
       drawer: Hamburger(),
-      body: Container(
-        margin: EdgeInsets.only(left: 10, right: 10),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(15))),
-        child: Container(
-          margin: EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Container(
-                color: Color.fromRGBO(251, 249, 218, 1),
-                height: 50,
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(15)),
-                  color: Colors.grey[200],
-                ),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.photo_camera,
-                          size: 50,
-                          color: Colors.grey[350],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      ////////////////////////////////////////////////
-                      //ปุ่มวิเคราะห์
-                      ////////////////////////////////////////////////
-                      onPressed: () {},
-                      child: Text(
-                        "วิเคราะห์ภาพ",
-                        style: TextStyle(
-                          color: Color.fromARGB(172, 112, 79, 1),
-                          fontSize: 20,
-                        ),
-                      ),
-                      style: TextButton.styleFrom(
-                        backgroundColor: Color.fromRGBO(255, 214, 104, 1),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+      body: BGContainer(
+        child: ListView.builder(
+          itemCount: analyzeitem.length,
+          itemBuilder: (context, index) {
+            return AnalyzeCard(analyzeitem: analyzeitem[index]);
+          },
         ),
       ),
       bottomNavigationBar: BottomBar(),
+    );
+  }
+}
+
+class AnalyzeItem {
+  final String periodName;
+  final int totalMelon;
+  final int totalMelonAnalyzed;
+
+  AnalyzeItem(this.periodName, this.totalMelon, this.totalMelonAnalyzed);
+}
+
+class AnalyzeCard extends StatefulWidget {
+  AnalyzeItem analyzeitem;
+  AnalyzeCard({Key? key, required this.analyzeitem}) : super(key: key);
+
+  @override
+  State<AnalyzeCard> createState() => _AnalyzeCardState();
+}
+
+class _AnalyzeCardState extends State<AnalyzeCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: ColorCustom.lightyellowcolor(),
+              onPrimary: ColorCustom.yellowcolor(),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              padding: EdgeInsets.all(20),
+            ),
+            onPressed: () {
+              Navigator.pushNamed(context, '/analyzedetail');
+            },
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('${widget.analyzeitem.periodName}',
+                        style: TextCustom.bold_b20()),
+                    Text(
+                        'จำนวนเมลอนที่วิเคราะห์แล้ว : ' +
+                            '${widget.analyzeitem.totalMelonAnalyzed}/${widget.analyzeitem.totalMelon}' +
+                            ' ลูก',
+                        style: TextCustom.normal_dg16()),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

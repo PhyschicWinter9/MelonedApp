@@ -199,7 +199,7 @@ class _PeriodState extends State<HistoryPeriod> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.all(16.0),
+                                        padding: EdgeInsets.all(16.0),
                                         child: Text(
                                           'คาดว่าจะเก็บเกี่ยวได้ในวันที่ ' +
                                               snapshot.data[index]
@@ -259,7 +259,7 @@ class MyBottomBar extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const HistoryPeriod()),
+                        builder: (context) => HistoryPeriod()),
                   );
                 },
                 icon: Icon(
@@ -275,7 +275,7 @@ class MyBottomBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Daily()),
+                  MaterialPageRoute(builder: (context) => Daily()),
                 );
               },
               icon: Icon(
@@ -298,7 +298,7 @@ class MyBottomBar extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MainMenu()),
+                      MaterialPageRoute(builder: (context) => MainMenu()),
                     );
                   },
                   icon: Icon(
@@ -313,7 +313,7 @@ class MyBottomBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Analyze()),
+                  MaterialPageRoute(builder: (context) => Analyze()),
                 );
               },
               icon: Icon(
@@ -327,7 +327,7 @@ class MyBottomBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Summary()),
+                  MaterialPageRoute(builder: (context) => Summary()),
                 );
               },
               icon: Icon(
@@ -392,7 +392,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MainMenu()),
+                MaterialPageRoute(builder: (context) => MainMenu()),
               );
             },
           ),
@@ -404,7 +404,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HistoryPeriod()),
+                MaterialPageRoute(builder: (context) => HistoryPeriod()),
               );
             },
           ),
@@ -416,7 +416,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Daily()),
+                MaterialPageRoute(builder: (context) => Daily()),
               );
             },
           ),
@@ -428,7 +428,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Analyze()),
+                MaterialPageRoute(builder: (context) => Analyze()),
               );
             },
           ),
@@ -440,7 +440,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Summary()),
+                MaterialPageRoute(builder: (context) => Summary()),
               );
             },
           ),

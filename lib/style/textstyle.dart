@@ -65,6 +65,27 @@ class TextCustom {
     ),
   );
 
+    static TextStyle normal_lg16() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 16,
+      color: ColorCustom.lightgreencolor(),
+    ),
+  );
+
+  static TextStyle normal_mdg16() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 16,
+      color: ColorCustom.mediumgreencolor(),
+    ),
+  );
+
+  static TextStyle normal_b16() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 16,
+      color: ColorCustom.browncolor(),
+    ),
+  );
+
   static TextStyle bold_b20() => GoogleFonts.kanit(
     textStyle: TextStyle(
       fontSize: 20,
@@ -88,4 +109,11 @@ class TextCustom {
     ),
   );
 
+  static TextStyle buttontext2() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      color: ColorCustom.darkgreencolor(),
+    ),
+  );
 }

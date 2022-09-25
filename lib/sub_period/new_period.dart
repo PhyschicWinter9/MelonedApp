@@ -328,7 +328,7 @@ class MyBottomBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Analyze()),
+                  MaterialPageRoute(builder: (context) => Analyze()),
                 );
               },
               icon: Icon(
@@ -443,7 +443,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Analyze()),
+                MaterialPageRoute(builder: (context) => Analyze()),
               );
             },
           ),

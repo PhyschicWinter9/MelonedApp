@@ -9,6 +9,8 @@ import 'daily.dart';
 import 'menu.dart';
 import 'period.dart';
 import 'splashscreen.dart';
+import 'sub_analyze/analyzedetail.dart';
+import 'sub_daily/humid.dart';
 import 'sub_daily/sub_fert/addfert.dart';
 import 'sub_daily/sub_fert/editfert.dart';
 import 'sub_daily/sub_note/addnote.dart';
@@ -53,6 +55,8 @@ class _MyAppState extends State<MyApp> {
         '/editfert': (context) => EditFert(),
         '/addnote': (context) => AddNote(),
         '/editnote': (context) => EditNote(),
+        '/humid':(context) => Humid(),
+        '/analyzedetail':(context) => AnalyzeDetail(),
       },
       theme: MyTheme(),
       home: MainMenu(),

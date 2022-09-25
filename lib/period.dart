@@ -65,14 +65,13 @@ class _PeriodState extends State<Period> {
     return Scaffold(
       appBar: AppBar(
         title: Text('รอบการปลูก'),
-        actions: <Widget>[
+        actions:
+        [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/newperiod');
+              Navigator.pushNamed(context, '/addperiod');
             },
-            icon: Icon(
-              Icons.add_circle_outline,
-            ),
+            icon: Icon(Icons.add_circle_outline),
           ),
         ],
       ),
@@ -97,7 +96,7 @@ class _PeriodState extends State<Period> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             LoadingAnimationWidget.waveDots(
-                              color: Color.fromRGBO(245, 176, 103, 1),
+                              color: ColorCustom.orangecolor(),
                               size: 50,
                             ),
                             SizedBox(
@@ -112,10 +111,8 @@ class _PeriodState extends State<Period> {
                           ],
                         ),
                       );
-                    } else {
-                                           
+                    } else {          
                       return Expanded(
-                         //print data and show text when data is null
                         child: RefreshIndicator(
                           onRefresh: refresh,
                           child: ListView.builder(
@@ -203,14 +200,14 @@ class HistoryButton extends StatelessWidget {
               Text(
                 'View History',
                 style:
-                    GoogleFonts.kanit(color: Color.fromRGBO(245, 176, 103, 1)),
+                    GoogleFonts.kanit(color: ColorCustom.orangecolor()),
               ),
               SizedBox(
                 width: 5,
               ),
               Icon(
                 Icons.history,
-                color: Color.fromRGBO(245, 176, 103, 1),
+                color: ColorCustom.orangecolor(),
               ),
             ],
           ),
