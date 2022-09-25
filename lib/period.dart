@@ -55,14 +55,13 @@ class _PeriodState extends State<Period> {
     return Scaffold(
       appBar: AppBar(
         title: Text('รอบการปลูก'),
-        actions: <Widget>[
+        actions:
+        [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/newperiod');
+              Navigator.pushNamed(context, '/addperiod');
             },
-            icon: Icon(
-              Icons.add_circle_outline,
-            ),
+            icon: Icon(Icons.add_circle_outline),
           ),
         ],
       ),
@@ -87,7 +86,7 @@ class _PeriodState extends State<Period> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             LoadingAnimationWidget.waveDots(
-                              color: Color.fromRGBO(245, 176, 103, 1),
+                              color: ColorCustom.orangecolor(),
                               size: 50,
                             ),
                             SizedBox(
@@ -109,19 +108,28 @@ class _PeriodState extends State<Period> {
                           itemBuilder: (BuildContext context, int index) {
                             List list = snapshot.data;
                             return Card(
-                              color: Color.fromRGBO(253, 212, 176, 1),
+                              color: ColorCustom.lightyellowcolor(),
                               clipBehavior: Clip.antiAlias,
                               child: Column(
                                 children: [
                                   ListTile(
                                     title: Text(
                                       snapshot.data[index]['greenhouse_name'],
-                                      style: GoogleFonts.kanit(),
+                                      style: TextCustom.bold_b20(),
                                     ),
-                                    subtitle: Text(
-                                      'วันที่ปลูก  ' +
-                                          snapshot.data[index]['create_date'],
-                                      style: GoogleFonts.kanit(),
+                                    subtitle: Column(
+                                      children: [
+                                        Text(
+                                          'วันที่ปลูก  ' +
+                                              snapshot.data[index]['create_date'],
+                                          style: TextCustom.normal_dg16(),
+                                        ),
+                                        Text(
+                                          'คาดว่าจะเก็บเกี่ยวได้ในวันที่ ' +
+                                          snapshot.data[index]['harvest_date'],
+                                          style: TextCustom.normal_dg16(),
+                                        ),
+                                      ],
                                     ),
                                     trailing: IconButton(
                                       icon: Icon(Icons.settings),
@@ -132,7 +140,6 @@ class _PeriodState extends State<Period> {
                                           snapshot.data[index]['harvest_date'],
                                           snapshot.data[index]['greenhouse_ID'],
                                         );
-
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -142,15 +149,6 @@ class _PeriodState extends State<Period> {
                                                   )),
                                         );
                                       },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'คาดว่าจะเก็บเกี่ยวได้ในวันที่ ' +
-                                          snapshot.data[index]['harvest_date'],
-                                      style: GoogleFonts.kanit(
-                                          color: Colors.black.withOpacity(0.6)),
                                     ),
                                   ),
                                 ],
@@ -188,14 +186,14 @@ class HistoryButton extends StatelessWidget {
               Text(
                 'View History',
                 style:
-                    GoogleFonts.kanit(color: Color.fromRGBO(245, 176, 103, 1)),
+                    GoogleFonts.kanit(color: ColorCustom.orangecolor()),
               ),
               SizedBox(
                 width: 5,
               ),
               Icon(
                 Icons.history,
-                color: Color.fromRGBO(245, 176, 103, 1),
+                color: ColorCustom.orangecolor(),
               ),
             ],
           ),

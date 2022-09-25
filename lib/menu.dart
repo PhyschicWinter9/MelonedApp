@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:newmelonedv2/reuse/container.dart';
+import 'package:newmelonedv2/style/colortheme.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
 import 'package:newmelonedv2/sub_menu/weatherapi.dart';
 import 'period.dart';
@@ -44,27 +45,19 @@ class _MainMenuState extends State<MainMenu> {
                           children: [
                             Container(
                                 decoration: BoxDecoration(
-                                    color: Color.fromRGBO(159, 159, 54, 1),
+                                    color: ColorCustom.mediumgreencolor(),
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(30))),
                                 height: 130,
                                 width: 130,
                                 child: IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        // client.getCurretWeather(lat, lon);
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Period()),
-                                        );
-                                      });
+                                      Navigator.pushNamed(context, '/period');
                                     },
                                     icon: Icon(
                                       Icons.calendar_month,
                                       size: 75,
-                                      color: Color.fromRGBO(227, 209, 106, 1),
+                                      color: ColorCustom.yellowcolor(),
                                     ))),
                             sizedBox.Boxh5(),
                             Text('รอบการปลูก',style: TextCustom.bold_b16(),),
@@ -74,26 +67,19 @@ class _MainMenuState extends State<MainMenu> {
                           children: [
                             Container(
                                 decoration: BoxDecoration(
-                                    color: Color.fromRGBO(245, 176, 103, 1),
+                                    color: ColorCustom.orangecolor(),
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(30))),
                                 height: 130,
                                 width: 130,
                                 child: IconButton(
                                     onPressed: () {
-                                      setState(() {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Daily()),
-                                        );
-                                      });
+                                      Navigator.pushNamed(context, '/daily');
                                     },
                                     icon: Icon(
                                       Icons.favorite,
                                       size: 75,
-                                      color: Color.fromRGBO(251, 249, 218, 1),
+                                      color: ColorCustom.lightyellowcolor(),
                                     ))),
                             sizedBox.Boxh5(),
                             Text('การดูแลรายวัน',style: TextCustom.bold_b16(),),
@@ -109,7 +95,7 @@ class _MainMenuState extends State<MainMenu> {
                           children: [
                             Container(
                                 decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 214, 104, 1),
+                                    color: ColorCustom.yellowcolor(),
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(30))),
                                 height: 130,
@@ -117,12 +103,7 @@ class _MainMenuState extends State<MainMenu> {
                                 //ปุ่มเมนู analyze
                                 child: IconButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const Analyze()),
-                                      );
+                                      Navigator.pushNamed(context, '/analyze');
                                     },
                                     icon: Icon(
                                       Icons.troubleshoot,
@@ -137,7 +118,7 @@ class _MainMenuState extends State<MainMenu> {
                           children: [
                             Container(
                                 decoration: BoxDecoration(
-                                    color: Color.fromRGBO(227, 209, 106, 1),
+                                    color: ColorCustom.lightgreencolor(),
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(30))),
                                 height: 130,
@@ -145,17 +126,13 @@ class _MainMenuState extends State<MainMenu> {
                                 //ปุ่มเมนู Summary
                                 child: IconButton(
                                     onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Summary()),
-                                      );
+                                      Navigator.pushNamed(context, '/summary');
                                     },
                                     icon: Icon(
                                       Icons.insights,
                                       size: 75,
-                                      color: Color.fromRGBO(172, 112, 79, 1),
-                                    ))),
+                                      color: ColorCustom.darkgreencolor()),
+                                    )),
                             sizedBox.Boxh5(),
                             Text('สรุป',style: TextCustom.bold_b16(),),
                           ],
