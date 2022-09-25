@@ -34,15 +34,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: '/splashscreen',
       routes: {
         'mainmenu': (context) => MainMenu(),
         '/login': (context) => Login(),
         '/register': (context) => Register(),
+        '/splashscreen': (context) => SplashScreen(),
         '/menu': (context) => MainMenu(),
         '/daily': (context) => Daily(),
         '/analyze': (context) => Analyze(),
@@ -58,8 +59,7 @@ class _MyAppState extends State<MyApp> {
         '/analyzedetail':(context) => AnalyzeDetail(),
       },
       theme: MyTheme(),
-      home: 
-        SplashScreen(),
+      home: MainMenu(),
     );
   }
 }

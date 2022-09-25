@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/reuse/sizedbox.dart';
+import '/reuse/sizedbox.dart';
 import '../style/textstyle.dart';
 import '../style/colortheme.dart';
 import 'signuplist.dart';

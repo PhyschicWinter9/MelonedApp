@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/reuse/container.dart';
-import 'package:newmelonedv2/sub_daily/carecard.dart';
-import 'package:newmelonedv2/sub_daily/carelist.dart';
+import 'reuse/container.dart';
+import 'sub_daily/carecard.dart';
+import 'sub_daily/carelist.dart';
 import 'reuse/bottombar.dart';
 import 'reuse/hamburger.dart';
 import 'sub_daily/carelist.dart';

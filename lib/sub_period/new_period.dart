@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import '../menu.dart';
 import '../period.dart';
 import '../daily.dart';
 import '../analyze.dart';
+import '../style/colortheme.dart';
 import '../summary.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -33,7 +35,7 @@ class _NewPeriodState extends State<NewPeriod> {
 
     if (jsonData == "Fail") {
       Fluttertoast.showToast(
-        msg: "ล้มเหลว",
+        msg: "สร้างรอบการปลูกล้มเหลว",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -43,7 +45,7 @@ class _NewPeriodState extends State<NewPeriod> {
       );
     } else {
       Fluttertoast.showToast(
-        msg: "สำเร็จ",
+        msg: "สร้างรอบการปลูกสำเร็จ",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -136,8 +138,9 @@ class _NewPeriodState extends State<NewPeriod> {
                   height: 10,
                 ),
                 Container(
-                  color: Color.fromRGBO(251, 249, 218, 1),
+                  // color: Color.fromRGBO(251, 249, 218, 1),
                   height: 50,
+
                   //////////////////////////////////////////////////////////////////
                   //////////////////////////////////////////////////////////////////
                   /*____________________Dropdown เลือกโรงเรือน_______________________*/
@@ -145,31 +148,34 @@ class _NewPeriodState extends State<NewPeriod> {
                   //////////////////////////////////////////////////////////////////
                   ///
 
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Color.fromARGB(255, 138, 138, 138)),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: DropdownButton(
-                        isExpanded: true,
-                        items: greenhouse.map((item) {
-                          return new DropdownMenuItem(
-                            child: new Text(
-                              item['greenhouse_Name'],
-                              style: GoogleFonts.kanit(),
-                            ),
-                            value: item['greenhouse_ID'].toString(),
-                          );
-                        }).toList(),
-                        onChanged: (newVal) {
-                          setState(() {
-                            selectval = newVal as String;
-                          });
-                        },
-                        value: selectval,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: DropdownButtonFormField2(
+                      buttonPadding: EdgeInsets.only(left: 20, right: 10),
+                      buttonHeight: 50,
+                      buttonWidth: double.infinity,
+                      hint: Text(
+                        'กรุณาเลือกโรงเรือน',
+                        style: GoogleFonts.kanit(
+                         color: ColorCustom.mediumgreencolor()
+                        )
                       ),
+                      isExpanded: true,
+                      items: greenhouse.map((item) {
+                        return new DropdownMenuItem(
+                          child: new Text(
+                            item['greenhouse_Name'],
+                            style: GoogleFonts.kanit(),
+                          ),
+                          value: item['greenhouse_ID'].toString(),
+                        );
+                      }).toList(),
+                      onChanged: (newVal) {
+                        setState(() {
+                          selectval = newVal as String;
+                        });
+                      },
+                      value: selectval,
                     ),
                   ),
                 ),
@@ -208,7 +214,10 @@ class _NewPeriodState extends State<NewPeriod> {
                         //ปุ่มยกเลิก
                         /////////////////////////////////////////////
                         onPressed: () {
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                          setState(() {
+                            Navigator.pop(context);
+                          });
                           setState(() {});
                         },
                         child: Text(

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:newmelonedv2/reuse/container.dart';
-import 'package:newmelonedv2/style/textstyle.dart';
+import 'reuse/container.dart';
+import 'style/textstyle.dart';
 import 'reuse/bottombar.dart';
 import 'reuse/hamburger.dart';
 import 'style/colortheme.dart';
@@ -19,10 +19,12 @@ class Period extends StatefulWidget {
 }
 
 class _PeriodState extends State<Period> {
+
   @override
   void initState() {
     super.initState();
     getPeriod();
+   refresh();
   }
 
   Future detailpreiod(String period_ID, String create_date, String harvest_date,
@@ -48,6 +50,14 @@ class _PeriodState extends State<Period> {
       'Accept': 'application/json',
     });
     return json.decode(response.body);
+  }
+
+  Future refresh() async {
+
+    await Future.delayed(Duration(seconds: 3));
+    setState(() {
+      getPeriod();
+    });
   }
 
   @override
@@ -101,60 +111,64 @@ class _PeriodState extends State<Period> {
                           ],
                         ),
                       );
-                    } else {
+                    } else {          
                       return Expanded(
-                        child: ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            List list = snapshot.data;
-                            return Card(
-                              color: ColorCustom.lightyellowcolor(),
-                              clipBehavior: Clip.antiAlias,
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      snapshot.data[index]['greenhouse_name'],
-                                      style: TextCustom.bold_b20(),
+                        child: RefreshIndicator(
+                          onRefresh: refresh,
+                          child: ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              List list = snapshot.data;
+                              return Card(
+                                color: Color.fromRGBO(253, 212, 176, 1),
+                                clipBehavior: Clip.antiAlias,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        snapshot.data[index]['greenhouse_name'],
+                                        style: GoogleFonts.kanit(),
+                                      ),
+                                      subtitle: Text(
+                                        'วันที่ปลูก  ' +
+                                            snapshot.data[index]['create_date'],
+                                        style: GoogleFonts.kanit(),
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.settings),
+                                        onPressed: () {
+                                          detailpreiod(
+                                            snapshot.data[index]['period_ID'],
+                                            snapshot.data[index]['create_date'],
+                                            snapshot.data[index]['harvest_date'],
+                                            snapshot.data[index]['greenhouse_ID'],
+                                          );
+                          
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => EditPeriod(
+                                                      list: list,
+                                                      index: index,
+                                                    )),
+                                          );
+                                        },
+                                      ),
                                     ),
-                                    subtitle: Column(
-                                      children: [
-                                        Text(
-                                          'วันที่ปลูก  ' +
-                                              snapshot.data[index]['create_date'],
-                                          style: TextCustom.normal_dg16(),
-                                        ),
-                                        Text(
-                                          'คาดว่าจะเก็บเกี่ยวได้ในวันที่ ' +
-                                          snapshot.data[index]['harvest_date'],
-                                          style: TextCustom.normal_dg16(),
-                                        ),
-                                      ],
+                                    Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        'คาดว่าจะเก็บเกี่ยวได้ในวันที่ ' +
+                                            snapshot.data[index]['harvest_date'],
+                                        style: GoogleFonts.kanit(
+                                            color: Colors.black.withOpacity(0.6)),
+                                      ),
                                     ),
-                                    trailing: IconButton(
-                                      icon: Icon(Icons.settings),
-                                      onPressed: () {
-                                        detailpreiod(
-                                          snapshot.data[index]['period_ID'],
-                                          snapshot.data[index]['create_date'],
-                                          snapshot.data[index]['harvest_date'],
-                                          snapshot.data[index]['greenhouse_ID'],
-                                        );
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => EditPeriod(
-                                                    list: list,
-                                                    index: index,
-                                                  )),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       );
                     }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:newmelonedv2/analyze.dart';
-import 'package:newmelonedv2/period.dart';
-import 'package:newmelonedv2/reuse/bottombar.dart';
-import 'package:newmelonedv2/reuse/container.dart';
-import 'package:newmelonedv2/reuse/hamburger.dart';
-import 'package:newmelonedv2/sub_daily/fert.dart';
-import 'package:newmelonedv2/sub_daily/humid.dart';
-import 'package:newmelonedv2/sub_daily/note.dart';
-import 'package:newmelonedv2/sub_daily/water.dart';
-import 'package:newmelonedv2/summary.dart';
+import 'analyze.dart';
+import 'period.dart';
+import 'reuse/bottombar.dart';
+import 'reuse/container.dart';
+import 'reuse/hamburger.dart';
+import 'sub_daily/fert.dart';
+import 'sub_daily/note.dart';
+import 'sub_daily/water.dart';
+import 'summary.dart';
 import 'style/colortheme.dart';
 
 class DailyMenu extends StatefulWidget {
