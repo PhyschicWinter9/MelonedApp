@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:newmelonedv2/period.dart';
 import '../reuse/bottombar.dart';
 import '../reuse/hamburger.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,25 +8,24 @@ import 'package:http/http.dart ' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class EditPeriod extends StatefulWidget {
-
   final List list;
   final int index;
 
-  const EditPeriod({Key? key,required this.index,required this.list}) : super(key: key);
+  const EditPeriod({Key? key, required this.index, required this.list})
+      : super(key: key);
 
   @override
   State<EditPeriod> createState() => _EditPeriodState();
 }
 
 class _EditPeriodState extends State<EditPeriod> {
+  //Variables
+  var greenhouseidController = new TextEditingController();
+  var periodidController = new TextEditingController();
+  var createdateController = new TextEditingController();
+  var harvestdateController = new TextEditingController();
 
-    //Variables
-    var greenhouseidController = new TextEditingController();
-    var periodidController = new TextEditingController();
-    var createdateController = new TextEditingController();
-    var harvestdateController = new TextEditingController();
-
-    bool editMode = false;
+  bool editMode = false;
 
   //Get Data
   Future getPeriod() async {
@@ -77,14 +77,27 @@ class _EditPeriodState extends State<EditPeriod> {
     }
   }
 
-
   //Finish
-    Future FinishPeriod() async {
+  Future FinishPeriod() async {
     var url = "https://meloned.relaxlikes.com/api/period/finish_period.php";
-    var response = await http.post(Uri.parse(url),body: {
+    var response = await http.post(Uri.parse(url), body: {
       'period_ID': widget.list[widget.index]['period_ID'],
     });
     return json.decode(response.body);
+  }
+
+  void SubmitPeriod() async {
+    //create asyn function
+    await FinishPeriod();
+    Navigator.pop(context);
+    print('SubmitPeriod Function Success');
+    //Refresh 
+    setState(() {
+      //refresh previous page
+      Period();
+
+    });
+    
   }
 
   @override
@@ -98,8 +111,6 @@ class _EditPeriodState extends State<EditPeriod> {
       harvestdateController.text = widget.list[widget.index]['harvest_date'];
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +192,6 @@ class _EditPeriodState extends State<EditPeriod> {
                               enabled: false,
                             ),
                           ),
-
                         ],
                       ),
 
@@ -291,7 +301,8 @@ class _EditPeriodState extends State<EditPeriod> {
                       child: TextButton(
                         onPressed: () {
                           setState(() {
-                            FinishPeriod();
+                            // FinishPeriod();
+                            SubmitPeriod();
                           });
                         },
                         child: Text(

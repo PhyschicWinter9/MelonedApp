@@ -214,7 +214,10 @@ class _NewPeriodState extends State<NewPeriod> {
                         //ปุ่มยกเลิก
                         /////////////////////////////////////////////
                         onPressed: () {
-                          Navigator.pop(context);
+                          // Navigator.pop(context);
+                          setState(() {
+                            Navigator.pop(context);
+                          });
                           setState(() {});
                         },
                         child: Text(

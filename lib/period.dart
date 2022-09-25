@@ -19,10 +19,12 @@ class Period extends StatefulWidget {
 }
 
 class _PeriodState extends State<Period> {
+
   @override
   void initState() {
     super.initState();
     getPeriod();
+   refresh();
   }
 
   Future detailpreiod(String period_ID, String create_date, String harvest_date,
@@ -48,6 +50,14 @@ class _PeriodState extends State<Period> {
       'Accept': 'application/json',
     });
     return json.decode(response.body);
+  }
+
+  Future refresh() async {
+
+    await Future.delayed(Duration(seconds: 3));
+    setState(() {
+      getPeriod();
+    });
   }
 
   @override
@@ -103,60 +113,65 @@ class _PeriodState extends State<Period> {
                         ),
                       );
                     } else {
+                                           
                       return Expanded(
-                        child: ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            List list = snapshot.data;
-                            return Card(
-                              color: Color.fromRGBO(253, 212, 176, 1),
-                              clipBehavior: Clip.antiAlias,
-                              child: Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      snapshot.data[index]['greenhouse_name'],
-                                      style: GoogleFonts.kanit(),
+                         //print data and show text when data is null
+                        child: RefreshIndicator(
+                          onRefresh: refresh,
+                          child: ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              List list = snapshot.data;
+                              return Card(
+                                color: Color.fromRGBO(253, 212, 176, 1),
+                                clipBehavior: Clip.antiAlias,
+                                child: Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        snapshot.data[index]['greenhouse_name'],
+                                        style: GoogleFonts.kanit(),
+                                      ),
+                                      subtitle: Text(
+                                        'วันที่ปลูก  ' +
+                                            snapshot.data[index]['create_date'],
+                                        style: GoogleFonts.kanit(),
+                                      ),
+                                      trailing: IconButton(
+                                        icon: Icon(Icons.settings),
+                                        onPressed: () {
+                                          detailpreiod(
+                                            snapshot.data[index]['period_ID'],
+                                            snapshot.data[index]['create_date'],
+                                            snapshot.data[index]['harvest_date'],
+                                            snapshot.data[index]['greenhouse_ID'],
+                                          );
+                          
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => EditPeriod(
+                                                      list: list,
+                                                      index: index,
+                                                    )),
+                                          );
+                                        },
+                                      ),
                                     ),
-                                    subtitle: Text(
-                                      'วันที่ปลูก  ' +
-                                          snapshot.data[index]['create_date'],
-                                      style: GoogleFonts.kanit(),
+                                    Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        'คาดว่าจะเก็บเกี่ยวได้ในวันที่ ' +
+                                            snapshot.data[index]['harvest_date'],
+                                        style: GoogleFonts.kanit(
+                                            color: Colors.black.withOpacity(0.6)),
+                                      ),
                                     ),
-                                    trailing: IconButton(
-                                      icon: Icon(Icons.settings),
-                                      onPressed: () {
-                                        detailpreiod(
-                                          snapshot.data[index]['period_ID'],
-                                          snapshot.data[index]['create_date'],
-                                          snapshot.data[index]['harvest_date'],
-                                          snapshot.data[index]['greenhouse_ID'],
-                                        );
-
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => EditPeriod(
-                                                    list: list,
-                                                    index: index,
-                                                  )),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'คาดว่าจะเก็บเกี่ยวได้ในวันที่ ' +
-                                          snapshot.data[index]['harvest_date'],
-                                      style: GoogleFonts.kanit(
-                                          color: Colors.black.withOpacity(0.6)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       );
                     }
