@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
 import '../model/weather.dart';
 import '../service/openweatherapi.dart';
 
@@ -71,11 +72,15 @@ class _WeatherAPIState extends State<WeatherAPI> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.center,
                                   children: [
-                                    Image.asset(
-                                      'assets/weather/${data?.icon}.png',
-                                      width: 80,
-                                      height: 80,
-                                    ),
+                                    // Image.asset(
+                                    //   'assets/weather/${data?.icon}.png',
+                                    //   width: 80,
+                                    //   height: 80,
+                                    // ),
+                                    Lottie.asset(
+                                        'assets/weather/${data?.icon}.json',
+                                        width: 100,
+                                        height: 100),
                                     SizedBox(
                                       width: 15,
                                     ),
