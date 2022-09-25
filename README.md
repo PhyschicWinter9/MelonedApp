@@ -1,4 +1,4 @@
-# newmelonedv2
+# MelonedApp
 
 A new Flutter project.
 
