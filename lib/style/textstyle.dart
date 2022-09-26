@@ -65,6 +65,13 @@ class TextCustom {
     ),
   );
 
+  static TextStyle normal_dg18() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 18,
+      color: ColorCustom.darkgreencolor(),
+    ),
+  );
+
     static TextStyle normal_lg16() => GoogleFonts.kanit(
     textStyle: TextStyle(
       fontSize: 16,
@@ -116,4 +123,20 @@ class TextCustom {
       color: ColorCustom.darkgreencolor(),
     ),
   );
+   static TextStyle buttontext3() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 16,
+      fontWeight: FontWeight.w500,
+      color: Colors.white,
+    ),
+  );
+
+  static TextStyle previewtext() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 18,
+      fontWeight: FontWeight.w500,
+      color: Colors.grey[300],
+    ),
+  );
+  
 }
