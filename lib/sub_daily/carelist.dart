@@ -1,8 +1,8 @@
 class CareList {
-  String periodName = "";
-  int todayWater = 0;
-  int todayFert = 0;
-  int periodNote = 0;
+  String period_name = "";
+  String water_num = "";
+  String fert_num = "";
+  String note_num = "";
 
-  CareList(this.periodName, this.todayWater, this.todayFert, this.periodNote);
+  CareList(this.period_name, this.water_num, this.fert_num, this.note_num);
 }

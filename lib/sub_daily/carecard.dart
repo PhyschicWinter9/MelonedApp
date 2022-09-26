@@ -36,12 +36,12 @@ class _CareCardState extends State<CareCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${widget.carelist.periodName}', style: TextCustom.bold_b20()),
+            Text('${widget.carelist.period_name}', style: TextCustom.bold_b20()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('จำนวนการให้น้ำวันนี้', style: TextCustom.normal_dg16()),
-                Text('${widget.carelist.todayWater}',
+                Text('${widget.carelist.water_num}',
                     style: TextCustom.normal_dg16()),
               ],
             ),
@@ -49,7 +49,7 @@ class _CareCardState extends State<CareCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('จำนวนการให้ปุ๋ยวันนี้', style: TextCustom.normal_dg16()),
-                Text('${widget.carelist.todayFert}',
+                Text('${widget.carelist.fert_num}',
                     style: TextCustom.normal_dg16()),
               ],
             ),
@@ -58,7 +58,7 @@ class _CareCardState extends State<CareCard> {
               children: [
                 Text('จำนวนโน้ตของทั้งรอบการปลูก',
                     style: TextCustom.normal_dg16()),
-                Text('${widget.carelist.periodNote}',
+                Text('${widget.carelist.note_num}',
                     style: TextCustom.normal_dg16()),
               ],
             ),
