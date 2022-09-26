@@ -32,27 +32,18 @@ class _SummaryState extends State<Summary> {
             fontSize: 20,
           ),
         ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.menu,
-                size: 30,
-              ),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-            );
-          },
-        ),
       ),
       drawer: Hamburger(),
-
       body: BGContainer(
         child: Column(
-
-        )
+          children: [
+            ElevatedButton(onPressed: () {}, child: Text('รายวัน')),
+            ElevatedButton(onPressed: () {}, child: Text('รายสัปดาห์')),
+            ElevatedButton(onPressed: () {}, child: Text('รายเดือน')),
+            ElevatedButton(onPressed: () {}, child: Text('รายปี')),
+            ElevatedButton(onPressed: () {}, child: Text('รายรอบการปลูก')),
+          ],
+        ),
       ),
       bottomNavigationBar: BottomBar(),
     );

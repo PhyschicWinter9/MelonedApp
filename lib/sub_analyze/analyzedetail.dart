@@ -22,12 +22,22 @@ class _AnalyzeDetailState extends State<AnalyzeDetail> {
         title: Text(
           'คุณภาพเมลอน',
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/addanalyze');
+            },
+            icon: Icon(Icons.add_circle_outline),
+          ),
+        ],
       ),
+
       drawer: Hamburger(),
       body: BGContainer(
         child: Column(
           children: [
             Card(
+              elevation: 2,
               color: ColorCustom.lightyellowcolor(),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -45,7 +55,9 @@ class _AnalyzeDetailState extends State<AnalyzeDetail> {
                           style: TextCustom.bold_b20(),
                         ),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/editanalyze');
+                          },
                           child: Row(
                             children: [
                               Text('แก้ไข'),
@@ -102,18 +114,20 @@ class _AnalyzeDetailState extends State<AnalyzeDetail> {
                 ),
               ),
             ),
+            sizedBox.Boxh10(),
             ElevatedButton(
               onPressed: () {},
-              child: Text('ย้อนกลับ'),
+              child: Text('ย้อนกลับ', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
-                elevation: 0,
+                elevation: 2,
                 primary: ColorCustom.yellowcolor(),
                 onPrimary: ColorCustom.lightyellowcolor(),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 minimumSize: Size(double.infinity, 20),
-                textStyle: TextCustom.buttontext2(),
+                
+                padding: EdgeInsets.all(10),
               ),
             ),
           ],
