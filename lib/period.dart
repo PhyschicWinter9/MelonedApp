@@ -69,7 +69,7 @@ class _PeriodState extends State<Period> {
         [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/addperiod');
+              Navigator.pushNamed(context, '/newperiod');
             },
             icon: Icon(Icons.add_circle_outline),
           ),
