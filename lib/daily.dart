@@ -45,6 +45,8 @@ class _DailyState extends State<Daily> {
 
     //ส่งข้อมูลกลับไปแสดงใน ListView
     return carelist;
+
+    //Debug ดูข้อมูลที่ได้จาก API
     // print(carelist[1].water_num);
   }
 
