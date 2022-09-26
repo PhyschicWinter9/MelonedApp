@@ -39,7 +39,7 @@ class _DailyState extends State<Daily> {
     // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
     for (var i = 0; i < data.length; i++) {
       CareList carelist = CareList(data[i]['period_name'], data[i]['water_num'],
-          data[i]['fert_num'], data[i]['note_num']);
+          data[i]['fert_num'], data[i]['note_num'], data[i]['period_ID']);
       this.carelist.add(carelist);
     }
 
@@ -49,6 +49,21 @@ class _DailyState extends State<Daily> {
     //Debug ดูข้อมูลที่ได้จาก API
     // print(carelist[1].water_num);
   }
+
+  // send period_ID to water page
+  Future sendPeriodID(String period_ID) async {
+    try {
+      String url =
+          "https://meloned.relaxlikes.com/api/dailycare/view_period_daily.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'period_ID': period_ID,
+      });
+      var data = json.decode(response.body);
+    } catch (e) {
+      print(e);
+    }
+  }
+
 
   @override
   void initState() {

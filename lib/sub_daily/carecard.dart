@@ -30,13 +30,24 @@ class _CareCardState extends State<CareCard> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DailyMenu()),
+              builder: (context) => DailyMenu(
+                carelist: widget.carelist,
+                period_ID: widget.carelist.period_ID,
+              ),
+            ),
           );
+
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //       builder: (context) => DailyMenu()),
+          // );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${widget.carelist.period_name}', style: TextCustom.bold_b20()),
+            Text('${widget.carelist.period_name}',
+                style: TextCustom.bold_b20()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -59,6 +70,15 @@ class _CareCardState extends State<CareCard> {
                 Text('จำนวนโน้ตของทั้งรอบการปลูก',
                     style: TextCustom.normal_dg16()),
                 Text('${widget.carelist.note_num}',
+                    style: TextCustom.normal_dg16()),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('รหัสการปลูก',
+                    style: TextCustom.normal_dg16()),
+                Text('${widget.carelist.period_ID}',
                     style: TextCustom.normal_dg16()),
               ],
             ),

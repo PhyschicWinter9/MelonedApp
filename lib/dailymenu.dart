@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newmelonedv2/sub_daily/carelist.dart';
 import 'analyze.dart';
 import 'period.dart';
 import 'reuse/bottombar.dart';
@@ -11,15 +12,23 @@ import 'summary.dart';
 import 'style/colortheme.dart';
 
 class DailyMenu extends StatefulWidget {
-  const DailyMenu({Key? key}) : super(key: key);
+
+  final String period_ID;
+
+  const DailyMenu({Key? key, required CareList carelist,required this.period_ID}) : super(key: key);
 
   @override
   State<DailyMenu> createState() => _DailyMenuState();
 }
 
 class _DailyMenuState extends State<DailyMenu> {
+
+  
+
   @override
   Widget build(BuildContext context) {
+    final String pID = widget.period_ID;
+    print("Period ID on DailyMenu: $pID");
     return DefaultTabController(
       length: 3,
       child: Scaffold(
@@ -37,7 +46,7 @@ class _DailyMenuState extends State<DailyMenu> {
         body: BGContainer(
           child: TabBarView(
             children: [
-              Water(),
+              Water(period_ID: pID,),
               Fert(),
               Note(),
             ],
