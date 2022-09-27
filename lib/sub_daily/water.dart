@@ -6,15 +6,32 @@ import 'package:newmelonedv2/sub_daily/carelist.dart';
 import 'dart:convert';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 class Water extends StatefulWidget {
-  final String period_ID;
-  const Water({Key? key, required this.period_ID}) : super(key: key);
+  const Water({Key? key}) : super(key: key);
   @override
   State<Water> createState() => _WaterState();
 }
 
 class _WaterState extends State<Water> {
+  dynamic period_ID;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSession();
+  }
+
+  getSession() async {
+    dynamic id = await SessionManager().get("period_ID");
+    print(id.runtimeType);
+    setState(() {
+      period_ID = id.toString();
+    });
+  }
+
   bool editMode = false;
 
   //Array ของข้อมูลที่จะเอาไปแสดงใน ListViewแบบเรียงลำดับ
@@ -45,7 +62,7 @@ class _WaterState extends State<Water> {
   //   // print(watering[1].water_name);
   // }
 
-  Future detailWater(String period_ID) async {
+  Future detailWater() async {
     print("Period ID on Water.dart : $period_ID");
     try {
       var url =
@@ -60,7 +77,7 @@ class _WaterState extends State<Water> {
       // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
         Watering watering = Watering(
-            data[i]['water_ID'], data[i]['water_time'], data[i]['period_ID']);
+            (i + 1).toString(), data[i]['water_time'], data[i]['period_ID']);
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
@@ -88,7 +105,7 @@ class _WaterState extends State<Water> {
           ],
         ),
         FutureBuilder(
-          future: detailWater(widget.period_ID),
+          future: detailWater(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Container(

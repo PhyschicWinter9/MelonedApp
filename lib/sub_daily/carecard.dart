@@ -3,6 +3,7 @@ import 'package:newmelonedv2/dailymenu.dart';
 import 'package:newmelonedv2/style/colortheme.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
 import 'package:newmelonedv2/sub_daily/carelist.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 class CareCard extends StatefulWidget {
   CareList carelist;
@@ -13,6 +14,10 @@ class CareCard extends StatefulWidget {
 }
 
 class _CareCardState extends State<CareCard> {
+  setSession(String period_ID) async {
+    await SessionManager().set("period_ID", period_ID);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,12 +32,12 @@ class _CareCardState extends State<CareCard> {
           padding: EdgeInsets.all(20),
         ),
         onPressed: () {
+          setSession(widget.carelist.period_ID);
           Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => DailyMenu(
                 carelist: widget.carelist,
-                period_ID: widget.carelist.period_ID,
               ),
             ),
           );
@@ -73,15 +78,14 @@ class _CareCardState extends State<CareCard> {
                     style: TextCustom.normal_dg16()),
               ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('รหัสการปลูก',
-                    style: TextCustom.normal_dg16()),
-                Text('${widget.carelist.period_ID}',
-                    style: TextCustom.normal_dg16()),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('รหัสการปลูก', style: TextCustom.normal_dg16()),
+            //     Text('${widget.carelist.period_ID}',
+            //         style: TextCustom.normal_dg16()),
+            //   ],
+            // ),
           ],
         ),
       ),
