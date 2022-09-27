@@ -101,7 +101,6 @@ class _EditNoteState extends State<EditNote> {
                 maxLength: 30,
                 keyboardType: TextInputType.text,
                 minLines: 1,
-                
               ),
               sizedBox.Boxh10(),
               Text(
@@ -114,7 +113,7 @@ class _EditNoteState extends State<EditNote> {
                 hintText: '',
                 hideText: false,
                 maxLength: 255,
-                minLines: 15,
+                minLines: 12,
                 keyboardType: TextInputType.multiline,
               ),
             ],
@@ -156,6 +155,7 @@ class FormList extends StatelessWidget {
       keyboardType: keyboardType,
       minLines: minLines,
       maxLines: null,
+      style: TextCustom.normal_dg16(),
     );
   }
 }
