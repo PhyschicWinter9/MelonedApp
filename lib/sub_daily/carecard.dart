@@ -16,6 +16,7 @@ class CareCard extends StatefulWidget {
 class _CareCardState extends State<CareCard> {
   setSession(String period_ID) async {
     await SessionManager().set("period_ID", period_ID);
+    await SessionManager().set("period_name", widget.carelist.period_name);
   }
 
   @override

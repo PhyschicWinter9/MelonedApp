@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
 
@@ -9,11 +13,52 @@ class Fert extends StatefulWidget {
 }
 
 class _FertState extends State<Fert> {
-  List<Ferting> ferting = [
-    Ferting('อัลฟา',30,'กรัม','7:25'),
-    Ferting('A B',50,'ซีซี','9:25'),
-    Ferting('แคลเอ็ม',50,'ซีซี','10:25'),
-  ];
+  //Session
+  dynamic period_ID;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSession();
+  }
+
+  getSession() async {
+    dynamic id = await SessionManager().get("period_ID");
+    // print(id.runtimeType);
+    setState(() {
+      period_ID = id.toString();
+    });
+  }
+
+  Future detailFert(String period_ID) async {
+    try {
+      var url =
+          "https://meloned.relaxlikes.com/api/dailycare/view_fertilizing.php";
+      var response = await http.post(Uri.parse(url), body: {
+        "period_ID": period_ID,
+      });
+      var data = json.decode(response.body);
+      //  print(data);
+      //  return data;
+      for (var i = 0; i < data.length; i++) {
+        Ferting ferting = Ferting(
+            data[i]['fert_name'],
+            data[i]['ferting_amount'],
+            data[i]['unit'],
+            data[i]['ferting_time'],
+            data[i]['period_ID']);
+        this.ferting.add(ferting);
+      }
+
+      //ส่งข้อมูลกลับไปแสดงใน ListView
+      return ferting;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  List<Ferting> ferting = [];
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +77,50 @@ class _FertState extends State<Fert> {
                 )),
           ],
         ),
-        ListView.builder(
-          itemCount: ferting.length,
-          itemBuilder: (context, index) {
-            return FertCard(
-              ferting: ferting[index],
-            );
+        FutureBuilder(
+          future: detailFert(period_ID),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.data == null) {
+              return Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LoadingAnimationWidget.waveDots(
+                      size: 50,
+                      color: ColorCustom.orangecolor(),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Center(
+                      child: Text(
+                        'กำลังโหลดข้อมูล...',
+                        style: TextCustom.normal_mdg20(),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            } else {
+              return Expanded(
+                child: ferting.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: ferting.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return FertCard(ferting: ferting[index]);
+                        },
+                      )
+                    : Container(
+                        child: Center(
+                          child: Text(
+                            'ไม่มีข้อมูลการให้ปุ๋ย',
+                            style: TextCustom.normal_mdg20(),
+                          ),
+                        ),
+                      ),
+              );
+            }
           },
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
         ),
       ],
     );
@@ -52,8 +132,9 @@ class Ferting {
   final int amount;
   final String unit;
   final String time;
+  final String periodID;
 
-  Ferting(this.fertname, this.amount, this.unit, this.time);
+  Ferting(this.fertname, this.amount, this.unit, this.time, this.periodID);
 }
 
 class FertCard extends StatefulWidget {
@@ -88,15 +169,23 @@ class _FertCardState extends State<FertCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${widget.ferting.fertname} '+'(${widget.ferting.amount} ${widget.ferting.unit})',
+                    Text(
+                        '${widget.ferting.fertname} ' +
+                            '(${widget.ferting.amount} ${widget.ferting.unit})',
                         style: TextCustom.normal_dg16()),
                     Text('${widget.ferting.time}',
                         style: TextCustom.normal_dg16()),
                   ],
                 ),
-                IconButton(onPressed: (){
-                  Navigator.pushNamed(context, '/editfert');
-                }, icon: Icon(Icons.settings,color: ColorCustom.orangecolor(),size: 30,)),
+                IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/editfert');
+                    },
+                    icon: Icon(
+                      Icons.settings,
+                      color: ColorCustom.orangecolor(),
+                      size: 30,
+                    )),
               ],
             ),
           ),
@@ -105,4 +194,3 @@ class _FertCardState extends State<FertCard> {
     );
   }
 }
-

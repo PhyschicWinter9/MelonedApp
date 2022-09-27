@@ -79,7 +79,7 @@ class _WaterState extends State<Water> {
       // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
         Watering watering = Watering(
-            (i+1).toString(), data[i]['water_time'], data[i]['period_ID']);
+            (i+1), data[i]['water_time'], data[i]['period_ID']);
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
@@ -109,7 +109,7 @@ class _WaterState extends State<Water> {
           ],
         ),
         FutureBuilder(
-          future: detailWater(),
+          future: detailWater(period_ID),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Container(
@@ -160,7 +160,7 @@ class _WaterState extends State<Water> {
 
 class Watering {
   //water_id is count;
-  final String count;
+  final int count;
   final String time;
   final String period_ID;
 

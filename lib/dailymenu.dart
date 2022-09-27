@@ -21,6 +21,7 @@ class DailyMenu extends StatefulWidget {
 
 class _DailyMenuState extends State<DailyMenu> {
   dynamic period_ID;
+  dynamic period_name;
 
   @override
   void initState() {
@@ -31,20 +32,22 @@ class _DailyMenuState extends State<DailyMenu> {
 
   getSession() async {
     dynamic id = await SessionManager().get("period_ID");
+    dynamic name = await SessionManager().get("period_name");
     setState(() {
       period_ID = id.toString();
+      period_name = name.toString();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final String pID = widget.period_ID;
+    // final String pID = widget.period_ID;
     // print("Period ID on DailyMenu: $pID");
     return DefaultTabController(
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('กรีนสวีท'),
+          title: Text(period_name),
           bottom: TabBar(
             tabs: [
               Tab(
