@@ -5,6 +5,7 @@ import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
+import 'sub_note/editnote.dart';
 
 class Note extends StatefulWidget {
   const Note({Key? key}) : super(key: key);
@@ -33,7 +34,7 @@ class _NoteState extends State<Note> {
   //Array ของข้อมูล
   List<Notebook> notebook = [];
 
-  Future detailNote (String period_ID) async {
+  Future detailNote(String period_ID) async {
     try {
       var url = "https://meloned.relaxlikes.com/api/dailycare/view_note.php";
       var response = await http.post(Uri.parse(url), body: {
@@ -43,10 +44,8 @@ class _NoteState extends State<Note> {
       //  print(data);
       //  return data;
       for (var i = 0; i < data.length; i++) {
-        Notebook notebook = Notebook(
-            data[i]['topic'],
-            data[i]['last_edit'],
-            data[i]['period_ID']);
+        Notebook notebook = Notebook(data[i]['note_ID'], data[i]['topic'],
+            data[i]['detail'], data[i]['last_edit'], data[i]['period_ID']);
         this.notebook.add(notebook);
       }
 
@@ -56,9 +55,6 @@ class _NoteState extends State<Note> {
       print(e);
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +74,7 @@ class _NoteState extends State<Note> {
           ],
         ),
         FutureBuilder(
-             future: detailNote(period_ID),
+          future: detailNote(period_ID),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.data == null) {
               return Container(
@@ -128,12 +124,13 @@ class _NoteState extends State<Note> {
 }
 
 class Notebook {
+  final String noteid;
   final String topic;
+  final String detail;
   final String date;
-
   final String period_ID;
 
-  Notebook(this.topic, this.date,this.period_ID);
+  Notebook(this.noteid, this.topic, this.detail, this.date, this.period_ID);
 }
 
 class NoteCard extends StatefulWidget {
@@ -145,7 +142,6 @@ class NoteCard extends StatefulWidget {
 }
 
 class _NoteCardState extends State<NoteCard> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -163,6 +159,18 @@ class _NoteCardState extends State<NoteCard> {
               padding: EdgeInsets.all(20),
             ),
             onPressed: () {
+              // Navigator.pushNamed(context, '/editnote');
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditNote(
+                    note_ID: widget.notebook.noteid,
+                    note_topic: widget.notebook.topic,
+                    note_detail: widget.notebook.detail,
+                    last_edit: widget.notebook.date,
+                  ),
+                ),
+              );
               Navigator.pushNamed(context, '/editnote');
             },
             child: Row(
@@ -172,9 +180,7 @@ class _NoteCardState extends State<NoteCard> {
                   children: [
                     Text('${widget.notebook.topic}',
                         style: TextCustom.normal_dg16()),
-                    Text(
-                        'แก้ไขล่าสุด เมื่อ ' +
-                            '${widget.notebook.date}',
+                    Text('แก้ไขล่าสุด เมื่อ ' + '${widget.notebook.date}',
                         style: TextCustom.normal_dg16()),
                   ],
                 ),
