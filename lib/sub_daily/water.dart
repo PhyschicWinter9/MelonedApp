@@ -15,6 +15,7 @@ class Water extends StatefulWidget {
 }
 
 class _WaterState extends State<Water> {
+  //Session
   dynamic period_ID;
 
   @override
@@ -62,8 +63,9 @@ class _WaterState extends State<Water> {
   //   // print(watering[1].water_name);
   // }
 
-  Future detailWater() async {
-    print("Period ID on Water.dart : $period_ID");
+
+  Future detailWater(String period_ID) async {
+    // print("Period ID on Water.dart : $period_ID");
     try {
       var url =
           "https://meloned.relaxlikes.com/api/dailycare/view_watering.php";
@@ -77,11 +79,13 @@ class _WaterState extends State<Water> {
       // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
         Watering watering = Watering(
-            (i + 1).toString(), data[i]['water_time'], data[i]['period_ID']);
+            (i+1).toString(), data[i]['water_time'], data[i]['period_ID']);
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
+
       return watering;
+      // print(url);
       // print(watering);
     } catch (e) {
       print(e);
@@ -134,15 +138,15 @@ class _WaterState extends State<Water> {
                     ? ListView.builder(
                         itemCount: watering.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            child: WaterCard(watering: watering[index]),
-                          );
+                          return WaterCard(watering: watering[index]);
                         },
                       )
-                    : Center(
-                        child: Text(
-                          'ไม่มีข้อมูลการให้น้ำ',
-                          style: TextCustom.normal_mdg20(),
+                    : Container(
+                        child: Center(
+                          child: Text(
+                            'ไม่มีข้อมูลการให้น้ำ',
+                            style: TextCustom.normal_mdg20(),
+                          ),
                         ),
                       ),
               );
@@ -155,6 +159,7 @@ class _WaterState extends State<Water> {
 }
 
 class Watering {
+  //water_id is count;
   final String count;
   final String time;
   final String period_ID;
