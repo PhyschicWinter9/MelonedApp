@@ -44,7 +44,7 @@ class _WaterState extends State<Water> {
   // }
 
   Future detailWater(String period_ID) async {
-    print("Period ID on Water.dart : $period_ID");
+    // print("Period ID on Water.dart : $period_ID");
     try {
       var url =
           "https://meloned.relaxlikes.com/api/dailycare/view_watering.php";

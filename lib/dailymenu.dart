@@ -28,7 +28,7 @@ class _DailyMenuState extends State<DailyMenu> {
   @override
   Widget build(BuildContext context) {
     final String pID = widget.period_ID;
-    print("Period ID on DailyMenu: $pID");
+    // print("Period ID on DailyMenu: $pID");
     return DefaultTabController(
       length: 3,
       child: Scaffold(
