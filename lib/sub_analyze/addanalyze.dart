@@ -106,9 +106,15 @@ class _AddAnalyzeState extends State<AddAnalyze> {
       //   },
       // });
     });
-    setState(() {
-      _image = _image;
-    });
+    Navigator.pushNamed(
+      context,
+      '/afteranalyze',
+      arguments: {
+        '_objectModel': _objectModel.renderBoxesOnImage(_image!, objDetect),
+        'temp': tempgrade
+      },
+    );
+    tempgrade = [0, 0, 0];
   }
 
   @override
@@ -122,7 +128,7 @@ class _AddAnalyzeState extends State<AddAnalyze> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RunCameraModel()),
-              )
+              ),
             },
             icon: Icon(Icons.switch_video_outlined),
           ),
@@ -205,7 +211,9 @@ class _AddAnalyzeState extends State<AddAnalyze> {
             _image != null
                 ? ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/afteranalyze');
+                      setState(() {
+                        runObjectDetection();
+                      });
                     },
                     child: Text('วิเคราะห์', style: TextCustom.buttontext3()),
                     style: ElevatedButton.styleFrom(
