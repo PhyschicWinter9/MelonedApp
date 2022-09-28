@@ -63,7 +63,6 @@ class _WaterState extends State<Water> {
   //   // print(watering[1].water_name);
   // }
 
-
   Future detailWater(String period_ID) async {
     // print("Period ID on Water.dart : $period_ID");
     try {
@@ -78,8 +77,8 @@ class _WaterState extends State<Water> {
       // print(data);
       // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
-        Watering watering = Watering(
-            (i+1), data[i]['water_time'], data[i]['period_ID']);
+        Watering watering =
+            Watering((i + 1), data[i]['water_time'], data[i]['period_ID']);
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
@@ -93,6 +92,40 @@ class _WaterState extends State<Water> {
     // print(watering);
   }
 
+  Future addWater(String period_ID) async {
+    var url =
+        "https://meloned.relaxlikes.com/api/dailycare/insert_watering.php";
+    var response = await http.post(Uri.parse(url), body: {
+      'period_ID': period_ID,
+    });
+
+    var jsonData = json.decode(response.body);
+
+    if (jsonData == "Failed") {
+      Fluttertoast.showToast(
+        msg: "เพิ่มข้อมูลไม่สำเร็จ",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+    } else {
+      Fluttertoast.showToast(
+        msg: "เพิ่มข้อมูลสำเร็จ",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      // Navigator.pop(context);
+      // setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -101,7 +134,15 @@ class _WaterState extends State<Water> {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  //Addwater and refresh list view data after add water success or fail
+                  addWater(period_ID);
+                  setState(() {
+                    watering.clear();
+                    detailWater(period_ID);
+                  });
+                  
+                },
                 icon: Icon(
                   Icons.add_circle,
                   color: ColorCustom.lightgreencolor(),
