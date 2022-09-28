@@ -9,6 +9,7 @@ import 'package:pytorch_lite/pigeon.dart';
 import 'package:pytorch_lite/pytorch_lite.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'RunCameraModel.dart';
 
 import '../reuse/bottombar.dart';
 import '../style/textstyle.dart';
@@ -117,8 +118,11 @@ class _AddAnalyzeState extends State<AddAnalyze> {
         title: Text('เพิ่มการวิเคราะห์'),
         actions: [
           IconButton(
-            onPressed: () {
-              //เปิดกล้อง detect
+            onPressed: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => RunCameraModel()),
+              )
             },
             icon: Icon(Icons.switch_video_outlined),
           ),
