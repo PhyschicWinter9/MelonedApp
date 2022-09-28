@@ -20,7 +20,6 @@ class _WaterState extends State<Water> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getSession();
   }
@@ -123,6 +122,11 @@ class _WaterState extends State<Water> {
       );
       // Navigator.pop(context);
       // setState(() {});
+      //Addwater and refresh list view data after add water success or fail
+      setState(() {
+        watering.clear();
+        detailWater(period_ID);
+      });
     }
   }
 
@@ -135,13 +139,7 @@ class _WaterState extends State<Water> {
           children: [
             IconButton(
                 onPressed: () {
-                  //Addwater and refresh list view data after add water success or fail
                   addWater(period_ID);
-                  setState(() {
-                    watering.clear();
-                    detailWater(period_ID);
-                  });
-                  
                 },
                 icon: Icon(
                   Icons.add_circle,
