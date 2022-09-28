@@ -50,9 +50,6 @@ dependencies:
   flutter_session_manager: ^1.0.3
 
   pytorch_lite: ^1.1.2
-  # image_picker: ^0.8.5+3
-  # camera: ^0.10.0+1
-
   image_picker: ^0.8.5+3
   path_provider: ^2.0.2
   camera: ^0.9.8+1
