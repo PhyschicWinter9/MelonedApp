@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class NewPeriod extends StatefulWidget {
-  const NewPeriod({Key? key}) : super(key: key);
+ NewPeriod({Key? key}) : super(key: key);
 
   @override
   State<NewPeriod> createState() => _NewPeriodState();
@@ -90,7 +90,7 @@ class _NewPeriodState extends State<NewPeriod> {
         toolbarHeight: 70,
         backgroundColor: Color.fromRGBO(159, 159, 54, 1),
         elevation: 0,
-        title: const Text(
+        title: Text(
           'เพิ่มรอบการปลูก',
           style: TextStyle(
             fontFamily: 'Kanit',
@@ -100,7 +100,7 @@ class _NewPeriodState extends State<NewPeriod> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.menu,
                 size: 30,
               ),
@@ -149,7 +149,7 @@ class _NewPeriodState extends State<NewPeriod> {
                   ///
 
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: 10),
                     child: DropdownButtonFormField2(
                       buttonPadding: EdgeInsets.only(left: 20, right: 10),
                       buttonHeight: 50,
@@ -247,7 +247,7 @@ class _NewPeriodState extends State<NewPeriod> {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
   /*_____________Style____________*/
-  TextStyle sidemenu = const TextStyle(
+  TextStyle sidemenu = TextStyle(
     fontFamily: 'Kanit',
     fontSize: 15,
     color: Color.fromRGBO(116, 116, 39, 1),
@@ -255,7 +255,7 @@ class _NewPeriodState extends State<NewPeriod> {
 }
 
 class MyBottomBar extends StatelessWidget {
-  const MyBottomBar({
+ MyBottomBar({
     Key? key,
   }) : super(key: key);
 
@@ -274,7 +274,7 @@ class MyBottomBar extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const Period()),
+                    MaterialPageRoute(builder: (context) => Period()),
                   );
                 },
                 icon: Icon(
@@ -290,7 +290,7 @@ class MyBottomBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Daily()),
+                  MaterialPageRoute(builder: (context) => Daily()),
                 );
               },
               icon: Icon(
@@ -313,7 +313,7 @@ class MyBottomBar extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const MainMenu()),
+                      MaterialPageRoute(builder: (context) => MainMenu()),
                     );
                   },
                   icon: Icon(
@@ -342,7 +342,7 @@ class MyBottomBar extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const Summary()),
+                  MaterialPageRoute(builder: (context) => Summary()),
                 );
               },
               icon: Icon(
@@ -359,7 +359,7 @@ class MyBottomBar extends StatelessWidget {
 }
 
 class Hamburger1 extends StatelessWidget {
-  const Hamburger1({
+ Hamburger1({
     Key? key,
     required this.sidemenu,
   }) : super(key: key);
@@ -378,7 +378,7 @@ class Hamburger1 extends StatelessWidget {
               color: Color.fromRGBO(159, 159, 54, 1),
             ),
             child: Row(
-              children: const [
+              children: [
                 Icon(
                   Icons.account_circle_sharp,
                   size: 50,
@@ -407,7 +407,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const MainMenu()),
+                MaterialPageRoute(builder: (context) => MainMenu()),
               );
             },
           ),
@@ -419,7 +419,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Period()),
+                MaterialPageRoute(builder: (context) => Period()),
               );
             },
           ),
@@ -431,7 +431,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Daily()),
+                MaterialPageRoute(builder: (context) => Daily()),
               );
             },
           ),
@@ -455,7 +455,7 @@ class Hamburger1 extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const Summary()),
+                MaterialPageRoute(builder: (context) => Summary()),
               );
             },
           ),

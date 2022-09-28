@@ -46,6 +46,7 @@ dependencies:
   connectivity_plus: ^2.3.6+1
   permission_handler: ^10.0.0
   dropdown_button2: ^1.8.2
+  intl: ^0.17.0
 
 
 

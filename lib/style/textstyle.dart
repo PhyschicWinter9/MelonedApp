@@ -109,6 +109,15 @@ class TextCustom {
     ),
   );
 
+  static TextStyle semibold_dg20() => GoogleFonts.kanit(
+    textStyle: TextStyle(
+      fontSize: 20,
+      color: ColorCustom.darkgreencolor(),
+      fontWeight: FontWeight.w500,
+    ),
+  );
+  
+
   static TextStyle buttontext() => GoogleFonts.kanit(
     textStyle: TextStyle(
       fontSize: 16,
