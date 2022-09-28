@@ -2,9 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:newmelonedv2/dailymenu.dart';
 import 'package:newmelonedv2/sub_summary/sum_weekly.dart';
-//import 'package:newmelonedv2/sub_summary/sum_daily';
 import 'package:newmelonedv2/sub_daily/note.dart';
-import 'package:newmelonedv2/test.dart';
 import 'login.dart';
 import 'register.dart';
 import 'analyze.dart';

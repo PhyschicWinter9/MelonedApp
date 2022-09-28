@@ -63,13 +63,8 @@ class _DailyState extends State<Daily> {
       print(e);
     }
   }
-
-
-  @override
-  void initState() {
-    super.initState();
-    // getDaily();
-  }
+  
+ 
 
   @override
   Widget build(BuildContext context) {
