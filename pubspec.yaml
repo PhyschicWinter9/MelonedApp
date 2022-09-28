@@ -47,6 +47,12 @@ dependencies:
   permission_handler: ^10.0.0
   dropdown_button2: ^1.8.2
   intl: ^0.17.0
+  lottie: ^1.4.2
+  flutter_session_manager: ^1.0.3
+  pytorch_lite: ^1.1.2
+  image_picker: ^0.8.5+3
+  path_provider: ^2.0.2
+  camera: ^0.9.8+1
 
 
 
@@ -75,8 +81,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/icon/
-    - assets/
     - assets/weather/
+    - assets/models/
+    - assets/labels/
     # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

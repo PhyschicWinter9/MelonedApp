@@ -3,6 +3,7 @@ import 'package:newmelonedv2/dailymenu.dart';
 import 'package:newmelonedv2/style/colortheme.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
 import 'package:newmelonedv2/sub_daily/carelist.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 class CareCard extends StatefulWidget {
   CareList carelist;
@@ -13,6 +14,11 @@ class CareCard extends StatefulWidget {
 }
 
 class _CareCardState extends State<CareCard> {
+  setSession(String period_ID) async {
+    await SessionManager().set("period_ID", period_ID);
+    await SessionManager().set("period_name", widget.carelist.period_name);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,21 +33,32 @@ class _CareCardState extends State<CareCard> {
           padding: EdgeInsets.all(20),
         ),
         onPressed: () {
+          setSession(widget.carelist.period_ID);
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DailyMenu()),
+              builder: (context) => DailyMenu(
+                carelist: widget.carelist,
+              ),
+            ),
           );
+
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //       builder: (context) => DailyMenu()),
+          // );
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('${widget.carelist.periodName}', style: TextCustom.bold_b20()),
+            Text('${widget.carelist.period_name}',
+                style: TextCustom.bold_b20()),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('จำนวนการให้น้ำวันนี้', style: TextCustom.normal_dg16()),
-                Text('${widget.carelist.todayWater}',
+                Text('${widget.carelist.water_num}',
                     style: TextCustom.normal_dg16()),
               ],
             ),
@@ -49,7 +66,7 @@ class _CareCardState extends State<CareCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('จำนวนการให้ปุ๋ยวันนี้', style: TextCustom.normal_dg16()),
-                Text('${widget.carelist.todayFert}',
+                Text('${widget.carelist.fert_num}',
                     style: TextCustom.normal_dg16()),
               ],
             ),
@@ -58,10 +75,18 @@ class _CareCardState extends State<CareCard> {
               children: [
                 Text('จำนวนโน้ตของทั้งรอบการปลูก',
                     style: TextCustom.normal_dg16()),
-                Text('${widget.carelist.periodNote}',
+                Text('${widget.carelist.note_num}',
                     style: TextCustom.normal_dg16()),
               ],
             ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     Text('รหัสการปลูก', style: TextCustom.normal_dg16()),
+            //     Text('${widget.carelist.period_ID}',
+            //         style: TextCustom.normal_dg16()),
+            //   ],
+            // ),
           ],
         ),
       ),
