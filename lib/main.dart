@@ -47,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/splashscreen',
+      // initialRoute: '/splashscreen',
       routes: {
         'mainmenu': (context) => MainMenu(),
         '/login': (context) => Login(),
@@ -79,7 +79,10 @@ class _MyAppState extends State<MyApp> {
         //* This is the page that will be edited and send data to the database
       },
       theme: MyTheme(),
-      home: MainMenu(),
+      // home: MainMenu(),
+
+      //Debug Mode Route and Comment the initialRoute
+      home: Daily(),
     );
   }
 }

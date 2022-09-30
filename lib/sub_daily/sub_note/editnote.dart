@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '/reuse/bottombar.dart';
@@ -10,61 +11,83 @@ import '../../style/colortheme.dart';
 import '../../style/textstyle.dart';
 
 class EditNote extends StatefulWidget {
-
   final String note_ID;
   final String note_topic;
   final String note_detail;
   final String last_edit;
   // final String period_ID;
 
-  
-  const EditNote({Key? key,required this.note_ID,required this.note_topic,required this.note_detail,required this.last_edit}) : super(key: key);
+  const EditNote(
+      {Key? key,
+      required this.note_ID,
+      required this.note_topic,
+      required this.note_detail,
+      required this.last_edit})
+      : super(key: key);
 
   @override
   State<EditNote> createState() => _EditNoteState();
 }
 
 class _EditNoteState extends State<EditNote> {
-  bool editMode = false;
+  //Session
+  dynamic note_ID;
+
+  getSession() async {
+    dynamic noteid = await SessionManager().get("note_ID");
+    setState(() {
+      note_ID = noteid.toString();
+    });
+  }
 
   final NotetopicController = TextEditingController();
   final NotedetailController = TextEditingController();
 
-  // @override
-  // void dispose() {
-  //   // Clean up the controller when the widget is disposed.
-  //   NotetopicController.dispose();
-  //   NotedetailController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    getSession();
     //Get Value from API and set to controller
     NotetopicController.text = widget.note_topic;
     NotedetailController.text = widget.note_detail;
   }
 
-  Future getNote () async {
-    var url = Uri.parse('https://meloned.relaxlikes.com/api/dailycare/view_note.php');
+  Future getNote() async {
+    var url =
+        Uri.parse('https://meloned.relaxlikes.com/api/dailycare/view_note.php');
     var response = await http.get(url);
     var data = jsonDecode(response.body);
     // print(data);
     return data;
   }
 
-
-  Future editNote (String Noteid,String Notetopic, String Notedetail) async {
+  Future editNote(String Noteid, String Notetopic, String Notedetail) async {
     try {
       String url = "https://meloned.relaxlikes.com/api/dailycare/edit_note.php";
       var response = await http.post(Uri.parse(url), body: {
         'note_ID': Noteid,
-        'Notetopic': Notetopic,
-        'Notedetail': Notedetail,
+        'topic': Notetopic,
+        'detail': Notedetail,
       });
       var data = json.decode(response.body);
+      print(data);
+      //Success show toast
+      if (data == "Success") {
+        Fluttertoast.showToast(
+            msg: "แก้ไขบันทึกสำเร็จ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(
+            msg: "แก้ไขบันทึกไม่สำเร็จ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+      }
     } catch (e) {
       print(e);
     }
@@ -123,7 +146,10 @@ class _EditNoteState extends State<EditNote> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        editNote(note_ID, NotetopicController.text,
+                            NotedetailController.text);
+                      },
                       child: Text('บันทึก', style: TextCustom.buttontext()),
                       style: ElevatedButton.styleFrom(
                         primary: ColorCustom.mediumgreencolor(),
@@ -139,9 +165,7 @@ class _EditNoteState extends State<EditNote> {
                       onPressed: () {
                         //back and refresh previous page
                         Navigator.pop(context);
-                        setState(() {
-                          
-                        });
+                        setState(() {});
                       },
                       child: Text(
                         'ยกเลิก',

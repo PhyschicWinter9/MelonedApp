@@ -23,6 +23,9 @@ class _NoteState extends State<Note> {
     getSession();
   }
 
+  
+
+
   getSession() async {
     dynamic id = await SessionManager().get("period_ID");
     // print(id.runtimeType);
@@ -142,6 +145,13 @@ class NoteCard extends StatefulWidget {
 }
 
 class _NoteCardState extends State<NoteCard> {
+
+  //create session noteid
+  createSession() async {
+    await SessionManager().set("note_ID", widget.notebook.noteid);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -171,6 +181,7 @@ class _NoteCardState extends State<NoteCard> {
                   ),
                 ),
               );
+              createSession();
               
             },
             child: Row(

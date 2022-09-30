@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:convert';
 import '/reuse/bottombar.dart';
 import '/reuse/container.dart';
 import '/reuse/hamburger.dart';
@@ -15,12 +18,66 @@ class AddNote extends StatefulWidget {
 }
 
 class _AddNoteState extends State<AddNote> {
+  //Session
+  dynamic period_ID;
+
+  @override
+  void initState() {
+    super.initState();
+    getSession();
+  }
+
+  getSession() async {
+    dynamic id = await SessionManager().get("period_ID");
+    // print(id.runtimeType);
+    setState(() {
+      period_ID = id.toString();
+    });
+  }
+
   final NotetopicController = TextEditingController();
   final NotedetailController = TextEditingController();
+
+  Future addNote() async {
+    try {
+      var url = Uri.parse(
+          'https://meloned.relaxlikes.com/api/dailycare/insert_note.php');
+      var response = await http.post(url, body: {
+        "period_ID": period_ID,
+        'topic': NotetopicController.text,
+        'detail': NotedetailController.text,
+      });
+      var data = jsonDecode(response.body);
+      // print(data);
+      //Success show toast
+      if (data == 'Success') {
+        Fluttertoast.showToast(
+            msg: "สร้างโน้ตสำเร็จ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+        Navigator.pop(context);
+        setState(() {});
+      } else {
+        Fluttertoast.showToast(
+            msg: "สร้างโน้ตไม่สำเร็จ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            fontSize: 16.0);
+      }
+
+      return data;
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('โน้ตใหม่'),
       ),
@@ -55,7 +112,7 @@ class _AddNoteState extends State<AddNote> {
                 hintText: '',
                 hideText: false,
                 maxLength: 255,
-                minLines: 10,
+                minLines: 12,
                 keyboardType: TextInputType.multiline,
               ),
               sizedBox.Boxh10(),
@@ -64,7 +121,9 @@ class _AddNoteState extends State<AddNote> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        addNote();
+                      },
                       child: Text('ยืนยัน', style: TextCustom.buttontext()),
                       style: ElevatedButton.styleFrom(
                         primary: ColorCustom.mediumgreencolor(),
