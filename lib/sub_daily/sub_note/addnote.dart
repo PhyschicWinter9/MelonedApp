@@ -55,8 +55,46 @@ class _AddNoteState extends State<AddNote> {
                 hintText: '',
                 hideText: false,
                 maxLength: 255,
-                minLines: 15,
+                minLines: 10,
                 keyboardType: TextInputType.multiline,
+              ),
+              sizedBox.Boxh10(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('ยืนยัน', style: TextCustom.buttontext()),
+                      style: ElevatedButton.styleFrom(
+                        primary: ColorCustom.mediumgreencolor(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ),
+                  sizedBox.Boxw5(),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        //back and refresh previous page
+                        Navigator.pop(context);
+                        setState(() {});
+                      },
+                      child: Text(
+                        'ยกเลิก',
+                        style: TextCustom.buttontext(),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red[300],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

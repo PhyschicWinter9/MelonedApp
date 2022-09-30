@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '/reuse/bottombar.dart';
 import '/reuse/container.dart';
 import '/reuse/hamburger.dart';
@@ -7,6 +11,7 @@ import '../../reuse/sizedbox.dart';
 import '../../style/colortheme.dart';
 import '../../style/textstyle.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:http/http.dart' as http;
 
 class AddFert extends StatefulWidget {
   const AddFert({Key? key}) : super(key: key);
@@ -16,6 +21,70 @@ class AddFert extends StatefulWidget {
 }
 
 class _AddFertState extends State<AddFert> {
+  //Session
+  dynamic period_ID;
+  dynamic selectValfertID;
+
+  @override
+  void initState() {
+    super.initState();
+    getSession();
+  }
+
+  getSession() async {
+    dynamic id = await SessionManager().get("period_ID");
+    dynamic fert_id = await SessionManager().get("fert_ID");
+    print(id.runtimeType);
+    setState(() {
+      period_ID = id.toString();
+      selectValfertID = fert_id.toString();
+    });
+  }
+
+  Future addfert(String fert_ID, String period_ID) async {
+    try {
+      var url =
+          "https://meloned.relaxlikes.com/api/dailycare/insert_fertilizing.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'fert_ID': selectValfertID,
+        'ferting_amount': fertamountController.text,
+        'period_ID': period_ID,
+      });
+      var data = json.decode(response.body);
+      if (data == "Success") {
+        Fluttertoast.showToast(
+            msg: "เพิ่มข้อมูลสำเร็จ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            textColor: Colors.white,
+            fontSize: 16.0);
+        setState(() {
+          fertamountController.clear();
+          Navigator.pop(context);
+        });
+      } else if (data == "Failed") {
+        Fluttertoast.showToast(
+            msg: "เพิ่มข้อมูลไม่สำเร็จ",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      } else if (data == "Failed No Data") {
+        Fluttertoast.showToast(
+            msg: "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   final fertnameController = TextEditingController();
   final fertamountController = TextEditingController();
 
@@ -37,7 +106,10 @@ class _AddFertState extends State<AddFert> {
                 style: TextCustom.textboxlabel(),
               ),
               sizedBox.Boxh5(),
-              DropDownList2(),
+              DropDownList2(
+                  //Get value from dropdown
+
+                  ),
               sizedBox.Boxh10(),
               Text(
                 'ปริมาณ',
@@ -55,7 +127,10 @@ class _AddFertState extends State<AddFert> {
                 children: [
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        addfert(selectValfertID, period_ID);
+                        setState(() {});
+                      },
                       child: Text('ยืนยัน', style: TextCustom.buttontext()),
                       style: ElevatedButton.styleFrom(
                         primary: ColorCustom.mediumgreencolor(),
@@ -68,7 +143,13 @@ class _AddFertState extends State<AddFert> {
                   sizedBox.Boxw10(),
                   Expanded(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        //back and refresh previous page
+                        Navigator.pop(context);
+                        setState(() {
+                          
+                        });
+                      },
                       child: Text(
                         'ยกเลิก',
                         style: TextCustom.buttontext(),
@@ -111,6 +192,7 @@ class FormList extends StatelessWidget {
       ),
       obscureText: hideText,
       cursorColor: ColorCustom.darkgreencolor(),
+      style: TextCustom.normal_mdg16(),
     );
   }
 }

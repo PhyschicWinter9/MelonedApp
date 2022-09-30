@@ -26,7 +26,7 @@ class _WaterState extends State<Water> {
 
   getSession() async {
     dynamic id = await SessionManager().get("period_ID");
-    print(id.runtimeType);
+    // print(id.runtimeType);
     setState(() {
       period_ID = id.toString();
     });
@@ -81,10 +81,9 @@ class _WaterState extends State<Water> {
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
-
       return watering;
       // print(url);
-      // print(watering);
+
     } catch (e) {
       print(e);
     }
@@ -123,11 +122,37 @@ class _WaterState extends State<Water> {
       // Navigator.pop(context);
       // setState(() {});
       //Addwater and refresh list view data after add water success or fail
-      setState(() {
-        watering.clear();
-        detailWater(period_ID);
-      });
+      // setState(() {
+      //   watering.clear();
+      //   detailWater(period_ID);
+      // });
     }
+  }
+
+  Future showlist() async {
+    await Future.delayed(Duration(seconds: 5));
+    setState(() {
+      detailWater(period_ID);
+    });
+  }
+
+  Future clearlist() async {
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      watering.clear();
+    });
+  }
+
+  Future updatelist() async {
+    await addWater(period_ID);
+    await clearlist();
+    await showlist();
+  }
+
+  Future refresh() async {
+    Future.delayed(Duration(seconds: 1));
+    await clearlist();
+    await showlist();
   }
 
   @override
@@ -139,7 +164,8 @@ class _WaterState extends State<Water> {
           children: [
             IconButton(
                 onPressed: () {
-                  addWater(period_ID);
+                  // addWater(period_ID);
+                  updatelist();
                 },
                 icon: Icon(
                   Icons.add_circle,
@@ -174,12 +200,15 @@ class _WaterState extends State<Water> {
             } else {
               return Expanded(
                 child: watering.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: watering.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return WaterCard(watering: watering[index]);
-                        },
-                      )
+                    ? RefreshIndicator(
+                      onRefresh: refresh,
+                      child: ListView.builder(
+                          itemCount: watering.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return WaterCard(watering: watering[index]);
+                          },
+                        ),
+                    )
                     : Container(
                         child: Center(
                           child: Text(

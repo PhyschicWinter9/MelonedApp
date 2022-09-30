@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:newmelonedv2/dailymenu.dart';
+import 'package:newmelonedv2/sub_daily/fert.dart';
 import 'package:newmelonedv2/sub_summary/sum_weekly.dart';
 import 'package:newmelonedv2/sub_daily/note.dart';
 import 'login.dart';
@@ -46,7 +47,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/dailysummaryform',
+      initialRoute: '/splashscreen',
       routes: {
         'mainmenu': (context) => MainMenu(),
         '/login': (context) => Login(),
@@ -60,9 +61,9 @@ class _MyAppState extends State<MyApp> {
         '/newperiod': (context) => NewPeriod(),
         '/historyperiod': (context) => HistoryPeriod(),
         '/addfert': (context) => AddFert(),
-        '/editfert': (context) => EditFert(),
+        // '/editfert': (context) => EditFert(),*
         '/addnote': (context) => AddNote(),
-        // '/editnote': (context) => EditNote(),
+        // '/editnote': (context) => EditNote(),*
         '/humid':(context) => Humid(),
         '/analyzedetail':(context) => AnalyzeDetail(),
         '/addanalyze':(context) => AddAnalyze(),
@@ -73,9 +74,12 @@ class _MyAppState extends State<MyApp> {
         '/monthlysummaryform':(context) => SummaryMonthly(),
         '/yearlysummaryform':(context) => SummaryYearly(),
         '/periodsummaryform':(context) => SummaryPeriod(),
+
+
+        //* This is the page that will be edited and send data to the database
       },
       theme: MyTheme(),
-      home: SummaryDaily(),
+      home: MainMenu(),
     );
   }
 }

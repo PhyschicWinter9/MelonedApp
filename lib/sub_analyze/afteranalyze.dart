@@ -47,14 +47,12 @@ class _AfterAnalyzeState extends State<AfterAnalyze> {
                 borderRadius: BorderRadius.all(Radius.circular(30)),
                 border: Border.all(color: Colors.grey.shade300),
               ),
-              child: Expanded(
-                child: Center(child: data['_objectModel']
-                    // child: Text(
-                    //   'รูปเมลอนพร้อมกรอบดีเทคเตอร์',
-                    //   style: TextCustom.previewtext(),
-                    // ),
-                    ),
-              ),
+              child: Center(child: data['_objectModel']
+                  // child: Text(
+                  //   'รูปเมลอนพร้อมกรอบดีเทคเตอร์',
+                  //   style: TextCustom.previewtext(),
+                  // ),
+                  ),
             ),
             sizedBox.Boxh20(),
             Container(

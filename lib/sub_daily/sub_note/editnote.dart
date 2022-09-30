@@ -51,7 +51,8 @@ class _EditNoteState extends State<EditNote> {
     var url = Uri.parse('https://meloned.relaxlikes.com/api/dailycare/view_note.php');
     var response = await http.get(url);
     var data = jsonDecode(response.body);
-    print(data);
+    // print(data);
+    return data;
   }
 
 
@@ -113,8 +114,48 @@ class _EditNoteState extends State<EditNote> {
                 hintText: '',
                 hideText: false,
                 maxLength: 255,
-                minLines: 12,
+                minLines: 10,
                 keyboardType: TextInputType.multiline,
+              ),
+              sizedBox.Boxh5(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text('บันทึก', style: TextCustom.buttontext()),
+                      style: ElevatedButton.styleFrom(
+                        primary: ColorCustom.mediumgreencolor(),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ),
+                  sizedBox.Boxw10(),
+                  Expanded(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        //back and refresh previous page
+                        Navigator.pop(context);
+                        setState(() {
+                          
+                        });
+                      },
+                      child: Text(
+                        'ยกเลิก',
+                        style: TextCustom.buttontext(),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.red[300],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

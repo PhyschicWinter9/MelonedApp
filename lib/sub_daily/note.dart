@@ -124,11 +124,11 @@ class _NoteState extends State<Note> {
 }
 
 class Notebook {
-  final String noteid;
-  final String topic;
-  final String detail;
-  final String date;
-  final String period_ID;
+  String noteid;
+  String topic;
+  String detail;
+  String date;
+  String period_ID;
 
   Notebook(this.noteid, this.topic, this.detail, this.date, this.period_ID);
 }
@@ -171,7 +171,7 @@ class _NoteCardState extends State<NoteCard> {
                   ),
                 ),
               );
-              Navigator.pushNamed(context, '/editnote');
+              
             },
             child: Row(
               children: [

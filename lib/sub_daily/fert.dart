@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:newmelonedv2/sub_daily/sub_fert/editfert.dart';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
 
@@ -16,49 +17,52 @@ class _FertState extends State<Fert> {
   //Session
   dynamic period_ID;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getSession();
-  }
-
   getSession() async {
     dynamic id = await SessionManager().get("period_ID");
-    // print(id.runtimeType);
     setState(() {
       period_ID = id.toString();
     });
   }
+
+  //Array ของข้อมูลที่จะเอาไปแสดงใน ListViewแบบเรียงลำดับ
+  List<Ferting> ferting = [];
 
   Future detailFert(String period_ID) async {
     try {
       var url =
           "https://meloned.relaxlikes.com/api/dailycare/view_fertilizing.php";
       var response = await http.post(Uri.parse(url), body: {
-        "period_ID": period_ID,
+        'period_ID': period_ID,
       });
+      // return json.decode(response.body);
+      //แปลงข้อมูลให้เป็น JSON
       var data = json.decode(response.body);
-      //  print(data);
-      //  return data;
+      // print(data.toString());
+      // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
         Ferting ferting = Ferting(
+            data[i]['fert_ID'],
             data[i]['fert_name'],
             data[i]['ferting_amount'],
             data[i]['unit'],
             data[i]['ferting_time'],
-            data[i]['period_ID']);
+            data[i]['period_ID'],data[i]['ferting_ID']);
         this.ferting.add(ferting);
       }
-
-      //ส่งข้อมูลกลับไปแสดงใน ListView
+      // ส่งข้อมูลกลับไปแสดงใน ListView
+      
       return ferting;
     } catch (e) {
       print(e);
     }
   }
 
-  List<Ferting> ferting = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSession();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,13 +132,16 @@ class _FertState extends State<Fert> {
 }
 
 class Ferting {
-  final String fertname;
-  final int amount;
-  final String unit;
-  final String time;
-  final String periodID;
+  String fert_ID;
+  String fertname;
+  String amount;
+  String unit;
+  String time;
+  String periodID;
+  String ferting_ID;
 
-  Ferting(this.fertname, this.amount, this.unit, this.time, this.periodID);
+  Ferting(this.fert_ID, this.fertname, this.amount, this.unit, this.time,
+      this.periodID,this.ferting_ID);
 }
 
 class FertCard extends StatefulWidget {
@@ -171,7 +178,7 @@ class _FertCardState extends State<FertCard> {
                   children: [
                     Text(
                         '${widget.ferting.fertname} ' +
-                            '(${widget.ferting.amount} ${widget.ferting.unit})',
+                            '(${widget.ferting.amount} ${widget.ferting.unit} ${widget.ferting.fert_ID})',
                         style: TextCustom.normal_dg16()),
                     Text('${widget.ferting.time}',
                         style: TextCustom.normal_dg16()),
@@ -179,7 +186,16 @@ class _FertCardState extends State<FertCard> {
                 ),
                 IconButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/editfert');
+                      // Navigator.pushNamed(context, '/editfert');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditFert(
+                                    fert_ID: widget.ferting.fert_ID,
+                                    ferting_amount: widget.ferting.amount,
+                                    fert_name: widget.ferting.fertname,
+                                    ferting_ID: widget.ferting.ferting_ID,
+                                  )));
                     },
                     icon: Icon(
                       Icons.settings,
