@@ -22,8 +22,9 @@ class AddAnalyze extends StatefulWidget {
 }
 
 class _AddAnalyzeState extends State<AddAnalyze> {
+  String period_ID = '';
   late ModelObjectDetection _objectModel;
-  String? _imagePrediction;
+  Map data = {};
   File? _image;
   List tempgrade = [0, 0, 0];
   bool showBoundingBox = false;
@@ -106,19 +107,22 @@ class _AddAnalyzeState extends State<AddAnalyze> {
       //   },
       // });
     });
-    Navigator.pushNamed(
-      context,
-      '/afteranalyze',
-      arguments: {
-        '_objectModel': _objectModel.renderBoxesOnImage(_image!, objDetect),
-        'temp': tempgrade
-      },
-    );
+    Navigator.of(context).pushNamed("/afteranalyze", arguments: {
+      '_objectModel': _objectModel.renderBoxesOnImage(_image!, objDetect),
+      'temp': tempgrade,
+      'period_ID': period_ID,
+    }).then((value) => setState(() {}));
     tempgrade = [0, 0, 0];
   }
 
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context)!.settings.arguments as Map;
+    String id = data['period_ID'];
+    setState(() {
+      period_ID = id;
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('เพิ่มการวิเคราะห์'),
@@ -161,7 +165,6 @@ class _AddAnalyzeState extends State<AddAnalyze> {
                       style: TextCustom.previewtext(),
                     )),
                   ),
-
             sizedBox.Boxh10(),
             ElevatedButton(
               onPressed: () => getImage(ImageSource.camera),
@@ -193,21 +196,6 @@ class _AddAnalyzeState extends State<AddAnalyze> {
               ),
             ),
             sizedBox.Boxh10(),
-            // ElevatedButton(
-            //   onPressed: () {},
-            //   child: Text('เปลี่ยนรูป', style: TextCustom.buttontext2()),
-            //   style: ElevatedButton.styleFrom(
-            //     elevation: 2,
-            //     primary: ColorCustom.yellowcolor(),
-            //     onPrimary: ColorCustom.lightyellowcolor(),
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadius.circular(30),
-            //     ),
-            //     minimumSize: Size(double.infinity, 20),
-            //     padding: EdgeInsets.all(10),
-            //   ),
-            // ),
-            // sizedBox.Boxh10(),
             _image != null
                 ? ElevatedButton(
                     onPressed: () {
