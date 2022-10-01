@@ -133,10 +133,15 @@ class _WeatherAPIState extends State<WeatherAPI> {
                           );
                         } else {
                           return Center(
-                            child: LoadingAnimationWidget.prograssiveDots(
-                              size: 50,
-                              color: Colors.orangeAccent,
-                            ),
+                            child: 
+                            // if use LoadingAnimationWidget replace with this
+                            // LoadingAnimationWidget.prograssiveDots(
+                            //   size: 50,
+                            //   color: Colors.orangeAccent,
+                            // ),
+                            // if use Lottie replace with this
+                            Lottie.asset('assets/weather/loadingweather.json',
+                                width: 100, height: 100),
                           );
                         }
                       },
