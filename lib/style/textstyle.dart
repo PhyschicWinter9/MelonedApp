@@ -60,6 +60,12 @@ class TextCustom {
           color: ColorCustom.darkgreencolor(),
         ),
       );
+  static TextStyle normal_dg14() => GoogleFonts.kanit(
+        textStyle: TextStyle(
+          fontSize: 14,
+          color: ColorCustom.darkgreencolor(),
+        ),
+      );
 
   static TextStyle normal_dg18() => GoogleFonts.kanit(
         textStyle: TextStyle(

@@ -5,7 +5,7 @@ import '../menu.dart';
 import '../daily.dart';
 import '../analyze.dart';
 import 'new_period.dart';
-import 'edit_period.dart';
+import 'detail_period.dart';
 import '../summary.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';

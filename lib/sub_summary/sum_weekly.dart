@@ -1,5 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:newmelonedv2/reuse/container.dart';
 import 'package:newmelonedv2/reuse/hamburger.dart';
 import 'package:newmelonedv2/reuse/sizedbox.dart';
@@ -9,14 +11,6 @@ import '../style/colortheme.dart';
 import '../style/textstyle.dart';
 
 class SummaryWeekly extends StatefulWidget {
-  final List<String> greenhouse = [
-    'โรงเรือน 1',
-    'โรงเรือน 2',
-    'โรงเรือน 3',
-  ];
-
-  String? selectedValue;
-
   final _formKey = GlobalKey<FormState>();
   // const SummaryWeekly({Key? key}) : super(key: key);
 
@@ -25,6 +19,29 @@ class SummaryWeekly extends StatefulWidget {
 }
 
 class _SummaryWeeklyState extends State<SummaryWeekly> {
+  //Variable
+  List greenhouse = [];
+  String? selectedValue;
+
+  //GET DATA FROM API
+  //GET GREENHOUSE IN SUMMARY WEEKLY PAGE
+  Future getGreenHouse() async {
+    var url = "https://meloned.relaxlikes.com/api/summary/viewgreenhouse.php";
+    var response = await http.get(Uri.parse(url));
+    var data = json.decode(response.body);
+
+    setState(() {
+      greenhouse = data;
+    });
+    return greenhouse;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getGreenHouse();
+  }
+
   DateTimeRange? _selectDateTime;
   void _show() async {
     final DateTimeRange? result = await showDateRangePicker(
@@ -70,9 +87,7 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
               isExpanded: true,
               hint: Text(
                 'เลือกโรงเรือน',
-                style: TextStyle(
-                  color: ColorCustom.mediumgreencolor(),
-                ),
+                style: TextCustom.normal_mdg16(),
               ),
               icon: Icon(
                 Icons.arrow_drop_down,
@@ -84,14 +99,12 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              items: widget.greenhouse.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
+              items: greenhouse.map((value) {
+                return DropdownMenuItem(
+                  value: value['greenhouse_ID'],
                   child: Text(
-                    value,
-                    style: TextStyle(
-                      color: ColorCustom.mediumgreencolor(),
-                    ),
+                    value['greenhouse_Name'],
+                    style: TextCustom.normal_mdg16(),
                   ),
                 );
               }).toList(),
@@ -100,9 +113,11 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
                   return 'กรุณาเลือกโรงเรือน';
                 }
               },
-              onChanged: (value) {},
-              onSaved: (value) {
-                widget.selectedValue = value.toString();
+              onChanged: (value) {
+                setState(() {
+                  selectedValue = value.toString();
+                  print(selectedValue);
+                });
               },
             ),
             sizedBox.Boxh5(),
@@ -135,8 +150,7 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
                       ),
                       TextField(
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.calendar_month)
-                        ),
+                            prefixIcon: Icon(Icons.calendar_month)),
                       ),
                       sizedBox.Boxh5(),
                       Text(
@@ -145,13 +159,12 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
                       ),
                       TextField(
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.calendar_month)
-                        ),
+                            prefixIcon: Icon(Icons.calendar_month)),
                       ),
                     ],
                   )
                 : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'วันที่เริ่มต้น',
@@ -159,8 +172,7 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
                       ),
                       TextField(
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.calendar_month)
-                        ),
+                            prefixIcon: Icon(Icons.calendar_month)),
                         onTap: _show,
                       ),
                       sizedBox.Boxh5(),
