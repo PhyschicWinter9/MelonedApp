@@ -42,113 +42,104 @@ class _WeatherAPIState extends State<WeatherAPI> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-              flex: 1,
-              child: Container(
-                height: double.infinity,
-                margin: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(
-                    color: Color.fromRGBO(253, 212, 176, 1),
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: FutureBuilder(
-                      future: getLocation(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.done) {
-                          return Container(
-                            padding: EdgeInsets.all(20),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+      flex: 1,
+      child: Container(
+        height: double.infinity,
+        margin: EdgeInsets.only(left: 10, right: 10),
+        decoration: BoxDecoration(
+            color: Color.fromRGBO(253, 212, 176, 1),
+            borderRadius: BorderRadius.all(Radius.circular(20))),
+        child: Container(
+          padding: EdgeInsets.all(8),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            child: FutureBuilder(
+              future: getLocation(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Container(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // Image.asset(
+                            //   'assets/weather/${data?.icon}.png',
+                            //   width: 50,
+                            //   height: 50,
+                            // ),
+                            Lottie.asset('assets/weather/${data?.icon}.json',
+                                width: 100, height: 100),
+                            SizedBox(
+                              width: 15,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                  children: [
-                                    // Image.asset(
-                                    //   'assets/weather/${data?.icon}.png',
-                                    //   width: 80,
-                                    //   height: 80,
-                                    // ),
-                                    Lottie.asset(
-                                        'assets/weather/${data?.icon}.json',
-                                        width: 100,
-                                        height: 100),
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${data?.decoration}',
-                                          style: GoogleFonts.kanit(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromRGBO(
-                                                  116, 116, 39, 1)),
-                                        ),
-                                        Text(
-                                          '${data?.temp} °C',
-                                          style: GoogleFonts.kanit(
-                                              fontSize: 35,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color.fromRGBO(
-                                                  116, 116, 39, 1)),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                Text(
+                                  '${data?.decoration}',
+                                  style: GoogleFonts.kanit(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(116, 116, 39, 1)),
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.location_pin,
-                                      color: Colors.red,
-                                      size: 30,
-                                    ),
-                                    Text(
-                                      "${data?.cityname}",
-                                      style: GoogleFonts.kanit(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Color.fromRGBO(116, 116, 39, 1),
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  '${data?.temp} °C',
+                                  style: GoogleFonts.kanit(
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromRGBO(116, 116, 39, 1)),
                                 ),
                               ],
                             ),
-                          );
-                        } else {
-                          return Center(
-                            child: 
-                            // if use LoadingAnimationWidget replace with this
-                            // LoadingAnimationWidget.prograssiveDots(
-                            //   size: 50,
-                            //   color: Colors.orangeAccent,
-                            // ),
-                            // if use Lottie replace with this
-                            Lottie.asset('assets/weather/loadingweather.json',
-                                width: 100, height: 100),
-                          );
-                        }
-                      },
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_pin,
+                              color: Colors.red,
+                              size: 30,
+                            ),
+                            Text(
+                              "${data?.cityname}",
+                              style: GoogleFonts.kanit(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(116, 116, 39, 1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                ),
-              ),
-            );
+                  );
+                } else {
+                  return Center(
+                    child:
+                        // if use LoadingAnimationWidget replace with this
+                        // LoadingAnimationWidget.prograssiveDots(
+                        //   size: 50,
+                        //   color: Colors.orangeAccent,
+                        // ),
+                        // if use Lottie replace with this
+                        Lottie.asset('assets/weather/loadingweather.json',
+                            width: 100, height: 100),
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+      ),
+    );
   }
-  }
+}

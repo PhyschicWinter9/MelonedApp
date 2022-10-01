@@ -91,13 +91,11 @@ class _EditPeriodState extends State<EditPeriod> {
     await FinishPeriod();
     Navigator.pop(context);
     print('SubmitPeriod Function Success');
-    //Refresh 
+    //Refresh
     setState(() {
       //refresh previous page
       Period();
-
     });
-    
   }
 
   @override
