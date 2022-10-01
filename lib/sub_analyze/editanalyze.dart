@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:newmelonedv2/reuse/sizedbox.dart';
 import 'package:newmelonedv2/style/colortheme.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../reuse/bottombar.dart';
 import '../reuse/container.dart';
@@ -15,8 +18,62 @@ class EditAnalyze extends StatefulWidget {
 }
 
 class _EditAnalyzeState extends State<EditAnalyze> {
+  Future editPeriod(
+    String period_ID,
+    String gradeA,
+    String gradeB,
+    String gradeC,
+  ) async {
+    var url = Uri.parse(
+        "https://meloned.relaxlikes.com/api/analysis/update_manual.php");
+    var response = await http.post(url, body: {
+      'period_ID': period_ID,
+      'gradeA': gradeA,
+      'gradeB': gradeB,
+      'gradeC': gradeC,
+    });
+    var data = jsonDecode(response.body);
+    if (data == "Success") {
+      Fluttertoast.showToast(
+        msg: "แก้ไขข้อมูลสำเร็จ",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+      Navigator.pop(context);
+    } else {
+      Fluttertoast.showToast(
+        msg: "เกิดข้อผิดพลาด",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16.0,
+      );
+    }
+  }
+
+  final gradeA_Controller = TextEditingController();
+  final gradeB_Controller = TextEditingController();
+  final gradeC_Controller = TextEditingController();
+  Map data = {};
+
   @override
   Widget build(BuildContext context) {
+    data = ModalRoute.of(context)!.settings.arguments as Map;
+    List list = data['melonList'];
+    String period_ID = list[0];
+    String period_name = list[1];
+    String planted_melon = list[2];
+    String total_grades = list[3];
+    gradeA_Controller.text = list[4];
+    gradeB_Controller.text = list[5];
+    gradeC_Controller.text = list[6];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -39,7 +96,7 @@ class _EditAnalyzeState extends State<EditAnalyze> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'โรงเรือน 1',
+                      '${period_name}',
                       style: TextCustom.bold_b20(),
                     ),
                     sizedBox.Boxh15(),
@@ -47,7 +104,8 @@ class _EditAnalyzeState extends State<EditAnalyze> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text('เมลอนทั้งหมด', style: TextCustom.normal_dg16()),
-                        Text('20/60', style: TextCustom.normal_b16()),
+                        Text('${total_grades}/${planted_melon}',
+                            style: TextCustom.normal_b16()),
                       ],
                     ),
                     sizedBox.Boxh5(),
@@ -60,6 +118,7 @@ class _EditAnalyzeState extends State<EditAnalyze> {
                                 style: TextCustom.normal_dg16())),
                         Expanded(
                           child: TextField(
+                            controller: gradeA_Controller,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(),
                               disabledBorder: UnderlineInputBorder(),
@@ -81,6 +140,7 @@ class _EditAnalyzeState extends State<EditAnalyze> {
                                 style: TextCustom.normal_dg16())),
                         Expanded(
                           child: TextField(
+                            controller: gradeB_Controller,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(),
                               disabledBorder: UnderlineInputBorder(),
@@ -102,6 +162,7 @@ class _EditAnalyzeState extends State<EditAnalyze> {
                                 style: TextCustom.normal_dg16())),
                         Expanded(
                           child: TextField(
+                            controller: gradeC_Controller,
                             decoration: InputDecoration(
                               enabledBorder: UnderlineInputBorder(),
                               disabledBorder: UnderlineInputBorder(),
@@ -121,7 +182,14 @@ class _EditAnalyzeState extends State<EditAnalyze> {
             ),
             sizedBox.Boxh10(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => {
+                editPeriod(
+                  period_ID,
+                  gradeA_Controller.text,
+                  gradeB_Controller.text,
+                  gradeC_Controller.text,
+                ),
+              },
               child: Text('บันทึก', style: TextCustom.buttontext3()),
               style: ElevatedButton.styleFrom(
                 elevation: 2,
@@ -136,7 +204,7 @@ class _EditAnalyzeState extends State<EditAnalyze> {
             ),
             sizedBox.Boxh10(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => {Navigator.pop(context)},
               child: Text(
                 'ยกเลิก',
                 style: TextCustom.buttontext3(),
