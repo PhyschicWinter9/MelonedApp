@@ -1,5 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:newmelonedv2/reuse/container.dart';
 import 'package:newmelonedv2/reuse/hamburger.dart';
 import 'package:intl/intl.dart';
@@ -10,13 +12,7 @@ import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
 
 class SummaryDaily extends StatefulWidget {
-  final List<String> greenhouse = [
-    'โรงเรือน 1',
-    'โรงเรือน 2',
-    'โรงเรือน 3',
-  ];
-
-  String? selectedValue;
+  
 
   final _formKey = GlobalKey<FormState>();
 
@@ -27,11 +23,31 @@ class SummaryDaily extends StatefulWidget {
 }
 
 class _SummaryDailyState extends State<SummaryDaily> {
+
+  //Variable
+  List greenhouse = [];
+  String? selectedValue;
+
+  //Controller
   TextEditingController dateController = TextEditingController();
+
+  //GET DATA FROM API
+    //GET GREENHOUSE IN SUMMARY DAILY PAGE
+  Future getGreenHouse() async {
+    var url = "https://meloned.relaxlikes.com/api/summary/viewgreenhouse.php";
+    var response = await http.get(Uri.parse(url));
+    var data = json.decode(response.body);
+
+    setState(() {
+      greenhouse = data;
+    });
+    return greenhouse;
+  }
 
   @override
   void initState() {
     super.initState();
+    getGreenHouse();
     dateController.text = /*'วันที่ 1 มกราคม 2564'*/ "";
   }
 
@@ -46,7 +62,10 @@ class _SummaryDailyState extends State<SummaryDaily> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('โรงเรือน',style: TextCustom.textboxlabel(),),
+            Text(
+              'โรงเรือน',
+              style: TextCustom.textboxlabel(),
+            ),
             sizedBox.Boxh5(),
             DropdownButtonFormField2(
               decoration: InputDecoration(
@@ -60,9 +79,8 @@ class _SummaryDailyState extends State<SummaryDaily> {
               isExpanded: true,
               hint: Text(
                 'เลือกโรงเรือน',
-                style: TextStyle(
-                  color: ColorCustom.mediumgreencolor(),
-                ),
+                style: TextCustom.normal_mdg16(),
+                                
               ),
               icon: Icon(
                 Icons.arrow_drop_down,
@@ -74,14 +92,12 @@ class _SummaryDailyState extends State<SummaryDaily> {
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              items: widget.greenhouse.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
+              items: greenhouse.map((value) {
+                return DropdownMenuItem(
+                  value: value['greenhouse_ID'],
                   child: Text(
-                    value,
-                    style: TextStyle(
-                      color: ColorCustom.mediumgreencolor(),
-                    ),
+                    value['greenhouse_Name'],
+                    style: TextCustom.normal_mdg16(),
                   ),
                 );
               }).toList(),
@@ -90,38 +106,44 @@ class _SummaryDailyState extends State<SummaryDaily> {
                   return 'เลือกสูตรปุ๋ย';
                 }
               },
-              onChanged: (value) {},
-              onSaved: (value) {
-                widget.selectedValue = value.toString();
+              onChanged: (value) {
+                setState(() {
+                  selectedValue = value.toString();
+                  print(selectedValue);
+                });
               },
+              // onSaved: (value) {
+              //   widget.selectedValue = value.toString();
+              // },
             ),
             sizedBox.Boxh10(),
-            Text('วันที่ต้องการสรุป',style: TextCustom.textboxlabel(),),
+            Text(
+              'วันที่ต้องการสรุป',
+              style: TextCustom.textboxlabel(),
+            ),
             sizedBox.Boxh5(),
             TextField(
               controller: dateController,
               decoration: InputDecoration(
-                isDense: true,
-                prefixIcon:  Icon(Icons.calendar_today),
-                hintText: 'กรุณาใส่วันที่'
-              ),
-              style: TextStyle(
-                color: ColorCustom.mediumgreencolor(),
-              ),
+                  isDense: true,
+                  prefixIcon: Icon(Icons.calendar_today),
+                  hintText: 'กรุณาใส่วันที่'),
+              style: TextCustom.normal_mdg16(),
               readOnly: true,
               onTap: () async {
-                DateTime? pickedDate=await showDatePicker(
+                DateTime? pickedDate = await showDatePicker(
                   context: context,
                   initialDate: DateTime.now(),
                   firstDate: DateTime(2000),
                   lastDate: DateTime(2100),
                 );
-                if(pickedDate!=null){
-                  String formattedDate=DateFormat('dd-MM-yyyy').format(pickedDate);
+                if (pickedDate != null) {
+                  String formattedDate =
+                      DateFormat('dd-MM-yyyy').format(pickedDate);
                   setState(() {
                     dateController.text = formattedDate.toString();
                   });
-                }else{
+                } else {
                   print('Not Selected');
                 }
               },
