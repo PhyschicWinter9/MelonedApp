@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -36,31 +38,6 @@ class _WaterState extends State<Water> {
 
   //Array ของข้อมูลที่จะเอาไปแสดงใน ListViewแบบเรียงลำดับ
   List<Watering> watering = [];
-
-  //Get Data from API
-  // Future getWater() async {
-  //   var url = "https://meloned.relaxlikes.com/api/dailycare/view_water.php";
-  //   var response = await http.get(Uri.parse(url), headers: {
-  //     'Content-Type': 'application/json',
-  //     'Accept': 'application/json',
-  //   });
-  //   // return json.decode(response.body);
-  //   //แปลงข้อมูลให้เป็น JSON
-  //   var data = json.decode(response.body);
-
-  //   // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
-  //   for (var i = 0; i < data.length; i++) {
-  //     Watering watering = Watering(data[i]['watering_ID'],
-  //         data[i]['watering_time'], data[i]['period_ID']);
-  //     this.watering.add(watering);
-  //   }
-
-  //   //ส่งข้อมูลกลับไปแสดงใน ListView
-  //   return watering;
-
-  //   //Debug ดูข้อมูลที่ได้จาก API
-  //   // print(watering[1].water_name);
-  // }
 
   Future detailWater(String period_ID) async {
     // print("Period ID on Water.dart : $period_ID");
@@ -143,6 +120,7 @@ class _WaterState extends State<Water> {
     });
   }
 
+ 
   Future updatelist() async {
     await addWater(period_ID);
     await clearlist();
@@ -225,6 +203,7 @@ class _WaterState extends State<Water> {
     );
   }
 }
+
 
 class Watering {
   //water_id is count;
