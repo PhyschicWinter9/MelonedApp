@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:newmelonedv2/sub_period/edit_period.dart';
 import 'reuse/container.dart';
 import 'style/textstyle.dart';
 import 'reuse/bottombar.dart';
@@ -120,7 +121,14 @@ class _PeriodState extends State<Period> {
                                 margin: EdgeInsets.symmetric(vertical: 10),
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditPeriod(
+                                                list: list,
+                                                index: index,
+                                              )),
+                                    );
                                   },
                                   child: Row(
                                     children: [
@@ -166,21 +174,30 @@ class _PeriodState extends State<Period> {
                                             color: ColorCustom.orangecolor(),
                                           ),
                                           onPressed: () {
-                                            detailpreiod(
-                                              snapshot.data[index]['period_ID'],
-                                              snapshot.data[index]
-                                                  ['create_date'],
-                                              snapshot.data[index]
-                                                  ['harvest_date'],
-                                              snapshot.data[index]
-                                                  ['greenhouse_ID'],
-                                            );
-                                
+                                            // detailpreiod(
+                                            //   snapshot.data[index]['period_ID'],
+                                            //   snapshot.data[index]
+                                            //       ['create_date'],
+                                            //   snapshot.data[index]
+                                            //       ['harvest_date'],
+                                            //   snapshot.data[index]
+                                            //       ['greenhouse_ID'],
+                                            // );
+
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(
+                                            //       builder: (context) =>
+                                            //           EditPeriod(
+                                                        // list: list,
+                                                        // index: index,
+                                            //           )),
+                                            // );
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EditPeriod(
+                                                      EditPeriodSetting(
                                                         list: list,
                                                         index: index,
                                                       )),
@@ -222,36 +239,35 @@ class HistoryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/historyperiod');
-        },
-        child: SizedBox(
-          height: 20,
-          child: Row(
-            children: [
-              Text(
-                'View History',
-                style: GoogleFonts.kanit(color: ColorCustom.orangecolor()),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              Icon(
-                Icons.history,
-                color: ColorCustom.orangecolor(),
-              ),
-            ],
-          ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/historyperiod');
+      },
+      child: SizedBox(
+        height: 20,
+        child: Row(
+          children: [
+            Text(
+              'View History',
+              style: GoogleFonts.kanit(color: ColorCustom.orangecolor()),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Icon(
+              Icons.history,
+              color: ColorCustom.orangecolor(),
+            ),
+          ],
         ),
-        style: ElevatedButton.styleFrom(
-          //backgroundColor: Color.fromRGBO(251, 249, 218, 1),
-          primary: ColorCustom.lightyellowcolor(),
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+      ),
+      style: ElevatedButton.styleFrom(
+        //backgroundColor: Color.fromRGBO(251, 249, 218, 1),
+        primary: ColorCustom.lightyellowcolor(),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
         ),
-        
-        );
+      ),
+    );
   }
 }

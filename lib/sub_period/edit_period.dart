@@ -12,28 +12,30 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
-class NewPeriod extends StatefulWidget {
-  NewPeriod({Key? key}) : super(key: key);
+class EditPeriodSetting extends StatefulWidget {
+  final List list;
+  final int index;
+
+  EditPeriodSetting({Key? key, required this.list, required this.index})
+      : super(key: key);
 
   @override
-  State<NewPeriod> createState() => _NewPeriodState();
+  State<EditPeriodSetting> createState() => _NewPeriodState();
 }
 
-class _NewPeriodState extends State<NewPeriod> {
+class _NewPeriodState extends State<EditPeriodSetting> {
   //Variable
-  List greenhouse = [];
-  String? selectval;
 
   //Controller
   final periodnameController = TextEditingController();
   final plantedmelonController = TextEditingController();
 
   //GET REGISTERED GREENHOUSE
-  Future RegisterPeriod() async {
-    var url = "https://meloned.relaxlikes.com/api/period/insert_period.php";
+  Future EditSettingPeriodAPI() async {
+    var url = "https://meloned.relaxlikes.com/api/period/edit_period.php";
 
     var response = await http.post(Uri.parse(url), body: {
-      'greenhouse_ID': selectval,
+      "period_ID": widget.list[widget.index]['period_ID'],
       'planted_melon': plantedmelonController.text,
       'period_name': periodnameController.text,
     });
@@ -43,7 +45,7 @@ class _NewPeriodState extends State<NewPeriod> {
 
     if (jsonData == "Failed") {
       Fluttertoast.showToast(
-        msg: "สร้างรอบการปลูกล้มเหลว",
+        msg: "แก้ไขข้อมูลไม่สำเร็จ",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -53,7 +55,7 @@ class _NewPeriodState extends State<NewPeriod> {
       );
     } else {
       Fluttertoast.showToast(
-        msg: "สร้างรอบการปลูกสำเร็จ",
+        msg: "แก้ไขข้อมูลสำเร็จ",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -65,23 +67,11 @@ class _NewPeriodState extends State<NewPeriod> {
     }
   }
 
-  //GET GREENHOUSE
-  Future getGreenHouse() async {
-    var url =
-        "https://meloned.relaxlikes.com/api/greenhouse/viewgreenhouse.php";
-    var response = await http.get(Uri.parse(url));
-    var jsonData = json.decode(response.body);
-    setState(() {
-      greenhouse = jsonData;
-    });
-    return greenhouse;
-  }
-
   @override
   void initState() {
     super.initState();
-    getGreenHouse();
-    super.initState();
+    periodnameController.text = widget.list[widget.index]['period_name'];
+    plantedmelonController.text = widget.list[widget.index]['planted_melon'];
   }
 
   @override
@@ -133,47 +123,6 @@ class _NewPeriodState extends State<NewPeriod> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'เลือกโรงเรือน',
-                  style: GoogleFonts.kanit(
-                      fontSize: 18, color: Color.fromRGBO(116, 116, 39, 1)),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: 50,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 0),
-                    child: DropdownButtonFormField2(
-                      buttonPadding: EdgeInsets.only(left: 20, right: 10),
-                      buttonHeight: 50,
-                      buttonWidth: double.infinity,
-                      hint: Text('กรุณาเลือกโรงเรือน',
-                          style: GoogleFonts.kanit(
-                              color: ColorCustom.mediumgreencolor())),
-                      isExpanded: true,
-                      items: greenhouse.map((item) {
-                        return new DropdownMenuItem(
-                          child: new Text(
-                            item['greenhouse_Name'],
-                            style: GoogleFonts.kanit(),
-                          ),
-                          value: item['greenhouse_ID'].toString(),
-                        );
-                      }).toList(),
-                      onChanged: (newVal) {
-                        setState(() {
-                          selectval = newVal as String;
-                        });
-                      },
-                      value: selectval,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 12,
-                ),
-                Text(
                   'ชื่อรอบการปลูก',
                   style: GoogleFonts.kanit(
                       fontSize: 18, color: Color.fromRGBO(116, 116, 39, 1)),
@@ -224,13 +173,12 @@ class _NewPeriodState extends State<NewPeriod> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
-                          RegisterPeriod();
+                          EditSettingPeriodAPI();
                           setState(() {
                             Navigator.pop(context, true);
                           });
                         },
-                        child: Text('เพิ่มรอบการปลูก',
-                            style: TextCustom.buttontext()),
+                        child: Text('บันทึก', style: TextCustom.buttontext()),
                         style: ElevatedButton.styleFrom(
                           primary: ColorCustom.mediumgreencolor(),
                           shape: RoundedRectangleBorder(
