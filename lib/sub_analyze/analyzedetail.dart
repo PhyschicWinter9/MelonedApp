@@ -4,6 +4,7 @@ import 'package:newmelonedv2/style/colortheme.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../reuse/bottombar.dart';
 import '../reuse/container.dart';
@@ -68,118 +69,142 @@ class _AnalyzeDetailState extends State<AnalyzeDetail> {
             FutureBuilder(
                 future: getPeriod(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  List list = snapshot.data;
-                  if (snapshot.hasError) print(snapshot.error);
-                  return snapshot.hasData
-                      ? Card(
-                          elevation: 2,
-                          color: ColorCustom.lightyellowcolor(),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
+                  if (snapshot.data == null) {
+                    return Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          LoadingAnimationWidget.waveDots(
+                            size: 50,
+                            color: ColorCustom.orangecolor(),
                           ),
-                          child: Container(
-                            margin: EdgeInsets.all(20),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      '${list[0]['period_name']}',
-                                      style: TextCustom.bold_b20(),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).pushNamed(
-                                            "/editanalyze",
-                                            arguments: {
-                                              'melonList': [
-                                                list[0]['period_ID'],
-                                                list[0]['period_name'],
-                                                list[0]['planted_melon'],
-                                                list[0]['total_grades'],
-                                                list[0]['gradeA'],
-                                                list[0]['gradeB'],
-                                                list[0]['gradeC'],
-                                              ]
-                                            }).then((value) => setState(() {}));
-                                      },
-                                      child: Row(
-                                        children: [
-                                          Text('แก้ไข'),
-                                          sizedBox.Boxw5(),
-                                          Icon(Icons.settings),
-                                        ],
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        elevation: 0,
-                                        primary: ColorCustom.lightgreencolor(),
-                                        onPrimary:
-                                            ColorCustom.lightyellowcolor(),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        textStyle: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                sizedBox.Boxh5(),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('เมลอนทั้งหมด',
-                                        style: TextCustom.normal_dg16()),
-                                    Text(
-                                        '${list[0]['total_grades']}/${list[0]['planted_melon']}',
-                                        style: TextCustom.normal_b16()),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('เมลอนเกรด A',
-                                        style: TextCustom.normal_dg16()),
-                                    Text('${list[0]['gradeA']}',
-                                        style: TextCustom.normal_b16()),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('เมลอนเกรด B',
-                                        style: TextCustom.normal_dg16()),
-                                    Text('${list[0]['gradeB']}',
-                                        style: TextCustom.normal_b16()),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('เมลอนเกรด C',
-                                        style: TextCustom.normal_dg16()),
-                                    Text('${list[0]['gradeC']}',
-                                        style: TextCustom.normal_b16()),
-                                  ],
-                                ),
-                                sizedBox.Boxh5(),
-                              ],
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: Text(
+                              'กำลังโหลดข้อมูล...',
+                              style: TextCustom.normal_mdg20(),
                             ),
                           ),
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        ],
+                      ),
+                    );
+                  } else {
+                    List list = snapshot.data;
+                    return snapshot.data.isNotEmpty
+                        ? Card(
+                            elevation: 2,
+                            color: ColorCustom.lightyellowcolor(),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            child: Container(
+                              margin: EdgeInsets.all(20),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        '${list[0]['period_name']}',
+                                        style: TextCustom.bold_b20(),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pushNamed(
+                                              "/editanalyze",
+                                              arguments: {
+                                                'melonList': [
+                                                  list[0]['period_ID'],
+                                                  list[0]['period_name'],
+                                                  list[0]['planted_melon'],
+                                                  list[0]['total_grades'],
+                                                  list[0]['gradeA'],
+                                                  list[0]['gradeB'],
+                                                  list[0]['gradeC'],
+                                                ]
+                                              }).then(
+                                              (value) => setState(() {}));
+                                        },
+                                        child: Row(
+                                          children: [
+                                            Text('แก้ไข'),
+                                            sizedBox.Boxw5(),
+                                            Icon(Icons.settings),
+                                          ],
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          elevation: 0,
+                                          primary:
+                                              ColorCustom.lightgreencolor(),
+                                          onPrimary:
+                                              ColorCustom.lightyellowcolor(),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          textStyle: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  sizedBox.Boxh5(),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('เมลอนทั้งหมด',
+                                          style: TextCustom.normal_dg16()),
+                                      Text(
+                                          '${list[0]['total_grades']}/${list[0]['planted_melon']}',
+                                          style: TextCustom.normal_b16()),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('เมลอนเกรด A',
+                                          style: TextCustom.normal_dg16()),
+                                      Text('${list[0]['gradeA']}',
+                                          style: TextCustom.normal_b16()),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('เมลอนเกรด B',
+                                          style: TextCustom.normal_dg16()),
+                                      Text('${list[0]['gradeB']}',
+                                          style: TextCustom.normal_b16()),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('เมลอนเกรด C',
+                                          style: TextCustom.normal_dg16()),
+                                      Text('${list[0]['gradeC']}',
+                                          style: TextCustom.normal_b16()),
+                                    ],
+                                  ),
+                                  sizedBox.Boxh5(),
+                                ],
+                              ),
+                            ),
+                          )
+                        : Center(
+                            child: CircularProgressIndicator(),
+                          );
+                  }
                 }),
             sizedBox.Boxh10(),
             ElevatedButton(

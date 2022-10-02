@@ -8,6 +8,7 @@ import '../style/textstyle.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class AfterAnalyze extends StatefulWidget {
   const AfterAnalyze({Key? key}) : super(key: key);
@@ -95,149 +96,172 @@ class _AfterAnalyzeState extends State<AfterAnalyze> {
         child: FutureBuilder(
             future: getPeriod(id),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
-              List list = snapshot.data;
-              if (snapshot.hasError) print(snapshot.error);
-              return snapshot.hasData
-                  ? ListView(
-                      shrinkWrap: false,
-                      children: [
-                        Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(30)),
-                            border: Border.all(color: Colors.grey.shade300),
-                          ),
-                          child: Center(child: data['_objectModel']),
+              if (snapshot.data == null) {
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LoadingAnimationWidget.waveDots(
+                        size: 50,
+                        color: ColorCustom.orangecolor(),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'กำลังโหลดข้อมูล...',
+                          style: TextCustom.normal_mdg20(),
                         ),
-                        sizedBox.Boxh20(),
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'จำนวนเมลอนที่วิเคราะห์แล้ว : ',
-                                    style: TextCustom.normal_dg16(),
-                                  ),
-                                  Text(
-                                      '${list[0]['total_grades']}/${list[0]['planted_melon']}',
-                                      style: TextCustom.normal_dg16()),
-                                ],
-                              ),
-                              sizedBox.Boxh10(),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                      flex: 3,
-                                      child: Text('จำนวนเมลอนเกรด A : ',
-                                          style: TextCustom.normal_dg16())),
-                                  Expanded(
-                                      child: TextField(
-                                    controller: gradeA,
-                                    decoration: InputDecoration(
-                                      enabledBorder: UnderlineInputBorder(),
-                                      disabledBorder: UnderlineInputBorder(),
-                                      focusedBorder: UnderlineInputBorder(),
-                                    ),
-                                    cursorColor: ColorCustom.darkgreencolor(),
-                                    style: TextCustom.normal_dg18(),
-                                    keyboardType: TextInputType.number,
-                                  )),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                      flex: 3,
-                                      child: Text('จำนวนเมลอนเกรด B : ',
-                                          style: TextCustom.normal_dg16())),
-                                  Expanded(
-                                      child: TextField(
-                                    controller: gradeB,
-                                    decoration: InputDecoration(
-                                      enabledBorder: UnderlineInputBorder(),
-                                      disabledBorder: UnderlineInputBorder(),
-                                      focusedBorder: UnderlineInputBorder(),
-                                    ),
-                                    cursorColor: ColorCustom.darkgreencolor(),
-                                    style: TextCustom.normal_dg18(),
-                                    keyboardType: TextInputType.number,
-                                  )),
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                      flex: 3,
-                                      child: Text('จำนวนเมลอนเกรด C : ',
-                                          style: TextCustom.normal_dg16())),
-                                  Expanded(
-                                      child: TextField(
-                                    controller: gradeC,
-                                    decoration: InputDecoration(
-                                      enabledBorder: UnderlineInputBorder(),
-                                      disabledBorder: UnderlineInputBorder(),
-                                      focusedBorder: UnderlineInputBorder(),
-                                    ),
-                                    cursorColor: ColorCustom.darkgreencolor(),
-                                    style: TextCustom.normal_dg16(),
-                                    keyboardType: TextInputType.number,
-                                  )),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        sizedBox.Boxh10(),
-                        ElevatedButton(
-                          onPressed: () => {
-                            editPeriod(period_ID, gradeA.text, gradeB.text,
-                                gradeC.text)
-                          },
-                          child:
-                              Text('บันทึก', style: TextCustom.buttontext3()),
-                          style: ElevatedButton.styleFrom(
-                            elevation: 2,
-                            primary: ColorCustom.mediumgreencolor(),
-                            onPrimary: ColorCustom.lightgreencolor(),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                List list = snapshot.data;
+                return snapshot.data.isNotEmpty
+                    ? ListView(
+                        shrinkWrap: false,
+                        children: [
+                          Container(
+                            height: 200,
+                            decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(30)),
+                              border: Border.all(color: Colors.grey.shade300),
                             ),
-                            minimumSize: Size(double.infinity, 20),
+                            child: Center(child: data['_objectModel']),
+                          ),
+                          sizedBox.Boxh20(),
+                          Container(
                             padding: EdgeInsets.all(10),
-                          ),
-                        ),
-                        sizedBox.Boxh10(),
-                        ElevatedButton(
-                          onPressed: () => {Navigator.pop(context)},
-                          child: Text(
-                            'ยกเลิก',
-                            style: TextCustom.buttontext3(),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.red[300],
-                            onPrimary: Colors.red[400],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'จำนวนเมลอนที่วิเคราะห์แล้ว : ',
+                                      style: TextCustom.normal_dg16(),
+                                    ),
+                                    Text(
+                                        '${list[0]['total_grades']}/${list[0]['planted_melon']}',
+                                        style: TextCustom.normal_dg16()),
+                                  ],
+                                ),
+                                sizedBox.Boxh10(),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                        flex: 3,
+                                        child: Text('จำนวนเมลอนเกรด A : ',
+                                            style: TextCustom.normal_dg16())),
+                                    Expanded(
+                                        child: TextField(
+                                      controller: gradeA,
+                                      decoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(),
+                                        disabledBorder: UnderlineInputBorder(),
+                                        focusedBorder: UnderlineInputBorder(),
+                                      ),
+                                      cursorColor: ColorCustom.darkgreencolor(),
+                                      style: TextCustom.normal_dg18(),
+                                      keyboardType: TextInputType.number,
+                                    )),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                        flex: 3,
+                                        child: Text('จำนวนเมลอนเกรด B : ',
+                                            style: TextCustom.normal_dg16())),
+                                    Expanded(
+                                        child: TextField(
+                                      controller: gradeB,
+                                      decoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(),
+                                        disabledBorder: UnderlineInputBorder(),
+                                        focusedBorder: UnderlineInputBorder(),
+                                      ),
+                                      cursorColor: ColorCustom.darkgreencolor(),
+                                      style: TextCustom.normal_dg18(),
+                                      keyboardType: TextInputType.number,
+                                    )),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                        flex: 3,
+                                        child: Text('จำนวนเมลอนเกรด C : ',
+                                            style: TextCustom.normal_dg16())),
+                                    Expanded(
+                                        child: TextField(
+                                      controller: gradeC,
+                                      decoration: InputDecoration(
+                                        enabledBorder: UnderlineInputBorder(),
+                                        disabledBorder: UnderlineInputBorder(),
+                                        focusedBorder: UnderlineInputBorder(),
+                                      ),
+                                      cursorColor: ColorCustom.darkgreencolor(),
+                                      style: TextCustom.normal_dg16(),
+                                      keyboardType: TextInputType.number,
+                                    )),
+                                  ],
+                                ),
+                              ],
                             ),
-                            minimumSize: Size(double.infinity, 20),
-                            padding: EdgeInsets.all(10),
                           ),
-                        ),
-                      ],
-                    )
-                  : Center(
-                      child: CircularProgressIndicator(),
-                    );
+                          sizedBox.Boxh10(),
+                          ElevatedButton(
+                            onPressed: () => {
+                              editPeriod(period_ID, gradeA.text, gradeB.text,
+                                  gradeC.text)
+                            },
+                            child:
+                                Text('บันทึก', style: TextCustom.buttontext3()),
+                            style: ElevatedButton.styleFrom(
+                              elevation: 2,
+                              primary: ColorCustom.mediumgreencolor(),
+                              onPrimary: ColorCustom.lightgreencolor(),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              minimumSize: Size(double.infinity, 20),
+                              padding: EdgeInsets.all(10),
+                            ),
+                          ),
+                          sizedBox.Boxh10(),
+                          ElevatedButton(
+                            onPressed: () => {Navigator.pop(context)},
+                            child: Text(
+                              'ยกเลิก',
+                              style: TextCustom.buttontext3(),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.red[300],
+                              onPrimary: Colors.red[400],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              minimumSize: Size(double.infinity, 20),
+                              padding: EdgeInsets.all(10),
+                            ),
+                          ),
+                        ],
+                      )
+                    : Center(
+                        child: CircularProgressIndicator(),
+                      );
+              }
             }),
       ),
       bottomNavigationBar: BottomBar(),
