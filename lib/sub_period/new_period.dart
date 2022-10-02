@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:newmelonedv2/style/textstyle.dart';
 import '../menu.dart';
 import '../period.dart';
 import '../daily.dart';
@@ -12,15 +13,20 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
 class NewPeriod extends StatefulWidget {
- NewPeriod({Key? key}) : super(key: key);
+  NewPeriod({Key? key}) : super(key: key);
 
   @override
   State<NewPeriod> createState() => _NewPeriodState();
 }
 
 class _NewPeriodState extends State<NewPeriod> {
+  //Variable
   List greenhouse = [];
   String? selectval;
+
+  //Controller
+  final periodnameController = TextEditingController();
+  final plantedmelonController = TextEditingController();
 
   //GET REGISTERED GREENHOUSE
   Future RegisterPeriod() async {
@@ -28,6 +34,8 @@ class _NewPeriodState extends State<NewPeriod> {
 
     var response = await http.post(Uri.parse(url), body: {
       'greenhouse_ID': selectval,
+      'planted_melon': plantedmelonController.text,
+      'period_name': periodnameController.text,
     });
 
     var jsonData = json.decode(response.body);
@@ -149,17 +157,14 @@ class _NewPeriodState extends State<NewPeriod> {
                   ///
 
                   child: Padding(
-                    padding: EdgeInsets.only(left: 10),
+                    padding: EdgeInsets.only(left: 0),
                     child: DropdownButtonFormField2(
                       buttonPadding: EdgeInsets.only(left: 20, right: 10),
                       buttonHeight: 50,
                       buttonWidth: double.infinity,
-                      hint: Text(
-                        'กรุณาเลือกโรงเรือน',
-                        style: GoogleFonts.kanit(
-                         color: ColorCustom.mediumgreencolor()
-                        )
-                      ),
+                      hint: Text('กรุณาเลือกโรงเรือน',
+                          style: GoogleFonts.kanit(
+                              color: ColorCustom.mediumgreencolor())),
                       isExpanded: true,
                       items: greenhouse.map((item) {
                         return new DropdownMenuItem(
@@ -178,6 +183,49 @@ class _NewPeriodState extends State<NewPeriod> {
                       value: selectval,
                     ),
                   ),
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  'ชื่อรอบการปลูก',
+                  style: GoogleFonts.kanit(
+                      fontSize: 18, color: Color.fromRGBO(116, 116, 39, 1)),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 20, right: 20),
+                    hintText: 'กรุณากรอกชื่อรอบการปลูก',
+                    hintStyle: GoogleFonts.kanit(
+                        color: ColorCustom.mediumgreencolor()),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  controller: periodnameController,
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                Text(
+                  'จำนวนเมลอน',
+                  style: GoogleFonts.kanit(
+                      fontSize: 18, color: Color.fromRGBO(116, 116, 39, 1)),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(left: 20, right: 20),
+                    hintText: 'กรุณากรอกจำนวนเมลอน',
+                    hintStyle: GoogleFonts.kanit(
+                        color: ColorCustom.mediumgreencolor()),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  controller: plantedmelonController,
                 ),
                 SizedBox(
                   height: 10,
@@ -255,7 +303,7 @@ class _NewPeriodState extends State<NewPeriod> {
 }
 
 class MyBottomBar extends StatelessWidget {
- MyBottomBar({
+  MyBottomBar({
     Key? key,
   }) : super(key: key);
 
@@ -359,7 +407,7 @@ class MyBottomBar extends StatelessWidget {
 }
 
 class Hamburger1 extends StatelessWidget {
- Hamburger1({
+  Hamburger1({
     Key? key,
     required this.sidemenu,
   }) : super(key: key);
