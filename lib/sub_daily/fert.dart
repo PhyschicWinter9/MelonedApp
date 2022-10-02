@@ -46,11 +46,12 @@ class _FertState extends State<Fert> {
             data[i]['ferting_amount'],
             data[i]['unit'],
             data[i]['ferting_time'],
-            data[i]['period_ID'],data[i]['ferting_ID']);
+            data[i]['period_ID'],
+            data[i]['ferting_ID']);
         this.ferting.add(ferting);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
-      
+
       return ferting;
     } catch (e) {
       print(e);
@@ -141,7 +142,7 @@ class Ferting {
   String ferting_ID;
 
   Ferting(this.fert_ID, this.fertname, this.amount, this.unit, this.time,
-      this.periodID,this.ferting_ID);
+      this.periodID, this.ferting_ID);
 }
 
 class FertCard extends StatefulWidget {
@@ -176,9 +177,9 @@ class _FertCardState extends State<FertCard> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                        '${widget.ferting.fertname} ' +
-                            '(${widget.ferting.amount} ${widget.ferting.unit} ${widget.ferting.fert_ID})',
+                    Text('${widget.ferting.fertname}',
+                        style: TextCustom.normal_dg16()),
+                    Text('${widget.ferting.amount} ${widget.ferting.unit}',
                         style: TextCustom.normal_dg16()),
                     Text('${widget.ferting.time}',
                         style: TextCustom.normal_dg16()),

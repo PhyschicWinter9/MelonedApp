@@ -23,7 +23,6 @@ class _DropDownList2State extends State<DropDownList2> {
     await SessionManager().set("fert_ID", selectedValue);
   }
 
- 
   Future getFert() async {
     var url = "https://meloned.relaxlikes.com/api/dailycare/view_fertilize.php";
     var response = await http.get(Uri.parse(url), headers: {
@@ -46,7 +45,7 @@ class _DropDownList2State extends State<DropDownList2> {
   }
 
   @override
-  Widget build(BuildContext context) { 
+  Widget build(BuildContext context) {
     return DropdownButtonFormField2(
       decoration: InputDecoration(
         isDense: true,
@@ -56,10 +55,7 @@ class _DropDownList2State extends State<DropDownList2> {
         ),
       ),
       isExpanded: true,
-      hint: Text(
-        'เลือกสูตรปุ๋ย',
-        style: TextCustom.normal_mdg16()
-      ),
+      hint: Text('เลือกสูตรปุ๋ย', style: TextCustom.normal_mdg16()),
       icon: Icon(
         Icons.arrow_drop_down,
         color: Colors.black45,
@@ -84,12 +80,12 @@ class _DropDownList2State extends State<DropDownList2> {
           return 'เลือกสูตรปุ๋ย';
         }
       },
-      onChanged: (value) {
+      onChanged: (newvalue) {
         setState(() {
-          selectedValue = value.toString();
+          selectedValue = newvalue as String?;
+          print('Fert_ID on FertDropdown: $selectedValue');
           creteSession();
         });
-      
       },
       // onSaved: (value) {
       //   selectedValue = value.toString();
