@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:newmelonedv2/sub_period/edit_period.dart';
 import 'reuse/container.dart';
 import 'style/textstyle.dart';
@@ -52,10 +53,19 @@ class _PeriodState extends State<Period> {
     return json.decode(response.body);
   }
 
+  Future refreshPeriod() async {
+    var url = "https://meloned.relaxlikes.com/api/period/viewperiod.php";
+    var response = await http.get(Uri.parse(url), headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    });
+    return json.decode(response.body);
+  }
+
   Future refresh() async {
     await Future.delayed(Duration(seconds: 3));
     setState(() {
-      getPeriod();
+      refreshPeriod();
     });
   }
 
@@ -110,116 +120,120 @@ class _PeriodState extends State<Period> {
                         ),
                       );
                     } else {
-                      return Expanded(
-                        child: RefreshIndicator(
-                          onRefresh: refresh,
-                          child: ListView.builder(
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              List list = snapshot.data;
-                              return Container(
-                                margin: EdgeInsets.symmetric(vertical: 10),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => EditPeriod(
-                                                list: list,
-                                                index: index,
-                                              )),
-                                    );
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        flex: 3,
-                                        child: Column(
-                                          children: [
-                                            ListTile(
-                                              title: Text(
-                                                snapshot.data[index]
-                                                    ['greenhouse_name'],
-                                                style: TextCustom.bold_b16(),
-                                              ),
-                                              subtitle: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    'วันที่ปลูก  ' +
-                                                        snapshot.data[index]
-                                                            ['create_date'],
-                                                    style: TextCustom
-                                                        .normal_dg14(),
-                                                  ),
-                                                  Text(
-                                                    'วันที่คาดว่าจะเก็บเกี่ยว ' +
-                                                        snapshot.data[index]
-                                                            ['harvest_date'],
-                                                    style: TextCustom
-                                                        .normal_dg14(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.settings,
-                                            size: 30,
-                                            color: ColorCustom.orangecolor(),
-                                          ),
+                      return snapshot.data.length != 0
+                          ? Expanded(
+                              child: RefreshIndicator(
+                                  onRefresh: refresh,
+                                  child: ListView.builder(
+                                    itemCount: snapshot.data.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      List list = snapshot.data;
+                                      return Container(
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 10),
+                                        child: ElevatedButton(
                                           onPressed: () {
-                                            // detailpreiod(
-                                            //   snapshot.data[index]['period_ID'],
-                                            //   snapshot.data[index]
-                                            //       ['create_date'],
-                                            //   snapshot.data[index]
-                                            //       ['harvest_date'],
-                                            //   snapshot.data[index]
-                                            //       ['greenhouse_ID'],
-                                            // );
-
-                                            // Navigator.push(
-                                            //   context,
-                                            //   MaterialPageRoute(
-                                            //       builder: (context) =>
-                                            //           EditPeriod(
-                                                        // list: list,
-                                                        // index: index,
-                                            //           )),
-                                            // );
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) =>
-                                                      EditPeriodSetting(
+                                                      EditPeriod(
                                                         list: list,
                                                         index: index,
                                                       )),
                                             );
                                           },
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                flex: 3,
+                                                child: Column(
+                                                  children: [
+                                                    ListTile(
+                                                      title: Text(
+                                                        snapshot.data[index]
+                                                            ['greenhouse_name'],
+                                                        style: TextCustom
+                                                            .bold_b16(),
+                                                      ),
+                                                      subtitle: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(
+                                                            'วันที่ปลูก  ' +
+                                                                snapshot.data[
+                                                                        index][
+                                                                    'create_date'],
+                                                            style: TextCustom
+                                                                .normal_dg14(),
+                                                          ),
+                                                          Text(
+                                                            'วันที่คาดว่าจะเก็บเกี่ยว ' +
+                                                                snapshot.data[
+                                                                        index][
+                                                                    'harvest_date'],
+                                                            style: TextCustom
+                                                                .normal_dg14(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: IconButton(
+                                                  icon: Icon(
+                                                    Icons.settings,
+                                                    size: 30,
+                                                    color: ColorCustom
+                                                        .orangecolor(),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              EditPeriodSetting(
+                                                                list: list,
+                                                                index: index,
+                                                              )),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          style: ElevatedButton.styleFrom(
+                                            primary:
+                                                ColorCustom.lightyellowcolor(),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                            padding: EdgeInsets.all(10),
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: ColorCustom.lightyellowcolor(),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    padding: EdgeInsets.all(10),
-                                  ),
+                                      );
+                                    },
+                                  )),
+                            )
+                          : Column(
+                              children: [
+                                Lottie.asset(
+                                  'assets/animate/empty.json',
+                                  width: 250,
+                                  height: 250,
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                      );
+                                Text(
+                                  'ไม่มีรอบการปลูก',
+                                  style: TextCustom.normal_mdg20(),
+                                ),
+                              ],
+                            );
                     }
                   }),
             )
@@ -247,7 +261,7 @@ class HistoryButton extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              'View History',
+              'ประวัติรอบการปลูก',
               style: GoogleFonts.kanit(color: ColorCustom.orangecolor()),
             ),
             SizedBox(

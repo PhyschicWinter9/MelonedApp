@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
 import 'sub_note/editnote.dart';
@@ -110,11 +111,18 @@ class _NoteState extends State<Note> {
                         },
                       )
                     : Container(
-                        child: Center(
-                          child: Text(
-                            'ไม่มีข้อมูลการจดบันทึก',
-                            style: TextCustom.normal_mdg20(),
-                          ),
+                        child: Column(
+                          children: [
+                            Lottie.asset(
+                              'assets/animate/empty.json',
+                              width: 250,
+                              height: 250,
+                            ),
+                            Text(
+                              'ไม่มีข้อมูลการจดบันทึก',
+                              style: TextCustom.normal_mdg20(),
+                            ),
+                          ],
                         ),
                       ),
               );

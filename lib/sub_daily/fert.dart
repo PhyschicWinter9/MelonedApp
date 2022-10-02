@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:newmelonedv2/sub_daily/sub_fert/editfert.dart';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
@@ -116,11 +117,18 @@ class _FertState extends State<Fert> {
                         },
                       )
                     : Container(
-                        child: Center(
-                          child: Text(
-                            'ไม่มีข้อมูลการให้ปุ๋ย',
-                            style: TextCustom.normal_mdg20(),
-                          ),
+                        child: Column(
+                          children: [
+                            Lottie.asset(
+                              'assets/animate/empty.json',
+                              width: 250,
+                              height: 250,
+                            ),
+                            Text(
+                              'ไม่มีข้อมูลการให้ปุ๋ย',
+                              style: TextCustom.normal_mdg20(),
+                            ),
+                          ],
                         ),
                       ),
               );

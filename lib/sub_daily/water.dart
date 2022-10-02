@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'package:newmelonedv2/sub_daily/carelist.dart';
 import 'dart:convert';
 import '../style/colortheme.dart';
@@ -188,11 +189,18 @@ class _WaterState extends State<Water> {
                         ),
                     )
                     : Container(
-                        child: Center(
-                          child: Text(
-                            'ไม่มีข้อมูลการให้น้ำ',
-                            style: TextCustom.normal_mdg20(),
-                          ),
+                        child: Column(
+                          children: [
+                            Lottie.asset(
+                              'assets/animate/empty.json',
+                              width: 250,
+                              height: 250,
+                            ),
+                            Text(
+                              'ไม่มีข้อมูลการให้น้ำ',
+                              style: TextCustom.normal_mdg20(),
+                            ),
+                          ],
                         ),
                       ),
               );

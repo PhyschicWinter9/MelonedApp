@@ -2,6 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:lottie/lottie.dart';
 import 'reuse/container.dart';
 import 'style/colortheme.dart';
 import 'style/textstyle.dart';
@@ -20,11 +21,10 @@ class Daily extends StatefulWidget {
 }
 
 class _DailyState extends State<Daily> {
-
-  //Array ของข้อมูลที่จะเอาไปแสดงใน ListViewแบบเรียงลำดับ 
+  //Array ของข้อมูลที่จะเอาไปแสดงใน ListViewแบบเรียงลำดับ
   List<CareList> carelist = [];
 
-  //ดึงข้อมูลจาก API 
+  //ดึงข้อมูลจาก API
   Future getDaily() async {
     var url =
         "https://meloned.relaxlikes.com/api/dailycare/view_period_daily.php";
@@ -63,8 +63,6 @@ class _DailyState extends State<Daily> {
       print(e);
     }
   }
-  
- 
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +111,18 @@ class _DailyState extends State<Daily> {
                               );
                             },
                           )
-                        : Center(
-                            child: Text(
-                              'ไม่มีรายการ',
-                              style: TextCustom.normal_mdg20(),
-                            ),
+                        : Column(
+                            children: [
+                              Lottie.asset(
+                                'assets/animate/empty.json',
+                                width: 250,
+                                height: 250,
+                              ),
+                              Text(
+                                'ไม่มีรายการดูแลประจำวัน',
+                                style: TextCustom.normal_mdg20(),
+                              ),
+                            ],
                           );
                   }
                 },
