@@ -106,29 +106,29 @@ class _WaterState extends State<Water> {
     }
   }
 
-  Future showlist() async {
+  Future<void> showlist() async {
     await Future.delayed(Duration(seconds: 5));
     setState(() {
       detailWater(period_ID);
     });
   }
 
-  Future clearlist() async {
-    await Future.delayed(Duration(seconds: 1));
+  Future<void> clearlist() async {
+    await Future.delayed(Duration(seconds: 3));
     setState(() {
       watering.clear();
     });
   }
 
  
-  Future updatelist() async {
+  void updatelist() async {
     await addWater(period_ID);
     await clearlist();
     await showlist();
   }
 
   Future refresh() async {
-    Future.delayed(Duration(seconds: 1));
+    Future.delayed(Duration(seconds: 2));
     await clearlist();
     await showlist();
   }
