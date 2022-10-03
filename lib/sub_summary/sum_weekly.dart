@@ -12,8 +12,6 @@ import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
 
 class SummaryWeekly extends StatefulWidget {
-  
-
   final _formKey = GlobalKey<FormState>();
 
   // const SummaryWeekly({Key? key}) : super(key: key);
@@ -23,7 +21,6 @@ class SummaryWeekly extends StatefulWidget {
 }
 
 class _SummaryWeeklyState extends State<SummaryWeekly> {
-
   //Variable
   List greenhouse = [];
   String? selectedValue;
@@ -32,7 +29,7 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
   TextEditingController dateController = TextEditingController();
 
   //GET DATA FROM API
-    //GET GREENHOUSE IN SUMMARY Weekly PAGE
+  //GET GREENHOUSE IN SUMMARY Weekly PAGE
   Future getGreenHouse() async {
     var url = "https://meloned.relaxlikes.com/api/summary/viewgreenhouse.php";
     var response = await http.get(Uri.parse(url));
@@ -80,7 +77,6 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
               hint: Text(
                 'เลือกโรงเรือน',
                 style: TextCustom.normal_mdg16(),
-                                
               ),
               icon: Icon(
                 Icons.arrow_drop_down,
@@ -121,9 +117,11 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
               'วันที่ต้องการดูสรุป',
               style: TextCustom.textboxlabel(),
             ),
-            Text(' (แสดงข้อมูลย้อนหลัง 7 วัน นับตั้งแต่วันที่เลือก)',style: TextCustom.normal_dg14(),),
+            Text(
+              ' (แสดงข้อมูลย้อนหลัง 7 วัน นับตั้งแต่วันที่เลือก)',
+              style: TextCustom.normal_dg14(),
+            ),
             sizedBox.Boxh5(),
-            
             TextField(
               controller: dateController,
               decoration: InputDecoration(

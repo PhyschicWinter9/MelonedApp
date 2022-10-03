@@ -131,30 +131,31 @@ class _SummaryYearlyState extends State<SummaryYearly> {
                     // getPicker();
                     String? locale;
                     final localeObj = locale != null ? Locale(locale) : null;
-                    DateTime? selected =
-                        await showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              title: Text("เลือกปี"),
-                              content: Container( // Need to use container to add size constraint.
-                                width: 300,
-                                height: 300,
-                                child: YearPicker(
-                                  firstDate: DateTime(DateTime.now().year - 100, 1),
-                                  lastDate: DateTime(DateTime.now().year + 100, 1),
-                                  initialDate: DateTime.now(),
-                                  selectedDate: DateTime.now(),
-                                  onChanged: (DateTime dateTime) {
-                                    
-                                    Navigator.pop(context);
-                                  },
-            
-                                ),
-                              ),
-                            );
-                          },
+                    DateTime? selected = await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("เลือกปี"),
+                          content: Container(
+                            // Need to use container to add size constraint.
+                            width: 300,
+                            height: 300,
+                            child: YearPicker(
+                              firstDate: DateTime(DateTime.now().year - 100, 1),
+                              lastDate: DateTime(DateTime.now().year + 100, 1),
+                              initialDate: DateTime.now(),
+                              selectedDate: DateTime.now(),
+                              onChanged: (DateTime dateTime) {
+                                setState(() {
+                                  _selected = dateTime;
+                                });
+                                Navigator.pop(context, _selected);
+                              },
+                            ),
+                          ),
                         );
+                      },
+                    );
 
                     // showMonthYearPicker(
                     //   initialMonthYearPickerMode: MonthYearPickerMode.year,
@@ -164,9 +165,9 @@ class _SummaryYearlyState extends State<SummaryYearly> {
                     //   lastDate: DateTime(2100),
                     //   locale: localeObj,
                     // );
-
                     if (selected != null) {
-                      String formattedYear = DateFormat.y().format(selected);
+                      String formattedYear =
+                          DateFormat('yyyy').format(_selected!);
                       setState(() {
                         yearController.text = formattedYear.toString();
                       });
@@ -179,7 +180,9 @@ class _SummaryYearlyState extends State<SummaryYearly> {
             ),
             sizedBox.Boxh10(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                print(yearController.text);
+              },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
                 elevation: 2,

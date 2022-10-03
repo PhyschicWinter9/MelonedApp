@@ -142,7 +142,7 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
                     );
                     
                     if (selected != null) {
-                      String formattedMonth = DateFormat.yM().format(selected);
+                      String formattedMonth = DateFormat('MM-yyyy').format(selected);
                       setState(() {
                         monthController.text = formattedMonth.toString();
                       });
@@ -156,7 +156,14 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
             sizedBox.Boxh10(),
             ElevatedButton(
               onPressed: () {
-                print(monthController.text);
+                //Chnage formate date
+                var date = monthController.text;
+                var dateSplit = date.split('-');
+                var monthChangeFormat = dateSplit[1];
+                var yearChangeFormat = dateSplit[0];
+                // print(monthChangeFormat);
+                // print(yearChangeFormat);
+                
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
