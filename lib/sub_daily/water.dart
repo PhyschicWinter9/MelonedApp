@@ -120,7 +120,6 @@ class _WaterState extends State<Water> {
     });
   }
 
- 
   void updatelist() async {
     await addWater(period_ID);
     await clearlist();
@@ -179,14 +178,14 @@ class _WaterState extends State<Water> {
               return Expanded(
                 child: watering.isNotEmpty
                     ? RefreshIndicator(
-                      onRefresh: refresh,
-                      child: ListView.builder(
+                        onRefresh: refresh,
+                        child: ListView.builder(
                           itemCount: watering.length,
                           itemBuilder: (BuildContext context, int index) {
                             return WaterCard(watering: watering[index]);
                           },
                         ),
-                    )
+                      )
                     : Container(
                         child: Center(
                           child: Text(
@@ -203,7 +202,6 @@ class _WaterState extends State<Water> {
     );
   }
 }
-
 
 class Watering {
   //water_id is count;
@@ -247,10 +245,31 @@ class _WaterCardState extends State<WaterCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('การให้น้ำ ' + '${widget.watering.count}',
-                        style: TextCustom.normal_dg16()),
-                    Text('${widget.watering.time}',
-                        style: TextCustom.normal_dg16()),
+                    Expanded(
+                      flex: 3,
+                      child: Text('การให้น้ำ ' + '${widget.watering.count}',
+                          style: TextCustom.normal_dg16()),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Text('${widget.watering.time}',
+                          style: TextCustom.normal_dg16()),
+                    ),
+                    Expanded(
+                        flex: 1,
+                        child: IconButton(
+                            onPressed: () {
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/*
+                                              ลบการให้น้ำ
+                  
+                                                                                                                        */
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                              color: ColorCustom.orangecolor(),
+                            )))
                   ],
                 ),
               ],
