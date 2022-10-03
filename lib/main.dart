@@ -30,6 +30,9 @@ import 'sub_summary/sum_yearly.dart';
 import 'summary.dart';
 import 'style/theme.dart';
 import 'sub_daily/sub_fert/fertdropdown.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 void main() {
   runApp(MyApp());
@@ -80,6 +83,11 @@ class _MyAppState extends State<MyApp> {
       },
       theme: MyTheme(),
       home: MainMenu(),
+      localizationsDelegates: [
+        GlobalWidgetsLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        MonthYearPickerLocalizations.delegate,
+      ],
 
       //Debug Mode Route and Comment the initialRoute
       // home: Daily(),

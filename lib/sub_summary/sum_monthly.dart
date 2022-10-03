@@ -8,9 +8,13 @@ import 'package:newmelonedv2/reuse/sizedbox.dart';
 import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:intl/intl.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 class SummaryMonthly extends StatefulWidget {
   final _formKey = GlobalKey<FormState>();
+
   //const SummaryMonthly({Key? key}) : super(key: key);
 
   @override
@@ -21,6 +25,9 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
   //Variable
   List greenhouse = [];
   String? selectedValue;
+  DateTime? _selected;
+
+  TextEditingController monthController = TextEditingController();
 
   //GET DATA FROM API
   //GET GREENHOUSE IN SUMMARY MONTHLY PAGE
@@ -35,12 +42,20 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
     return greenhouse;
   }
 
-  
-  
+  getPicker() async {
+    final selected = await showMonthYearPicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2019),
+      lastDate: DateTime(2023),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     getGreenHouse();
+    monthController.text = "";
   }
 
   @override
@@ -103,6 +118,49 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
                   print(selectedValue);
                 });
               },
+            ),
+            sizedBox.Boxh5(),
+            Text(
+              'เดือน',
+              style: TextCustom.textboxlabel(),
+            ),
+            sizedBox.Boxh5(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: monthController,
+                  decoration: InputDecoration(
+                    isDense: true,
+                    prefixIcon: Icon(Icons.calendar_today),
+                    hintText: 'ยังไม่ได้เลือกเดือน',
+                  ),
+                  style: TextCustom.normal_mdg16(),
+                  readOnly: true,
+                  onTap: () async {
+                    // getPicker();
+                    
+                    String? locale;
+                    final localeObj = locale != null ? Locale(locale) : null;
+                    DateTime? selected = await showMonthYearPicker(
+                      context: context,
+                      initialDate: _selected ?? DateTime.now(),
+                      firstDate: DateTime(2019),
+                      lastDate: DateTime(2100),
+                      locale: localeObj,
+                    );
+                    
+                    if (selected != null) {
+                      String formattedMonth = DateFormat.yM().format(selected);
+                      setState(() {
+                        monthController.text = formattedMonth.toString();
+                      });
+                    } else {
+                      print('ยังไม่ได้เลือกเดือน');
+                    }
+                  },
+                ),
+              ],
             ),
           ],
         ),
