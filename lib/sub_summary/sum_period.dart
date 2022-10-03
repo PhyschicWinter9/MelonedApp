@@ -30,7 +30,7 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
   String? selectedValue;
 
   //GET DATA FROM API
-   //GET GREENHOUSE IN SUMMARY PERIOD PAGE
+  //GET GREENHOUSE IN SUMMARY PERIOD PAGE
   Future getGreenHouse() async {
     var url = "https://meloned.relaxlikes.com/api/summary/viewgreenhouse.php";
     var response = await http.get(Uri.parse(url));
@@ -108,6 +108,75 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
                   print(selectedValue);
                 });
               },
+            ),
+            sizedBox.Boxh10(),
+            //รอบรายการปลูก
+            Text(
+              'รายรอบการปลูก',
+              style: TextCustom.textboxlabel(),
+            ),
+            sizedBox.Boxh5(),
+            DropdownButtonFormField2(
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: EdgeInsets.zero,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                //icon: Icon(Icons.house),
+              ),
+              isExpanded: true,
+              hint: Text(
+                'รอบการปลูก',
+                style: TextCustom.normal_mdg16(),
+              ),
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: Colors.black45,
+              ),
+              iconSize: 30,
+              buttonHeight: 50,
+              buttonPadding: EdgeInsets.only(left: 20, right: 10),
+              dropdownDecoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+              ),
+              items: greenhouse.map((value) {
+                return DropdownMenuItem(
+                  value: value['greenhouse_ID'],
+                  child: Text(
+                    value['greenhouse_Name'],
+                    style: TextCustom.normal_mdg16(),
+                  ),
+                );
+              }).toList(),
+              validator: (value) {
+                if (value == null) {
+                  return 'กรุณาเลือกโรงเรือน';
+                }
+              },
+              onChanged: (value) {
+                setState(() {
+                  selectedValue = value.toString();
+                  print(selectedValue);
+                });
+              },
+            ),
+            sizedBox.Boxh10(),
+            ElevatedButton(
+              onPressed: () {
+                // print(yearController.text);
+              },
+              child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
+              style: ElevatedButton.styleFrom(
+                elevation: 2,
+                primary: ColorCustom.yellowcolor(),
+                onPrimary: ColorCustom.lightyellowcolor(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                minimumSize: Size(double.infinity, 20),
+                padding: EdgeInsets.all(10),
+              ),
             ),
           ],
         ),
