@@ -155,7 +155,9 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
             ),
             sizedBox.Boxh10(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                print(monthController.text);
+              },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
                 elevation: 2,

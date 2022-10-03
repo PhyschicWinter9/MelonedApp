@@ -152,7 +152,9 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
             ),
             sizedBox.Boxh10(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                print(dateController.text);
+              },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
                 elevation: 2,
