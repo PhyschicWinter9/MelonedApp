@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:newmelonedv2/period.dart';
+import 'package:newmelonedv2/reuse/container.dart';
+import 'package:newmelonedv2/reuse/sizedbox.dart';
+import 'package:newmelonedv2/style/colortheme.dart';
+import 'package:newmelonedv2/style/textstyle.dart';
 import '../reuse/bottombar.dart';
 import '../reuse/hamburger.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -116,15 +120,8 @@ class _EditPeriodState extends State<EditPeriod> {
     return Scaffold(
       /*______Top Bar________*/
       appBar: AppBar(
-        toolbarHeight: 70,
-        backgroundColor: Color.fromRGBO(159, 159, 54, 1),
-        elevation: 0,
         title: Text(
           'รายละเอียดการปลูก',
-          style: TextStyle(
-            fontFamily: 'Kanit',
-            fontSize: 20,
-          ),
         ),
         actions: <Widget>[
           IconButton(
@@ -134,192 +131,141 @@ class _EditPeriodState extends State<EditPeriod> {
                 deletePeriod(widget.list[widget.index]['period_ID']);
               });
             },
-            icon: Icon(
-              Icons.delete_outline,
-              size: 30,
-            ),
+            icon: Icon(Icons.delete),
           ),
         ],
       ),
       drawer: Hamburger(),
-      body: Container(
-        color: Color.fromRGBO(159, 159, 54, 1),
-        child: Container(
-          // width: screen_width,
-          margin: EdgeInsets.only(left: 10, right: 10),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(15))),
-          child: Container(
-            margin: EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(10),
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 10),
-                  child: Column(
+      body: BGContainer(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              width: double.infinity,
+              margin: EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+                color: ColorCustom.lightyellowcolor(),
+              ),
+              child: Column(
+                children: [
+                  //GreenhouseID Row
+                  Row(
                     children: [
-                      //GreenhouseID Row
-                      Row(
-                        children: [
-                          Text(
-                            'หมายเลขโรงเรือน',
-                            style: TextStyle(
-                              fontFamily: 'Kanit',
-                              fontSize: 18,
-                              color: Color.fromRGBO(172, 112, 79, 1),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          // TExt show data from sql when select period
-                          Expanded(
-                            child: TextField(
-                              controller: greenhouseidController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Kanit',
-                                  fontSize: 18,
-                                  color: Color.fromRGBO(172, 112, 79, 1),
-                                ),
-                              ),
-                              enabled: false,
-                            ),
-                          ),
-                        ],
+                      Text(
+                        'หมายเลขโรงเรือน',
+                        style: TextCustom.bold_b16(),
                       ),
-
-                      // Start Date Row
-                      Row(
-                        children: [
-                          Text(
-                            'วันที่สร้างรอบการปลูก',
-                            style: TextStyle(
-                              fontFamily: 'Kanit',
-                              fontSize: 18,
-                              color: Color.fromRGBO(172, 112, 79, 1),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: createdateController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Kanit',
-                                  fontSize: 18,
-                                  color: Color.fromRGBO(172, 112, 79, 1),
-                                ),
-                              ),
-                              enabled: false,
-                            ),
-                          ),
-                        ],
+                      SizedBox(
+                        width: 5,
                       ),
-
-                      //Harvest Date Row
-                      Row(
-                        children: [
-                          Text(
-                            'วันที่คาดว่าจะเก็บเกี่ยว',
-                            style: TextStyle(
-                              fontFamily: 'Kanit',
-                              fontSize: 18,
-                              color: Color.fromRGBO(172, 112, 79, 1),
-                            ),
+                      // TExt show data from sql when select period
+                      Expanded(
+                        child: TextField(
+                          controller: greenhouseidController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: harvestdateController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Kanit',
-                                  fontSize: 18,
-                                  color: Color.fromRGBO(172, 112, 79, 1),
-                                ),
-                              ),
-                              enabled: false,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      // left day row
-                      Row(
-                        children: [
-                          Text(
-                            'อายุเมลอน',
-                            style: TextStyle(
-                              fontFamily: 'Kanit',
-                              fontSize: 18,
-                              color: Color.fromRGBO(172, 112, 79, 1),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: periodidController,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                  fontFamily: 'Kanit',
-                                  fontSize: 18,
-                                  color: Color.fromRGBO(172, 112, 79, 1),
-                                ),
-                              ),
-                              enabled: false,
-                            ),
-                          ),
-                        ],
+                          enabled: false,
+                          style: TextCustom.normal_dg16(),
+                        ),
                       ),
                     ],
                   ),
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  color: Color.fromRGBO(253, 212, 176, 1),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextButton(
-                        onPressed: () {
-                          setState(() {
-                            // FinishPeriod();
-                            SubmitPeriod();
-                          });
-                        },
-                        child: Text(
-                          'เสร็จสิ้นรอบการปลูก',
-                          style: GoogleFonts.kanit(
-                            fontSize: 16,
-                            color: Colors.white,
+
+                  // Start Date Row
+                  Row(
+                    children: [
+                      Text(
+                        'วันที่สร้างรอบการปลูก',
+                        style: TextCustom.bold_b16(),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: createdateController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
                           ),
-                        ),
-                        style: TextButton.styleFrom(
-                          backgroundColor: Color.fromRGBO(159, 159, 54, 1),
+                          enabled: false,
+                          style: TextCustom.normal_dg16(),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+
+                  //Harvest Date Row
+                  Row(
+                    children: [
+                      Text(
+                        'วันที่คาดว่าจะเก็บเกี่ยว',
+                        style: TextCustom.bold_b16(),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: harvestdateController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          enabled: false,
+                          style: TextCustom.normal_dg16(),
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // left day row
+                  Row(
+                    children: [
+                      Text(
+                        'อายุเมลอน',
+                        style: TextCustom.bold_b16(),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: periodidController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                          ),
+                          enabled: false,
+                          style: TextCustom.normal_dg16(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
+            sizedBox.Boxh5(),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  // FinishPeriod();
+                  SubmitPeriod();
+                });
+              },
+              child: Text('เสร็จสิ้นรอบการปลูก', style: TextCustom.buttontext2()),
+              style: ElevatedButton.styleFrom(
+                elevation: 2,
+                primary: ColorCustom.yellowcolor(),
+                onPrimary: ColorCustom.lightyellowcolor(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                minimumSize: Size(double.infinity, 20),
+                padding: EdgeInsets.all(10),
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: BottomBar(),

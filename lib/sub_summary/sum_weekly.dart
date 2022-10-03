@@ -2,13 +2,14 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:newmelonedv2/reuse/container.dart';
-import 'package:newmelonedv2/reuse/hamburger.dart';
-import 'package:newmelonedv2/reuse/sizedbox.dart';
+import '../reuse/container.dart';
+import '../reuse/hamburger.dart';
+import 'package:intl/intl.dart';
+import '../reuse/sizedbox.dart';
+import '../style/textstyle.dart';
 
 import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
-import '../style/textstyle.dart';
 
 class SummaryWeekly extends StatefulWidget {
   final _formKey = GlobalKey<FormState>();
@@ -23,6 +24,9 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
   List greenhouse = [];
   String? selectedValue;
 
+  //Controller
+  TextEditingController datestartController = TextEditingController();
+  TextEditingController dateendController = TextEditingController();
   //GET DATA FROM API
   //GET GREENHOUSE IN SUMMARY WEEKLY PAGE
   Future getGreenHouse() async {
@@ -121,73 +125,84 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
               },
             ),
             sizedBox.Boxh5(),
-            _selectDateTime == null
-                ? Center(
-                    child: Text(
-                      'กรุณาเลือกวันที่',
-                      style: TextCustom.textboxlabel(),
-                    ),
-                  )
-                : Container(
-                    padding: EdgeInsets.all(30),
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                            'วันที่เริ่มต้น: ${_selectDateTime?.start.toString().split(' ')[0]}',
-                            style: TextCustom.textboxlabel()),
-                      ],
-                    )),
-            ElevatedButton(onPressed: _show, child: Icon(Icons.calendar_month)),
+            Text(
+              'วันที่เริ่มต้น',
+              style: TextCustom.textboxlabel(),
+            ),
+            sizedBox.Boxh5(),
+            TextField(
+              controller: datestartController,
+              decoration: InputDecoration(
+                  isDense: true,
+                  prefixIcon: Icon(Icons.calendar_today),
+                  hintText: 'กรุณาใส่วันที่'),
+              style: TextCustom.normal_mdg16(),
+              readOnly: true,
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                if (pickedDate != null) {
+                  String formattedDate =
+                      DateFormat('dd-MM-yyyy').format(pickedDate);
+                  setState(() {
+                    datestartController.text = formattedDate.toString();
+                  });
+                } else {
+                  print('Not Selected');
+                }
+              },
+            ),
+            sizedBox.Boxh5(),
+            Text(
+              'วันที่สิ้นสุด',
+              style: TextCustom.textboxlabel(),
+            ),
+            sizedBox.Boxh5(),
+            TextField(
+              controller: dateendController,
+              decoration: InputDecoration(
+                  isDense: true,
+                  prefixIcon: Icon(Icons.calendar_today),
+                  hintText: 'กรุณาใส่วันที่'),
+              style: TextCustom.normal_mdg16(),
+              readOnly: true,
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2100),
+                );
+                if (pickedDate != null) {
+                  String formattedDate =
+                      DateFormat('dd-MM-yyyy').format(pickedDate);
+                  setState(() {
+                    dateendController.text = formattedDate.toString();
+                  });
+                } else {
+                  print('Not Selected');
+                }
+              },
+            ),
             sizedBox.Boxh10(),
-            _selectDateTime == null
-                ? Column(
-                    children: [
-                      Text(
-                        'วันที่เริ่มต้น',
-                        style: TextCustom.textboxlabel(),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_month)),
-                      ),
-                      sizedBox.Boxh5(),
-                      Text(
-                        'วันที่สิ้นสุด',
-                        style: TextCustom.textboxlabel(),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_month)),
-                      ),
-                    ],
-                  )
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'วันที่เริ่มต้น',
-                        style: TextCustom.textboxlabel(),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.calendar_month)),
-                        onTap: _show,
-                      ),
-                      sizedBox.Boxh5(),
-                      Text(
-                        'วันที่สิ้นสุด',
-                        style: TextCustom.textboxlabel(),
-                      ),
-                      TextField(
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.calendar_month),
-                        ),
-                        onTap: _show,
-                      ),
-                    ],
-                  )
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
+              style: ElevatedButton.styleFrom(
+                elevation: 2,
+                primary: ColorCustom.yellowcolor(),
+                onPrimary: ColorCustom.lightyellowcolor(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                minimumSize: Size(double.infinity, 20),
+                padding: EdgeInsets.all(10),
+              ),
+            ),
           ],
         ),
       ),

@@ -103,7 +103,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
               }).toList(),
               validator: (value) {
                 if (value == null) {
-                  return 'เลือกสูตรปุ๋ย';
+                  return 'เลือกโรงเรือน';
                 }
               },
               onChanged: (value) {
