@@ -69,6 +69,43 @@ class _EditFertState extends State<EditFert> {
     }
   }
 
+
+  //Delete Fert
+  Future RemoveFert(String ferting_ID) async {
+    try {
+      var url = "https://meloned.relaxlikes.com/api/dailycare/delete_fertilizing.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'ferting_ID': ferting_ID,
+      });
+
+      var jsonData = json.decode(response.body);
+
+      if (jsonData == "Failed No Data") {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลไม่สำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลสำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -87,12 +124,11 @@ class _EditFertState extends State<EditFert> {
         actions: [
           IconButton(
             onPressed: () {
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-                                              ลบการให้ปุ๋ย
-                  
-                                                                                                                        */
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+              RemoveFert(widget.ferting_ID);
+              setState(() {
+                Navigator.pop(context, true);
+                
+              });
             },
             icon: Icon(Icons.delete),
           ),

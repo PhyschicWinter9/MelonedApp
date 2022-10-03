@@ -54,8 +54,8 @@ class _WaterState extends State<Water> {
       // print(data);
       // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
-        Watering watering =
-            Watering((i + 1), data[i]['water_time'], data[i]['period_ID']);
+        Watering watering = Watering((i + 1), data[i]['water_ID'],
+            data[i]['water_time'], data[i]['period_ID']);
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
@@ -216,8 +216,9 @@ class Watering {
   final int count;
   final String time;
   final String period_ID;
+  final String water_ID;
 
-  Watering(this.count, this.time, this.period_ID);
+  Watering(this.count, this.water_ID, this.time, this.period_ID);
 }
 
 class WaterCard extends StatefulWidget {
@@ -230,6 +231,44 @@ class WaterCard extends StatefulWidget {
 }
 
 class _WaterCardState extends State<WaterCard> {
+  //REMOVE
+  Future RemoveWater(String water_ID) async {
+    try {
+      var url =
+          "https://meloned.relaxlikes.com/api/dailycare/delete_watering.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'water_ID': water_ID,
+      });
+
+      var jsonData = json.decode(response.body);
+
+      if (jsonData == "Failed") {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลไม่สำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลสำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+        
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -267,12 +306,8 @@ class _WaterCardState extends State<WaterCard> {
                         flex: 1,
                         child: IconButton(
                             onPressed: () {
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-                                              ลบการให้น้ำ
-                  
-                                                                                                                        */
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                              RemoveWater(widget.watering.water_ID);
+                              setState(() {});
                             },
                             icon: Icon(
                               Icons.delete,

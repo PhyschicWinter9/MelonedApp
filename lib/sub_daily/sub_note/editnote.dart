@@ -93,6 +93,42 @@ class _EditNoteState extends State<EditNote> {
     }
   }
 
+  //Delete Note
+  Future RemoveNote(String note_ID) async {
+    try {
+      var url = "https://meloned.relaxlikes.com/api/dailycare/delete_note.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'note_ID': note_ID,
+      });
+
+      var jsonData = json.decode(response.body);
+
+      if (jsonData == "Failed") {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลไม่สำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลสำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,12 +138,13 @@ class _EditNoteState extends State<EditNote> {
         actions: [
           IconButton(
             onPressed: () {
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/*
-                                              ลบโน้ต
-                  
-                                                                                                                        */
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////              
+              RemoveNote(
+                widget.note_ID,
+              );
+              Navigator.pop(context, true);
+              setState(() {
+                getNote();
+              });
             },
             icon: const Icon(Icons.delete),
           ),
