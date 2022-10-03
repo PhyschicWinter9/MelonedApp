@@ -42,15 +42,6 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
     return greenhouse;
   }
 
-  getPicker() async {
-    final selected = await showMonthYearPicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
-      lastDate: DateTime(2023),
-    );
-  }
-
   @override
   void initState() {
     super.initState();
@@ -121,7 +112,7 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
             ),
             sizedBox.Boxh5(),
             Text(
-              'เดือน',
+              'เดือนที่ต้องการดูสรุป',
               style: TextCustom.textboxlabel(),
             ),
             sizedBox.Boxh5(),
@@ -161,6 +152,21 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
                   },
                 ),
               ],
+            ),
+            sizedBox.Boxh10(),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
+              style: ElevatedButton.styleFrom(
+                elevation: 2,
+                primary: ColorCustom.yellowcolor(),
+                onPrimary: ColorCustom.lightyellowcolor(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                minimumSize: Size(double.infinity, 20),
+                padding: EdgeInsets.all(10),
+              ),
             ),
           ],
         ),
