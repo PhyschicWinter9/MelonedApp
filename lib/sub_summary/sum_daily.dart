@@ -118,7 +118,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
             ),
             sizedBox.Boxh10(),
             Text(
-              'วันที่ต้องการสรุป',
+              'วันที่ต้องการดูสรุป',
               style: TextCustom.textboxlabel(),
             ),
             sizedBox.Boxh5(),
@@ -139,7 +139,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
                 );
                 if (pickedDate != null) {
                   String formattedDate =
-                      DateFormat('dd-MM-yyyy').format(pickedDate);
+                    DateFormat('dd-MM-yyyy').format(pickedDate);
                   setState(() {
                     dateController.text = formattedDate.toString();
                   });
