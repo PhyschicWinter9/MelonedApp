@@ -18,6 +18,7 @@ class SummaryPeriod extends StatefulWidget {
   ];
 
   final _formKey = GlobalKey<FormState>();
+  final _periodKey = GlobalKey<FormFieldState>();
   //const SummaryPeriod({Key? key}) : super(key: key);
 
   @override
@@ -125,12 +126,12 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
                 if (gvalue == null) {
                   return 'กรุณาเลือกโรงเรือน';
                 }
+                return null;
               },
               onChanged: (gvalue) {
                 setState(() {
                   selectedValuegreenhouse = gvalue.toString();
-                  // print(selectedValuegreenhouse);
-                  //reset dropdown button2 when click dropdown button1 again (greenhouse)
+                  widget._periodKey.currentState!.reset();
                   getPeriod();
                 });
               },
@@ -143,6 +144,7 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
             ),
             sizedBox.Boxh5(),
             DropdownButtonFormField2(
+              key: widget._periodKey,
               decoration: InputDecoration(
                 isDense: true,
                 contentPadding: EdgeInsets.zero,
@@ -179,10 +181,12 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
                 if (pvalue == null) {
                   return 'กรุณาเลือกรอบการปลูก';
                 }
+                return null;
               },
+              // reset dropdownlist when click on first dropdownlist flutter
               onChanged: (pvalue) {
                 setState(() {
-                  selectedValueperiod = pvalue.toString();
+                  selectedValueperiod = pvalue! as String;
                   print(selectedValueperiod);
                 });
               },
