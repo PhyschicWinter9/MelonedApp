@@ -27,6 +27,7 @@ class SummaryPeriod extends StatefulWidget {
 class _SummaryPeriodState extends State<SummaryPeriod> {
   //Variable
   List greenhouse = [];
+  List period = [];
   String? selectedValue;
 
   //GET DATA FROM API
@@ -40,6 +41,25 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
       greenhouse = data;
     });
     return greenhouse;
+  }
+
+  //GET PERIOD IN SUMMARY PERIOD PAGE when click dropdown button1 (greenhouse)
+  Future getPeriod(String greenhouse_ID) async {
+    try {
+      var url = "https://meloned.relaxlikes.com/api/summary/get_period.php";
+      var response = await http.post(Uri.parse(url), body: {
+        "greenhouse_ID": greenhouse_ID,
+      });
+
+      var data = json.decode(response.body);
+
+      setState(() {
+        period = data;
+      });
+      return period;
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -106,6 +126,7 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
                 setState(() {
                   selectedValue = value.toString();
                   print(selectedValue);
+                  getPeriod(selectedValue!);
                 });
               },
             ),
@@ -140,11 +161,11 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              items: greenhouse.map((value) {
+              items: period.map((value) {
                 return DropdownMenuItem(
-                  value: value['greenhouse_ID'],
+                  value: value['period_ID'],
                   child: Text(
-                    value['greenhouse_Name'],
+                    value['period_name'],
                     style: TextCustom.normal_mdg16(),
                   ),
                 );
