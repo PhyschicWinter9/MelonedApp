@@ -53,7 +53,23 @@ class _SummaryDailyState extends State<SummaryDaily> {
       });
 
       var data = json.decode(response.body);
-      print(data);
+      
+      return data;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getFertilizer() async {
+    try {
+      var url =
+          "https://meloned.relaxlikes.com/api/summary/daily/get_fertilizing.php";
+      var response = await http.post(Uri.parse(url), body: {
+        "greenhouse_ID": selectedValue,
+        "selected_date": dateChangeFormat,
+      });
+      var data = json.decode(response.body);
+      
       return data;
     } catch (e) {
       print(e);
@@ -169,9 +185,12 @@ class _SummaryDailyState extends State<SummaryDaily> {
                 //change format date
                 var date = dateController.text;
                 var dateSplit = date.split('-');
-                dateChangeFormat = dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0];
-                print(dateChangeFormat);
+                dateChangeFormat =
+                    dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0];
+
+                //Action
                 getWatering();
+                getFertilizer();
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
