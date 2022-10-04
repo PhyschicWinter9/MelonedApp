@@ -28,12 +28,14 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
   //Variable
   List greenhouse = [];
   List period = [];
-  String? selectedValue;
+  String? selectedValuegreenhouse;
+  String? selectedValueperiod;
 
   //GET DATA FROM API
   //GET GREENHOUSE IN SUMMARY PERIOD PAGE
   Future getGreenHouse() async {
-    var url = "https://meloned.relaxlikes.com/api/summary/viewgreenhouse.php";
+    var url =
+        "https://meloned.relaxlikes.com/api/summary/period/viewgreenhouse.php";
     var response = await http.get(Uri.parse(url));
     var data = json.decode(response.body);
 
@@ -44,11 +46,12 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
   }
 
   //GET PERIOD IN SUMMARY PERIOD PAGE when click dropdown button1 (greenhouse)
-  Future getPeriod(String greenhouse_ID) async {
+  Future getPeriod() async {
     try {
-      var url = "https://meloned.relaxlikes.com/api/summary/get_period.php";
+      var url =
+          "https://meloned.relaxlikes.com/api/summary/period/get_period.php";
       var response = await http.post(Uri.parse(url), body: {
-        "greenhouse_ID": greenhouse_ID,
+        "greenhouse_ID": selectedValuegreenhouse,
       });
 
       var data = json.decode(response.body);
@@ -56,6 +59,7 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
       setState(() {
         period = data;
       });
+      print(period);
       return period;
     } catch (e) {
       print(e);
@@ -108,25 +112,26 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              items: greenhouse.map((value) {
+              items: greenhouse.map((gvalue) {
                 return DropdownMenuItem(
-                  value: value['greenhouse_ID'],
+                  value: gvalue['greenhouse_ID'],
                   child: Text(
-                    value['greenhouse_Name'],
+                    gvalue['greenhouse_Name'],
                     style: TextCustom.normal_mdg16(),
                   ),
                 );
               }).toList(),
-              validator: (value) {
-                if (value == null) {
+              validator: (gvalue) {
+                if (gvalue == null) {
                   return 'กรุณาเลือกโรงเรือน';
                 }
               },
-              onChanged: (value) {
+              onChanged: (gvalue) {
                 setState(() {
-                  selectedValue = value.toString();
-                  print(selectedValue);
-                  getPeriod(selectedValue!);
+                  selectedValuegreenhouse = gvalue.toString();
+                  // print(selectedValuegreenhouse);
+                  //reset dropdown button2 when click dropdown button1 again (greenhouse)
+                  getPeriod();
                 });
               },
             ),
@@ -161,31 +166,33 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
               dropdownDecoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
               ),
-              items: period.map((value) {
+              items: period.map((pvalue) {
                 return DropdownMenuItem(
-                  value: value['period_ID'],
+                  value: pvalue['period_ID'],
                   child: Text(
-                    value['period_name'],
+                    pvalue['period_name'],
                     style: TextCustom.normal_mdg16(),
                   ),
                 );
               }).toList(),
-              validator: (value) {
-                if (value == null) {
-                  return 'กรุณาเลือกโรงเรือน';
+              validator: (pvalue) {
+                if (pvalue == null) {
+                  return 'กรุณาเลือกรอบการปลูก';
                 }
               },
-              onChanged: (value) {
+              onChanged: (pvalue) {
                 setState(() {
-                  selectedValue = value.toString();
-                  print(selectedValue);
+                  selectedValueperiod = pvalue.toString();
+                  print(selectedValueperiod);
                 });
               },
             ),
+
             sizedBox.Boxh10(),
             ElevatedButton(
               onPressed: () {
-                // print(yearController.text);
+                print(selectedValuegreenhouse);
+                print(selectedValueperiod);
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
