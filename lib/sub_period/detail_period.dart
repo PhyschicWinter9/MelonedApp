@@ -25,7 +25,7 @@ class EditPeriod extends StatefulWidget {
 class _EditPeriodState extends State<EditPeriod> {
   //Variables
   var greenhouseidController = new TextEditingController();
-  var periodidController = new TextEditingController();
+  var plantmelonController = new TextEditingController();
   var createdateController = new TextEditingController();
   var harvestdateController = new TextEditingController();
 
@@ -108,7 +108,7 @@ class _EditPeriodState extends State<EditPeriod> {
     if (widget.index != null) {
       editMode = true;
       greenhouseidController.text = widget.list[widget.index]['greenhouse_ID'];
-      periodidController.text = widget.list[widget.index]['period_ID'];
+      plantmelonController.text = widget.list[widget.index]['planted_melon'];
       createdateController.text = widget.list[widget.index]['create_date'];
       harvestdateController.text = widget.list[widget.index]['harvest_date'];
     }
@@ -224,7 +224,7 @@ class _EditPeriodState extends State<EditPeriod> {
                   Row(
                     children: [
                       Text(
-                        'อายุเมลอน',
+                        'จำนวนเมลอน',
                         style: TextCustom.bold_b16(),
                       ),
                       SizedBox(
@@ -232,7 +232,7 @@ class _EditPeriodState extends State<EditPeriod> {
                       ),
                       Expanded(
                         child: TextField(
-                          controller: periodidController,
+                          controller: plantmelonController,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                           ),

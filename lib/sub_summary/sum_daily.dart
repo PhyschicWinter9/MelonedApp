@@ -12,8 +12,6 @@ import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
 
 class SummaryDaily extends StatefulWidget {
-  
-
   final _formKey = GlobalKey<FormState>();
 
   // const SummaryDaily({Key? key}) : super(key: key);
@@ -23,16 +21,16 @@ class SummaryDaily extends StatefulWidget {
 }
 
 class _SummaryDailyState extends State<SummaryDaily> {
-
   //Variable
   List greenhouse = [];
   String? selectedValue;
+  var dateChangeFormat;
 
   //Controller
   TextEditingController dateController = TextEditingController();
 
   //GET DATA FROM API
-    //GET GREENHOUSE IN SUMMARY DAILY PAGE
+  //GET GREENHOUSE IN SUMMARY DAILY PAGE
   Future getGreenHouse() async {
     var url = "https://meloned.relaxlikes.com/api/summary/viewgreenhouse.php";
     var response = await http.get(Uri.parse(url));
@@ -42,6 +40,24 @@ class _SummaryDailyState extends State<SummaryDaily> {
       greenhouse = data;
     });
     return greenhouse;
+  }
+
+  //GET WATERING IN SUMMARY DAILY PAGE when click dropdown button1 (greenhouse)
+  Future getWatering() async {
+    try {
+      var url =
+          "https://meloned.relaxlikes.com/api/summary/daily/get_watering.php";
+      var response = await http.post(Uri.parse(url), body: {
+        "greenhouse_ID": selectedValue,
+        "selected_date": dateChangeFormat,
+      });
+
+      var data = json.decode(response.body);
+      print(data);
+      return data;
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -80,7 +96,6 @@ class _SummaryDailyState extends State<SummaryDaily> {
               hint: Text(
                 'เลือกโรงเรือน',
                 style: TextCustom.normal_mdg16(),
-                                
               ),
               icon: Icon(
                 Icons.arrow_drop_down,
@@ -139,7 +154,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
                 );
                 if (pickedDate != null) {
                   String formattedDate =
-                    DateFormat('dd-MM-yyyy').format(pickedDate);
+                      DateFormat('dd-MM-yyyy').format(pickedDate);
                   setState(() {
                     dateController.text = formattedDate.toString();
                   });
@@ -150,7 +165,14 @@ class _SummaryDailyState extends State<SummaryDaily> {
             ),
             sizedBox.Boxh10(),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                //change format date
+                var date = dateController.text;
+                var dateSplit = date.split('-');
+                dateChangeFormat = dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0];
+                print(dateChangeFormat);
+                getWatering();
+              },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
                 elevation: 2,
