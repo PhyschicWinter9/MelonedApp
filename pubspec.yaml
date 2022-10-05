@@ -55,6 +55,7 @@ dependencies:
   camera: ^0.9.8+1
   date_time_picker: ^2.1.0
   month_year_picker: ^0.2.0+2
+  syncfusion_flutter_charts: ^20.3.47
 
 
 

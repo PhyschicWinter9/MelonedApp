@@ -7,6 +7,8 @@ import 'package:newmelonedv2/reuse/hamburger.dart';
 import 'package:intl/intl.dart';
 import 'package:newmelonedv2/reuse/sizedbox.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showdaily.dart';
+import 'package:newmelonedv2/model/dailyfert.dart';
 
 import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
@@ -43,7 +45,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
   }
 
   //GET WATERING IN SUMMARY DAILY PAGE when click dropdown button1 (greenhouse)
-  Future getWatering() async {
+Future getWatering() async {
     try {
       var url =
           "https://meloned.relaxlikes.com/api/summary/daily/get_watering.php";
@@ -53,7 +55,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
       });
 
       var data = json.decode(response.body);
-      
+
       return data;
     } catch (e) {
       print(e);
@@ -69,11 +71,29 @@ class _SummaryDailyState extends State<SummaryDaily> {
         "selected_date": dateChangeFormat,
       });
       var data = json.decode(response.body);
-      
+
       return data;
     } catch (e) {
       print(e);
     }
+  }
+
+  // void result1() async {
+  //   var data = await getWatering();
+  //   var data2 = await getFert();
+    
+  // }
+
+  void result() async {
+    var waterdata = await getWatering();
+    var fertdata = await getFertilizer();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ShowDaily(
+                  waterdata: waterdata,
+                  fertdata: fertdata,
+                )));
   }
 
   @override
@@ -189,8 +209,8 @@ class _SummaryDailyState extends State<SummaryDaily> {
                     dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0];
 
                 //Action
-                getWatering();
-                getFertilizer();
+                result();
+                
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
@@ -211,3 +231,4 @@ class _SummaryDailyState extends State<SummaryDaily> {
     );
   }
 }
+
