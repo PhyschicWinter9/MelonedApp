@@ -1,10 +1,14 @@
-class DailyFert {
-  DailyFert(this.fertname, this.fertamount);
+class DailyFertModel {
+  String? fertname;
+  double? fertamount;
 
-  final String fertname;
-  final double fertamount;
+  DailyFertModel({
+    this.fertname,
+    this.fertamount,
+  });
 
-  DailyFert.fromJson(Map<String, dynamic> json)
-      : fertname = json['fert_name'],
-        fertamount = json['fert_amount'];
+  DailyFertModel.fromJson(Map<String, dynamic> json) {
+    fertname = json['fert_name'];
+    fertamount = json['ferting_amount'];
+  }
 }

@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:lottie/lottie.dart';
 import 'package:newmelonedv2/reuse/container.dart';
 import 'package:newmelonedv2/reuse/hamburger.dart';
 import 'package:intl/intl.dart';
@@ -9,8 +10,10 @@ import 'package:newmelonedv2/reuse/sizedbox.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
 import 'package:newmelonedv2/sub_summary/showreport/showdaily.dart';
 import 'package:newmelonedv2/model/dailyfert.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 
 import '../reuse/bottombar.dart';
+import '../reuse/waitingchart.dart';
 import '../style/colortheme.dart';
 
 class SummaryDaily extends StatefulWidget {
@@ -27,6 +30,12 @@ class _SummaryDailyState extends State<SummaryDaily> {
   List greenhouse = [];
   String? selectedValue;
   var dateChangeFormat;
+
+  //Function
+  createSession() async {
+    await SessionManager().set('greenhouseid', selectedValue);
+    await SessionManager().set("seletedate", dateChangeFormat);
+  }
 
   //Controller
   TextEditingController dateController = TextEditingController();
@@ -45,7 +54,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
   }
 
   //GET WATERING IN SUMMARY DAILY PAGE when click dropdown button1 (greenhouse)
-Future getWatering() async {
+  Future getWatering() async {
     try {
       var url =
           "https://meloned.relaxlikes.com/api/summary/daily/get_watering.php";
@@ -81,19 +90,22 @@ Future getWatering() async {
   // void result1() async {
   //   var data = await getWatering();
   //   var data2 = await getFert();
-    
+
   // }
 
   void result() async {
-    var waterdata = await getWatering();
-    var fertdata = await getFertilizer();
+    //show dialog
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return WaitingDialog();
+        });
+    // var waterdata = await getWatering();
+    // var fertdata = await getFertilizer();
+
+    Navigator.pop(context);
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ShowDaily(
-                  waterdata: waterdata,
-                  fertdata: fertdata,
-                )));
+        context, MaterialPageRoute(builder: (context) => ShowDaily()));
   }
 
   @override
@@ -209,8 +221,9 @@ Future getWatering() async {
                     dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0];
 
                 //Action
-                result();
-                
+                createSession();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ShowDaily()));
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
@@ -231,4 +244,3 @@ Future getWatering() async {
     );
   }
 }
-
