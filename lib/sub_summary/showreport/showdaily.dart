@@ -1,23 +1,20 @@
-import 'dart:ffi';
-
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:lottie/lottie.dart';
+import 'package:newmelonedv2/reuse/waitingchart.dart';
 import 'dart:convert';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 import 'package:newmelonedv2/reuse/container.dart';
 import 'package:newmelonedv2/reuse/hamburger.dart';
-import 'package:newmelonedv2/reuse/sizedbox.dart';
-import 'package:newmelonedv2/style/textstyle.dart';
 
 import '../../reuse/bottombar.dart';
 import '../../style/colortheme.dart';
+import '../../style/textstyle.dart';
 
 class ShowDaily extends StatefulWidget {
-  final _formKey = GlobalKey<FormState>();
+  // final _formKey = GlobalKey<FormState>();
 
   ShowDaily({Key? key}) : super(key: key);
 
@@ -26,10 +23,10 @@ class ShowDaily extends StatefulWidget {
 }
 
 class _ShowDaily extends State<ShowDaily> {
+  //variable
   TooltipBehavior? _tooltipBehavior;
-
-  List waterdata1 = [];
-  List fertdata1 = [];
+  List waterdata = [];
+  List fertdata = [];
 
   //Session
   dynamic greenhouse_ID;
@@ -56,10 +53,16 @@ class _ShowDaily extends State<ShowDaily> {
       });
 
       var data = json.decode(response.body);
+      //set null to 0 for chart
+      for (var i = 0; i < data.length; i++) {
+        if (data[i]['water_count'] == null) {
+          data[i]['water_count'] = 0;
+        }
+      }
       setState(() {
-        waterdata1.addAll(data);
+        waterdata.addAll(data);
       });
-      return waterdata1;
+      return waterdata;
     } catch (e) {
       print(e);
     }
@@ -81,19 +84,23 @@ class _ShowDaily extends State<ShowDaily> {
             data[i]['ferting_amount'] = 0;
           }
         }
-        fertdata1.addAll(data);
+        fertdata.addAll(data);
       });
-      print(fertdata1);
-      return fertdata1;
+      print(fertdata);
+      return fertdata;
     } catch (e) {
       print(e);
     }
   }
 
-  Future getAllData() async {
-    await getSession();
+  Future getData() async {
     await getWatering();
     await getFertilizer();
+  }
+
+  Future getAllData() async {
+    await getSession();
+    await getData();
   }
 
   @override
@@ -111,47 +118,102 @@ class _ShowDaily extends State<ShowDaily> {
       ),
       drawer: Hamburger(),
       body: BGContainer(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            //show syncfusion flutter charts
-            SfCartesianChart(
-              title: ChartTitle(
-                  text: 'รายงานสรุปประจำวัน',
-                  textStyle: TextStyle(
-                      fontSize: 20,
-                      fontFamily: GoogleFonts.kanit().fontFamily)),
-              legend: Legend(isVisible: true),
-              tooltipBehavior: _tooltipBehavior,
-              primaryXAxis: CategoryAxis(),
-              series: <ChartSeries<DailyFert, String>>[
-                ColumnSeries<DailyFert, String>(
-                  name: 'ชื่อปุ๋ย',
-                  dataSource: fertdata1
-                      .map((e) => DailyFert(
-                          e['fert_name'], double.parse(e['ferting_amount'])))
-                      .toList(),
-
-                  // dataSource: fertdata1,
-                  // dataSource: fertdata1.toList() as List<DailyFert>,
-                  // xValueMapper: (DailyFert fert, _) => fert.fertname,
-                  // yValueMapper: (DailyFert fert, _) => fert.fertamount,
-                  // dataSource: [
-                  //   DailyFert('ไฮโดรเมลอน A B', 50),
-                  //   DailyFert('แคลเอ็ม', 100),
-                  // ],
-                  xValueMapper: (DailyFert fert, _) => fert.fertname,
-                  yValueMapper: (DailyFert fert, _) => fert.fertamount,
-                ),
-                // LineSeries<Daily, String>(
-                //     name: 'ปริมาณปุ๋ยที่ให้',
-                //     dataSource: widget.fertdata,
-                //     xValueMapper: (Daily fert, _) => fert.time,
-                //     yValueMapper: (Daily fert, _) => fert.fert,
-                //     dataLabelSettings: DataLabelSettings(isVisible: true)),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              //loading screen while waiting for data
+              fertdata.isEmpty && waterdata.isEmpty
+                  ? Center(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Lottie.asset(
+                              'assets/animate/chartloading.json',
+                              width: 200,
+                              height: 200,
+                            ),
+                            Text(
+                              'กำลังประมวลผล',
+                              style: TextCustom.normal_mdg20(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: SfCartesianChart(
+                              title: ChartTitle(
+                                  text: 'รายงานการให้ปุ๋ยประจำวัน',
+                                  textStyle: TextCustom.bold_b16()),
+                              legend: Legend(isVisible: false),
+                              tooltipBehavior: _tooltipBehavior,
+                              primaryXAxis: CategoryAxis(
+                                title: AxisTitle(
+                                    text: 'สูตรปุ๋ย',
+                                    textStyle: TextCustom.normal_dg16()),
+                              ),
+                              primaryYAxis: NumericAxis(
+                                  title: AxisTitle(
+                                      text: 'ปริมาณปุ๋ย',
+                                      textStyle: TextCustom.normal_dg16())),
+                              series: <ChartSeries<DailyFert, String>>[
+                                ColumnSeries<DailyFert, String>(
+                                    // name: 'ชื่อปุ๋ย',
+                                    dataSource: fertdata
+                                        .map((e) => DailyFert(e['fert_name'],
+                                            double.parse(e['ferting_amount'])))
+                                        .toList(),
+                                    xValueMapper: (DailyFert fert, _) =>
+                                        fert.fertname,
+                                    yValueMapper: (DailyFert fert, _) =>
+                                        fert.fertamount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true)),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: SfCartesianChart(
+                              title: ChartTitle(
+                                  text: 'รายงานสรุปประจำวันการให้น้ำ',
+                                  textStyle: TextCustom.bold_b16()),
+                              legend: Legend(isVisible: false),
+                              tooltipBehavior: _tooltipBehavior,
+                              primaryXAxis: CategoryAxis(),
+                              primaryYAxis: NumericAxis(
+                                  title: AxisTitle(
+                                      text: 'จำนวนการให้น้ำ',
+                                      textStyle: TextCustom.normal_dg16())),
+                              series: <ChartSeries<DailyWater, String>>[
+                                ColumnSeries<DailyWater, String>(
+                                    name: 'ชื่อรอบการปลูก',
+                                    dataSource: waterdata
+                                        .map((e) => DailyWater(e['period_name'],
+                                            double.parse(e['water_count'])))
+                                        .toList(),
+                                    xValueMapper: (DailyWater water, _) =>
+                                        water.periodname,
+                                    yValueMapper: (DailyWater water, _) =>
+                                        water.watercount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true)),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomBar(),
@@ -176,10 +238,10 @@ class DailyFert {
 class DailyWater {
   DailyWater(this.periodname, this.watercount);
 
-  final String periodname;
-  final int watercount;
+  final String? periodname;
+  final double? watercount;
 
   DailyWater.fromJson(Map<String, dynamic> json)
       : periodname = json['period_name'],
-        watercount = json['water_count'];
+        watercount = double.parse(json['water_count']);
 }
