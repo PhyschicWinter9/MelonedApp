@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:newmelonedv2/reuse/container.dart';
@@ -11,6 +12,8 @@ import '../style/textstyle.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:month_year_picker/month_year_picker.dart';
+
+import 'showreport/showmonthly.dart';
 
 class SummaryMonthly extends StatefulWidget {
   final _formKey = GlobalKey<FormState>();
@@ -27,7 +30,21 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
   String? selectedValue;
   DateTime? _selected;
 
+  String? monthChangeFormat;
+  String? yearChangeFormat;
+
   TextEditingController monthController = TextEditingController();
+
+  //Function
+  createSession() async {
+    await SessionManager().set('greenhouseid', selectedValue);
+    await SessionManager().set("seletedatemonth", monthChangeFormat);
+    await SessionManager().set("seletedateyear", yearChangeFormat);
+  }
+
+  resetSession() async {
+    await SessionManager().destroy();
+  }
 
   //GET DATA FROM API
   //GET GREENHOUSE IN SUMMARY MONTHLY PAGE
@@ -35,7 +52,6 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
     var url = "https://meloned.relaxlikes.com/api/summary/viewgreenhouse.php";
     var response = await http.get(Uri.parse(url));
     var data = json.decode(response.body);
-
     setState(() {
       greenhouse = data;
     });
@@ -46,6 +62,7 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
   void initState() {
     super.initState();
     getGreenHouse();
+    resetSession();
     monthController.text = "";
   }
 
@@ -130,7 +147,7 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
                   readOnly: true,
                   onTap: () async {
                     // getPicker();
-                    
+
                     String? locale;
                     final localeObj = locale != null ? Locale(locale) : null;
                     DateTime? selected = await showMonthYearPicker(
@@ -140,9 +157,10 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
                       lastDate: DateTime(2100),
                       locale: localeObj,
                     );
-                    
+
                     if (selected != null) {
-                      String formattedMonth = DateFormat('MM-yyyy').format(selected);
+                      String formattedMonth =
+                          DateFormat('MM-yyyy').format(selected);
                       setState(() {
                         monthController.text = formattedMonth.toString();
                       });
@@ -159,11 +177,15 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
                 //Chnage formate date
                 var date = monthController.text;
                 var dateSplit = date.split('-');
-                var monthChangeFormat = dateSplit[1];
-                var yearChangeFormat = dateSplit[0];
-                // print(monthChangeFormat);
-                // print(yearChangeFormat);
-                
+                monthChangeFormat = dateSplit[0];
+                yearChangeFormat = dateSplit[1];
+
+                //Create session for send data to showreport
+                createSession();
+
+                //show report
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ShowMonthly()));
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(

@@ -130,6 +130,9 @@ class _ShowDaily extends State<ShowDaily> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
+                            SizedBox(
+                              height: 100,
+                            ),
                             Lottie.asset(
                               'assets/animate/chartloading.json',
                               width: 200,
