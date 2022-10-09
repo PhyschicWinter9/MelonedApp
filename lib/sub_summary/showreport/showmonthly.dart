@@ -206,7 +206,7 @@ class _ShowMonthly extends State<ShowMonthly> {
                                       textStyle: TextCustom.normal_dg16())),
                               series: <ChartSeries<MonthlyWater, String>>[
                                 ColumnSeries<MonthlyWater, String>(
-                                    name: 'ชื่อรอบการปลูก',
+                                    name: 'เวลาให้น้ำ',
                                     dataSource: waterdata
                                         .map((e) => MonthlyWater(
                                             e['water_time'],
