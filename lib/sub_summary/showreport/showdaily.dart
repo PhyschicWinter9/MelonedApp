@@ -183,35 +183,69 @@ class _ShowDaily extends State<ShowDaily> {
                               ],
                             ),
                           ),
+
+                          //////// IF USE BAR CHART ////////
+                          // Container(
+                          //   width: MediaQuery.of(context).size.width * 0.8,
+                          //   child: SfCartesianChart(
+                          //     title: ChartTitle(
+                          //         text: 'รายงานสรุปประจำวันการให้น้ำ',
+                          //         textStyle: TextCustom.bold_b16()),
+                          //     legend: Legend(isVisible: false),
+                          //     tooltipBehavior: _tooltipBehavior,
+                          //     primaryXAxis: CategoryAxis(),
+                          //     primaryYAxis: NumericAxis(
+                          //         title: AxisTitle(
+                          //             text: 'จำนวนการให้น้ำ',
+                          //             textStyle: TextCustom.normal_dg16())),
+                          //     series: <ChartSeries<DailyWater, String>>[
+                          //       ColumnSeries<DailyWater, String>(
+                          //           name: 'ชื่อรอบการปลูก',
+                          //           dataSource: waterdata
+                          //               .map((e) => DailyWater(e['period_name'],
+                          //                   double.parse(e['water_count'])))
+                          //               .toList(),
+                          //           xValueMapper: (DailyWater water, _) =>
+                          //               water.periodname,
+                          //           yValueMapper: (DailyWater water, _) =>
+                          //               water.watercount,
+                          //           dataLabelSettings:
+                          //               DataLabelSettings(isVisible: true)),
+                          //     ],
+                          //   ),
+                          // ),
+
+                          ////// IF USE TABLE ////////
+                          //table for water data
                           Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: SfCartesianChart(
-                              title: ChartTitle(
-                                  text: 'รายงานสรุปประจำวันการให้น้ำ',
-                                  textStyle: TextCustom.bold_b16()),
-                              legend: Legend(isVisible: false),
-                              tooltipBehavior: _tooltipBehavior,
-                              primaryXAxis: CategoryAxis(),
-                              primaryYAxis: NumericAxis(
-                                  title: AxisTitle(
-                                      text: 'จำนวนการให้น้ำ',
-                                      textStyle: TextCustom.normal_dg16())),
-                              series: <ChartSeries<DailyWater, String>>[
-                                ColumnSeries<DailyWater, String>(
-                                    name: 'ชื่อรอบการปลูก',
-                                    dataSource: waterdata
-                                        .map((e) => DailyWater(e['period_name'],
-                                            double.parse(e['water_count'])))
-                                        .toList(),
-                                    xValueMapper: (DailyWater water, _) =>
-                                        water.periodname,
-                                    yValueMapper: (DailyWater water, _) =>
-                                        water.watercount,
-                                    dataLabelSettings:
-                                        DataLabelSettings(isVisible: true)),
+                            width: double.infinity,
+                            child: DataTable(
+                              columns: [
+                                DataColumn(
+                                    label: Text(
+                                  'ชื่อรอบการปลูก',
+                                  style: TextCustom.normal_b16(),
+                                )),
+                                DataColumn(
+                                    label: Text(
+                                  'จำนวนการให้น้ำ',
+                                  style: TextCustom.normal_b16(),
+                                )),
                               ],
+                              rows: waterdata
+                                  .map((e) => DataRow(cells: [
+                                        DataCell(Text(
+                                          e['period_name'],
+                                          style: TextCustom.normal_mdg16(),
+                                        )),
+                                        DataCell(Text(
+                                          e['water_count'],
+                                          style: TextCustom.normal_mdg16(),
+                                        )),
+                                      ]))
+                                  .toList(),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ),
