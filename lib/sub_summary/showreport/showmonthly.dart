@@ -119,7 +119,7 @@ class _ShowMonthly extends State<ShowMonthly> {
       appBar: AppBar(
         title: Text(
           //convert month number to month name
-          'รายงานสรุปประจำเดือน ' + selectedDatemonth + 'ปี' + selectedDateyear,
+          'รายงานสรุปประจำเดือน ' + selectedDatemonth + ' / ' + selectedDateyear,
         ),
       ),
       drawer: Hamburger(),
