@@ -175,9 +175,6 @@ class _SummaryDailyState extends State<SummaryDaily> {
                   print(selectedValue);
                 });
               },
-              // onSaved: (value) {
-              //   widget.selectedValue = value.toString();
-              // },
             ),
             sizedBox.Boxh10(),
             Text(

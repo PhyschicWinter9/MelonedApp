@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:newmelonedv2/reuse/container.dart';
@@ -7,6 +8,7 @@ import 'package:newmelonedv2/reuse/hamburger.dart';
 import 'package:intl/intl.dart';
 import 'package:newmelonedv2/reuse/sizedbox.dart';
 import 'package:newmelonedv2/style/textstyle.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showweekly.dart';
 
 import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
@@ -24,6 +26,17 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
   //Variable
   List greenhouse = [];
   String? selectedValue;
+  var dateChangeFormat;
+
+  //Function
+  createSession() async {
+    await SessionManager().set('greenhouseid', selectedValue);
+    await SessionManager().set("seletedate", dateChangeFormat);
+  }
+
+  resetSession() async {
+    await SessionManager().destroy();
+  }
 
   //Controller
   TextEditingController dateController = TextEditingController();
@@ -45,6 +58,7 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
   void initState() {
     super.initState();
     getGreenHouse();
+    resetSession();
     dateController.text = /*'วันที่ 1 มกราคม 2564'*/ "";
   }
 
@@ -108,9 +122,6 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
                   print(selectedValue);
                 });
               },
-              // onSaved: (value) {
-              //   widget.selectedValue = value.toString();
-              // },
             ),
             sizedBox.Boxh10(),
             Text(
@@ -151,7 +162,16 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
             sizedBox.Boxh10(),
             ElevatedButton(
               onPressed: () {
-                print(dateController.text);
+                //change date format
+                var date = dateController.text;
+                var dateSplit = date.split('-');
+                dateChangeFormat =
+                    dateSplit[2] + '-' + dateSplit[1] + '-' + dateSplit[0];
+
+                //action
+                createSession();
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ShowWeekly()));
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(

@@ -123,108 +123,111 @@ class _ShowMonthly extends State<ShowMonthly> {
         ),
       ),
       drawer: Hamburger(),
-      body: BGContainer(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //loading screen while waiting for data
-              fertdata.isEmpty && waterdata.isEmpty
-                  ? Center(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height,
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        child: BGContainer(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                //loading screen while waiting for data
+                fertdata.isEmpty && waterdata.isEmpty
+                    ? Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 100,
+                              ),
+                              Lottie.asset(
+                                'assets/animate/chartloading.json',
+                                width: 200,
+                                height: 200,
+                              ),
+                              Text(
+                                'กำลังประมวลผล',
+                                style: TextCustom.normal_mdg20(),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 100,
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: SfCartesianChart(
+                                title: ChartTitle(
+                                    text: 'รายงานการให้ปุ๋ยประจำเดือน',
+                                    textStyle: TextCustom.bold_b16()),
+                                legend: Legend(isVisible: false),
+                                tooltipBehavior: _tooltipBehavior,
+                                primaryXAxis: CategoryAxis(
+                                  title: AxisTitle(
+                                      text: 'สูตรปุ๋ย',
+                                      textStyle: TextCustom.normal_dg16()),
+                                ),
+                                primaryYAxis: NumericAxis(
+                                    title: AxisTitle(
+                                        text: 'ปริมาณปุ๋ย',
+                                        textStyle: TextCustom.normal_dg16())),
+                                series: <ChartSeries<MonthlyFert, String>>[
+                                  ColumnSeries<MonthlyFert, String>(
+                                      // name: 'ชื่อปุ๋ย',
+                                      dataSource: fertdata
+                                          .map((e) => MonthlyFert(
+                                              e['period_id'],
+                                              e['fert_name'],
+                                              double.parse(e['ferting_amount'])))
+                                          .toList(),
+                                      xValueMapper: (MonthlyFert fert, _) =>
+                                          fert.fertname,
+                                      yValueMapper: (MonthlyFert fert, _) =>
+                                          fert.fertingamount,
+                                      dataLabelSettings:
+                                          DataLabelSettings(isVisible: true)),
+                                ],
+                              ),
                             ),
-                            Lottie.asset(
-                              'assets/animate/chartloading.json',
-                              width: 200,
-                              height: 200,
-                            ),
-                            Text(
-                              'กำลังประมวลผล',
-                              style: TextCustom.normal_mdg20(),
-                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: SfCartesianChart(
+                                title: ChartTitle(
+                                    text: 'รายงานสรุปประจำเดือนการให้น้ำ',
+                                    textStyle: TextCustom.bold_b16()),
+                                legend: Legend(isVisible: false),
+                                tooltipBehavior: _tooltipBehavior,
+                                primaryXAxis: CategoryAxis(),
+                                primaryYAxis: NumericAxis(
+                                    title: AxisTitle(
+                                        text: 'จำนวนการให้น้ำ',
+                                        textStyle: TextCustom.normal_dg16())),
+                                series: <ChartSeries<MonthlyWater, String>>[
+                                  ColumnSeries<MonthlyWater, String>(
+                                      name: 'เวลาให้น้ำ',
+                                      dataSource: waterdata
+                                          .map((e) => MonthlyWater(
+                                              e['water_time'],
+                                              double.parse(e['water_count'])))
+                                          .toList(),
+                                      xValueMapper: (MonthlyWater water, _) =>
+                                          water.watertime,
+                                      yValueMapper: (MonthlyWater water, _) =>
+                                          water.watercount,
+                                      dataLabelSettings:
+                                          DataLabelSettings(isVisible: true)),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                       ),
-                    )
-                  : Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: SfCartesianChart(
-                              title: ChartTitle(
-                                  text: 'รายงานการให้ปุ๋ยประจำเดือน',
-                                  textStyle: TextCustom.bold_b16()),
-                              legend: Legend(isVisible: false),
-                              tooltipBehavior: _tooltipBehavior,
-                              primaryXAxis: CategoryAxis(
-                                title: AxisTitle(
-                                    text: 'สูตรปุ๋ย',
-                                    textStyle: TextCustom.normal_dg16()),
-                              ),
-                              primaryYAxis: NumericAxis(
-                                  title: AxisTitle(
-                                      text: 'ปริมาณปุ๋ย',
-                                      textStyle: TextCustom.normal_dg16())),
-                              series: <ChartSeries<MonthlyFert, String>>[
-                                ColumnSeries<MonthlyFert, String>(
-                                    // name: 'ชื่อปุ๋ย',
-                                    dataSource: fertdata
-                                        .map((e) => MonthlyFert(
-                                            e['period_id'],
-                                            e['fert_name'],
-                                            double.parse(e['ferting_amount'])))
-                                        .toList(),
-                                    xValueMapper: (MonthlyFert fert, _) =>
-                                        fert.fertname,
-                                    yValueMapper: (MonthlyFert fert, _) =>
-                                        fert.fertingamount,
-                                    dataLabelSettings:
-                                        DataLabelSettings(isVisible: true)),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
-                            child: SfCartesianChart(
-                              title: ChartTitle(
-                                  text: 'รายงานสรุปประจำเดือนการให้น้ำ',
-                                  textStyle: TextCustom.bold_b16()),
-                              legend: Legend(isVisible: false),
-                              tooltipBehavior: _tooltipBehavior,
-                              primaryXAxis: CategoryAxis(),
-                              primaryYAxis: NumericAxis(
-                                  title: AxisTitle(
-                                      text: 'จำนวนการให้น้ำ',
-                                      textStyle: TextCustom.normal_dg16())),
-                              series: <ChartSeries<MonthlyWater, String>>[
-                                ColumnSeries<MonthlyWater, String>(
-                                    name: 'เวลาให้น้ำ',
-                                    dataSource: waterdata
-                                        .map((e) => MonthlyWater(
-                                            e['water_time'],
-                                            double.parse(e['water_count'])))
-                                        .toList(),
-                                    xValueMapper: (MonthlyWater water, _) =>
-                                        water.watertime,
-                                    yValueMapper: (MonthlyWater water, _) =>
-                                        water.watercount,
-                                    dataLabelSettings:
-                                        DataLabelSettings(isVisible: true)),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
