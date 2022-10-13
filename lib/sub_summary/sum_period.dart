@@ -1,21 +1,19 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:newmelonedv2/reuse/container.dart';
 import 'package:newmelonedv2/reuse/hamburger.dart';
 import 'package:newmelonedv2/reuse/sizedbox.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showperiod.dart';
 
 import '../reuse/bottombar.dart';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
 
 class SummaryPeriod extends StatefulWidget {
-  final List<String> period = [
-    'กรีนสวีท รอบ 22-08-2021',
-    'เจียไต๋ รอบ 22-10-2021',
-    'เน็ตเมลอน รอบ 22-12-2021',
-  ];
+  
 
   final _formKey = GlobalKey<FormState>();
   final _periodKey = GlobalKey<FormFieldState>();
@@ -31,6 +29,16 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
   List period = [];
   String? selectedValuegreenhouse;
   String? selectedValueperiod;
+
+
+  //Function
+  createSession() async {
+    await SessionManager().set("periodid", selectedValueperiod);
+  }
+
+  resetSession() async {
+    await SessionManager().destroy();
+  }
 
   //GET DATA FROM API
   //GET GREENHOUSE IN SUMMARY PERIOD PAGE
@@ -71,6 +79,7 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
   void initState() {
     super.initState();
     getGreenHouse();
+    resetSession();
   }
 
   @override
@@ -195,8 +204,16 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
             sizedBox.Boxh10(),
             ElevatedButton(
               onPressed: () {
-                print(selectedValuegreenhouse);
-                print(selectedValueperiod);
+                // print(selectedValuegreenhouse);
+                // print(selectedValueperiod);
+                //create session for greenhouse and period
+                createSession();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShowPeriod(),
+                  ),
+                );
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(

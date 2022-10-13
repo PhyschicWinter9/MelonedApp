@@ -54,12 +54,13 @@ class _ShowWeekly extends State<ShowWeekly> {
 
       var data = json.decode(response.body);
       //set null to 0 for chart
-      for (var i = 0; i < data.length; i++) {
-        if (data[i]['water_count'] == null) {
-          data[i]['water_count'] = 0;
-        }
-      }
+
       setState(() {
+        for (var i = 0; i < data.length; i++) {
+          if (data[i]['water_count'] == null) {
+            data[i]['water_count'] = 0;
+          }
+        }
         waterdata.addAll(data);
       });
       return waterdata;
@@ -79,11 +80,13 @@ class _ShowWeekly extends State<ShowWeekly> {
       var data = json.decode(response.body);
       setState(() {
         //set null to 0 for chart
+
         for (var i = 0; i < data.length; i++) {
           if (data[i]['ferting_amount'] == null) {
             data[i]['ferting_amount'] = 0;
           }
         }
+
         fertdata.addAll(data);
       });
       print(fertdata);
@@ -155,10 +158,9 @@ class _ShowWeekly extends State<ShowWeekly> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานการให้ปุ๋ยประจำวัน',
+                                    text: 'รายงานการให้ปุ๋ยประจำสัปดาห์',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
-
                                 tooltipBehavior: _tooltipBehavior,
                                 primaryXAxis: CategoryAxis(
                                   title: AxisTitle(
@@ -173,8 +175,10 @@ class _ShowWeekly extends State<ShowWeekly> {
                                   ColumnSeries<WeeklyFert, String>(
                                       name: 'สูตรปุ๋ย',
                                       dataSource: fertdata
-                                          .map((e) => WeeklyFert(e['fert_name'],
-                                              double.parse(e['ferting_amount'])))
+                                          .map((e) => WeeklyFert(
+                                              e['fert_name'],
+                                              double.parse(
+                                                  e['ferting_amount'])))
                                           .toList(),
                                       xValueMapper: (WeeklyFert fert, _) =>
                                           fert.fertname,
@@ -191,7 +195,7 @@ class _ShowWeekly extends State<ShowWeekly> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานสรุปประจำวันการให้น้ำ',
+                                    text: 'รายงานสรุปประจำสัปดาห์การให้น้ำ',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
                                 tooltipBehavior: _tooltipBehavior,
@@ -204,7 +208,8 @@ class _ShowWeekly extends State<ShowWeekly> {
                                   ColumnSeries<WeeklyWater, String>(
                                       name: 'ชื่อรอบการปลูก',
                                       dataSource: waterdata
-                                          .map((e) => WeeklyWater(e['period_name'],
+                                          .map((e) => WeeklyWater(
+                                              e['period_name'],
                                               double.parse(e['water_count'])))
                                           .toList(),
                                       xValueMapper: (WeeklyWater water, _) =>
