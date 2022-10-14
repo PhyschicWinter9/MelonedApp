@@ -2,10 +2,11 @@
 ![Logo](https://raw.githubusercontent.com/PhyschicWinter9/MelonedApp/main/assets/icon/logo.png)
 
 
-# MeloneApp ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/physchicwinter9/MelonedApp?style=for-the-badge)
+# MeloneApp 
 
 Application for Smart Melon Farm Recommendation with Management Information System
 
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/physchicwinter9/MelonedApp?style=for-the-badge)
 ![GitHub repo size](https://img.shields.io/github/repo-size/PhyschicWinter9/MelonedApp?style=for-the-badge)
 [![GitHub forks](https://img.shields.io/github/forks/PhyschicWinter9/MelonedApp?style=for-the-badge)](https://github.com/PhyschicWinter9/MelonedApp/network)
 
