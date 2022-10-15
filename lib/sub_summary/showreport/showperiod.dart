@@ -246,12 +246,17 @@ class _ShowPeriod extends State<ShowPeriod> {
                                 tooltipBehavior: _tooltipBehavior,
                                 series: <CircularSeries>[
                                   PieSeries<PeriodGrade, String>(
+                                    explode: true,
+                                    explodeIndex: 0,
+                                    explodeOffset: '10%',
                                     name: 'คุณภาพของเมลอน',
                                     dataSource: gradedata,
                                     xValueMapper: (PeriodGrade grade, _) =>
                                         grade.grade,
                                     yValueMapper: (PeriodGrade grade, _) =>
                                         grade.amount,
+                                    dataLabelMapper: (PeriodGrade grade, _) =>
+                                        grade.grade,
                                     dataLabelSettings:
                                         DataLabelSettings(isVisible: true),
                                   ),
