@@ -173,19 +173,19 @@ class _ShowWeekly extends State<ShowWeekly> {
                                         textStyle: TextCustom.normal_dg16())),
                                 series: <ChartSeries<WeeklyFert, String>>[
                                   ColumnSeries<WeeklyFert, String>(
-                                      name: 'สูตรปุ๋ย',
-                                      dataSource: fertdata
-                                          .map((e) => WeeklyFert(
-                                              e['fert_name'],
-                                              double.parse(
-                                                  e['ferting_amount'])))
-                                          .toList(),
-                                      xValueMapper: (WeeklyFert fert, _) =>
-                                          fert.fertname,
-                                      yValueMapper: (WeeklyFert fert, _) =>
-                                          fert.fertamount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                    name: 'สูตรปุ๋ย',
+                                    dataSource: fertdata
+                                        .map((e) => WeeklyFert(e['fert_name'],
+                                            double.parse(e['ferting_amount'])))
+                                        .toList(),
+                                    xValueMapper: (WeeklyFert fert, _) =>
+                                        fert.fertname,
+                                    yValueMapper: (WeeklyFert fert, _) =>
+                                        fert.fertamount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ],
                               ),
                             ),
@@ -206,18 +206,20 @@ class _ShowWeekly extends State<ShowWeekly> {
                                         textStyle: TextCustom.normal_dg16())),
                                 series: <ChartSeries<WeeklyWater, String>>[
                                   ColumnSeries<WeeklyWater, String>(
-                                      name: 'ชื่อรอบการปลูก',
-                                      dataSource: waterdata
-                                          .map((e) => WeeklyWater(
-                                              e['period_name'],
-                                              double.parse(e['water_count'])))
-                                          .toList(),
-                                      xValueMapper: (WeeklyWater water, _) =>
-                                          water.periodname,
-                                      yValueMapper: (WeeklyWater water, _) =>
-                                          water.watercount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                    name: 'ชื่อรอบการปลูก',
+                                    dataSource: waterdata
+                                        .map((e) => WeeklyWater(
+                                            e['period_name'],
+                                            double.parse(e['water_count'])))
+                                        .toList(),
+                                    xValueMapper: (WeeklyWater water, _) =>
+                                        water.periodname,
+                                    yValueMapper: (WeeklyWater water, _) =>
+                                        water.watercount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ],
                               ),
                             ),
@@ -278,8 +280,7 @@ class _ShowWeekly extends State<ShowWeekly> {
   }
 }
 
-//NoSuchMethodError: Class 'String' has no instance method 'call'.
-//Receiver: "ferting_amount"
+//// MODEL FOR DATA Keyword: modelweekly
 
 class WeeklyFert {
   WeeklyFert(this.fertname, this.fertamount);

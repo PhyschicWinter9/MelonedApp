@@ -55,7 +55,7 @@ class _ShowMonthly extends State<ShowMonthly> {
       });
 
       var data = json.decode(response.body);
-       //set null to 0 for chart
+      //set null to 0 for chart
       for (var i = 0; i < data.length; i++) {
         if (data[i]['water_count'] == null) {
           data[i]['water_count'] = 0;
@@ -64,7 +64,7 @@ class _ShowMonthly extends State<ShowMonthly> {
       setState(() {
         waterdata.addAll(data);
       });
-      
+
       return waterdata;
     } catch (e) {
       print(e);
@@ -119,7 +119,10 @@ class _ShowMonthly extends State<ShowMonthly> {
       appBar: AppBar(
         title: Text(
           //convert month number to month name
-          'รายงานสรุปประจำเดือน ' + selectedDatemonth + ' / ' + selectedDateyear,
+          'รายงานสรุปประจำเดือน ' +
+              selectedDatemonth +
+              ' / ' +
+              selectedDateyear,
         ),
       ),
       drawer: Hamburger(),
@@ -177,19 +180,21 @@ class _ShowMonthly extends State<ShowMonthly> {
                                         textStyle: TextCustom.normal_dg16())),
                                 series: <ChartSeries<MonthlyFert, String>>[
                                   ColumnSeries<MonthlyFert, String>(
-                                      // name: 'ชื่อปุ๋ย',
-                                      dataSource: fertdata
-                                          .map((e) => MonthlyFert(
-                                              e['period_id'],
-                                              e['fert_name'],
-                                              double.parse(e['ferting_amount'])))
-                                          .toList(),
-                                      xValueMapper: (MonthlyFert fert, _) =>
-                                          fert.fertname,
-                                      yValueMapper: (MonthlyFert fert, _) =>
-                                          fert.fertingamount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                    // name: 'ชื่อปุ๋ย',
+                                    dataSource: fertdata
+                                        .map((e) => MonthlyFert(
+                                            e['period_id'],
+                                            e['fert_name'],
+                                            double.parse(e['ferting_amount'])))
+                                        .toList(),
+                                    xValueMapper: (MonthlyFert fert, _) =>
+                                        fert.fertname,
+                                    yValueMapper: (MonthlyFert fert, _) =>
+                                        fert.fertingamount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ],
                               ),
                             ),
@@ -208,18 +213,20 @@ class _ShowMonthly extends State<ShowMonthly> {
                                         textStyle: TextCustom.normal_dg16())),
                                 series: <ChartSeries<MonthlyWater, String>>[
                                   ColumnSeries<MonthlyWater, String>(
-                                      name: 'เวลาให้น้ำ',
-                                      dataSource: waterdata
-                                          .map((e) => MonthlyWater(
-                                              e['water_time'],
-                                              double.parse(e['water_count'])))
-                                          .toList(),
-                                      xValueMapper: (MonthlyWater water, _) =>
-                                          water.watertime,
-                                      yValueMapper: (MonthlyWater water, _) =>
-                                          water.watercount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                    name: 'เวลาให้น้ำ',
+                                    dataSource: waterdata
+                                        .map((e) => MonthlyWater(
+                                            e['water_time'],
+                                            double.parse(e['water_count'])))
+                                        .toList(),
+                                    xValueMapper: (MonthlyWater water, _) =>
+                                        water.watertime,
+                                    yValueMapper: (MonthlyWater water, _) =>
+                                        water.watercount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ],
                               ),
                             )
@@ -235,6 +242,8 @@ class _ShowMonthly extends State<ShowMonthly> {
     );
   }
 }
+
+//MODEL FOR MONTHLY Keyword: modelmonthly
 
 class MonthlyFert {
   MonthlyFert(this.period_id, this.fertname, this.fertingamount);

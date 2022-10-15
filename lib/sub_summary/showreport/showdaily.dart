@@ -158,7 +158,6 @@ class _ShowDaily extends State<ShowDaily> {
                                     text: 'รายงานการให้ปุ๋ยประจำวัน',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
-
                                 tooltipBehavior: _tooltipBehavior,
                                 primaryXAxis: CategoryAxis(
                                   title: AxisTitle(
@@ -171,17 +170,19 @@ class _ShowDaily extends State<ShowDaily> {
                                         textStyle: TextCustom.normal_dg16())),
                                 series: <ChartSeries<DailyFert, String>>[
                                   ColumnSeries<DailyFert, String>(
-                                      name: 'สูตรปุ๋ย',
-                                      dataSource: fertdata
-                                          .map((e) => DailyFert(e['fert_name'],
-                                              double.parse(e['ferting_amount'])))
-                                          .toList(),
-                                      xValueMapper: (DailyFert fert, _) =>
-                                          fert.fertname,
-                                      yValueMapper: (DailyFert fert, _) =>
-                                          fert.fertamount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                    name: 'สูตรปุ๋ย',
+                                    dataSource: fertdata
+                                        .map((e) => DailyFert(e['fert_name'],
+                                            double.parse(e['ferting_amount'])))
+                                        .toList(),
+                                    xValueMapper: (DailyFert fert, _) =>
+                                        fert.fertname,
+                                    yValueMapper: (DailyFert fert, _) =>
+                                        fert.fertamount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ],
                               ),
                             ),
@@ -273,9 +274,7 @@ class _ShowDaily extends State<ShowDaily> {
   }
 }
 
-//NoSuchMethodError: Class 'String' has no instance method 'call'.
-//Receiver: "ferting_amount"
-
+// MODEL FOR DATA Keyword: modeldaily
 class DailyFert {
   DailyFert(this.fertname, this.fertamount);
 

@@ -189,20 +189,21 @@ class _ShowPeriod extends State<ShowPeriod> {
                                         textStyle: TextCustom.normal_dg16())),
                                 series: <ChartSeries<PeriodFert, String>>[
                                   ColumnSeries<PeriodFert, String>(
-                                      // name: 'ชื่อปุ๋ย',
-                                      dataSource: fertdata
-                                          .map((e) => PeriodFert(
-                                              e['period_id'],
-                                              e['fert_name'],
-                                              double.parse(
-                                                  e['ferting_amount'])))
-                                          .toList(),
-                                      xValueMapper: (PeriodFert fert, _) =>
-                                          fert.fertname,
-                                      yValueMapper: (PeriodFert fert, _) =>
-                                          fert.fertingamount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                    // name: 'ชื่อปุ๋ย',
+                                    dataSource: fertdata
+                                        .map((e) => PeriodFert(
+                                            e['period_id'],
+                                            e['fert_name'],
+                                            double.parse(e['ferting_amount'])))
+                                        .toList(),
+                                    xValueMapper: (PeriodFert fert, _) =>
+                                        fert.fertname,
+                                    yValueMapper: (PeriodFert fert, _) =>
+                                        fert.fertingamount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ],
                               ),
                             ),
@@ -221,18 +222,19 @@ class _ShowPeriod extends State<ShowPeriod> {
                                         textStyle: TextCustom.normal_dg16())),
                                 series: <ChartSeries<PeriodWater, String>>[
                                   ColumnSeries<PeriodWater, String>(
-                                      name: 'เวลาให้น้ำ',
-                                      dataSource: waterdata
-                                          .map((e) => PeriodWater(
-                                              e['water_time'],
-                                              double.parse(e['count_water'])))
-                                          .toList(),
-                                      xValueMapper: (PeriodWater water, _) =>
-                                          water.watertime,
-                                      yValueMapper: (PeriodWater water, _) =>
-                                          water.watercount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                    name: 'เวลาให้น้ำ',
+                                    dataSource: waterdata
+                                        .map((e) => PeriodWater(e['water_time'],
+                                            double.parse(e['count_water'])))
+                                        .toList(),
+                                    xValueMapper: (PeriodWater water, _) =>
+                                        water.watertime,
+                                    yValueMapper: (PeriodWater water, _) =>
+                                        water.watercount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ],
                               ),
                             ),
@@ -275,6 +277,8 @@ class _ShowPeriod extends State<ShowPeriod> {
     );
   }
 }
+
+//MODEL FOR DATA keyword: modelperiod
 
 class PeriodFert {
   PeriodFert(this.period_id, this.fertname, this.fertingamount);
