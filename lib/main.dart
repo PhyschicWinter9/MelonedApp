@@ -56,6 +56,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: '/splashscreen',
+      home: MainMenu(),
       routes: {
         'mainmenu': (context) => MainMenu(),
         '/login': (context) => Login(),
@@ -72,28 +73,26 @@ class _MyAppState extends State<MyApp> {
         // '/editfert': (context) => EditFert(),*
         '/addnote': (context) => AddNote(),
         // '/editnote': (context) => EditNote(),*
-        '/humid':(context) => Humid(),
-        '/analyzedetail':(context) => AnalyzeDetail(),
-        '/addanalyze':(context) => AddAnalyze(),
-        '/afteranalyze':(context) => AfterAnalyze(),
-        '/editanalyze':(context) => EditAnalyze(),
-        '/dailysummaryform':(context) => SummaryDaily(),
-        '/weeklysummaryform':(context) => SummaryWeekly(),
-        '/monthlysummaryform':(context) => SummaryMonthly(),
-        '/yearlysummaryform':(context) => SummaryYearly(),
-        '/periodsummaryform':(context) => SummaryPeriod(),
-        '/dailysummary':(context) => ShowDaily(),
-        '/weeklysummary':(context) => ShowWeekly(),
-        '/monthlysummary':(context) => ShowMonthly(),
-        '/yearlysummary':(context) => ShowYearly(),
-        '/periodsummary':(context) => ShowPeriod(),
-        
-
+        '/humid': (context) => Humid(),
+        '/analyzedetail': (context) => AnalyzeDetail(),
+        '/addanalyze': (context) => AddAnalyze(),
+        '/afteranalyze': (context) => AfterAnalyze(),
+        '/editanalyze': (context) => EditAnalyze(),
+        '/dailysummaryform': (context) => SummaryDaily(),
+        '/weeklysummaryform': (context) => SummaryWeekly(),
+        '/monthlysummaryform': (context) => SummaryMonthly(),
+        '/yearlysummaryform': (context) => SummaryYearly(),
+        '/periodsummaryform': (context) => SummaryPeriod(),
+        '/dailysummary': (context) => ShowDaily(),
+        '/weeklysummary': (context) => ShowWeekly(),
+        '/monthlysummary': (context) => ShowMonthly(),
+        '/yearlysummary': (context) => ShowYearly(),
+        '/periodsummary': (context) => ShowPeriod(),
 
         //* This is the page that will be edited and send data to the database
       },
       theme: MyTheme(),
-      home: MainMenu(),
+
       localizationsDelegates: [
         GlobalWidgetsLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -101,7 +100,7 @@ class _MyAppState extends State<MyApp> {
       ],
 
       //Debug Mode Route and Comment the initialRoute
-      // home: Summary(),
+      // home: SummaryYearly(),
     );
   }
 }
