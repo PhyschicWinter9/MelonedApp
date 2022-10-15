@@ -2,6 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:newmelonedv2/dailymenu.dart';
 import 'package:newmelonedv2/sub_daily/fert.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showdaily.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showmonthly.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showperiod.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showweekly.dart';
+import 'package:newmelonedv2/sub_summary/showreport/showyearly.dart';
 import 'package:newmelonedv2/sub_summary/sum_weekly.dart';
 import 'package:newmelonedv2/sub_daily/note.dart';
 import 'login.dart';
@@ -77,6 +82,12 @@ class _MyAppState extends State<MyApp> {
         '/monthlysummaryform':(context) => SummaryMonthly(),
         '/yearlysummaryform':(context) => SummaryYearly(),
         '/periodsummaryform':(context) => SummaryPeriod(),
+        '/dailysummary':(context) => ShowDaily(),
+        '/weeklysummary':(context) => ShowWeekly(),
+        '/monthlysummary':(context) => ShowMonthly(),
+        '/yearlysummary':(context) => ShowYearly(),
+        '/periodsummary':(context) => ShowPeriod(),
+        
 
 
         //* This is the page that will be edited and send data to the database
