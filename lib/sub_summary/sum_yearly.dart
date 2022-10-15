@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:newmelonedv2/reuse/container.dart';
@@ -26,6 +27,17 @@ class _SummaryYearlyState extends State<SummaryYearly> {
   String? selectedValue;
   DateTime? _selected;
 
+  //Function
+  createSession() async {
+    await SessionManager().set('greenhouseid', selectedValue);
+    await SessionManager().set("year", yearController.text);
+  }
+
+  resetSession() async {
+    await SessionManager().destroy();
+  }
+
+
   TextEditingController yearController = TextEditingController();
 
   //GET DATA FROM API
@@ -45,7 +57,7 @@ class _SummaryYearlyState extends State<SummaryYearly> {
   void initState() {
     super.initState();
     getGreenHouse();
-    yearController.text = "";
+    resetSession();
   }
 
   @override
@@ -181,7 +193,8 @@ class _SummaryYearlyState extends State<SummaryYearly> {
             sizedBox.Boxh10(),
             ElevatedButton(
               onPressed: () {
-                print(yearController.text);
+                createSession();
+                Navigator.pushNamed(context, '/yearlysummary');
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(

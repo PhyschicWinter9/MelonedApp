@@ -26,7 +26,9 @@ class _ShowYearly extends State<ShowYearly> {
   //variable
   TooltipBehavior? _tooltipBehavior;
   List waterdata = [];
-  List fertdata = [];
+  List<YearlyFeart> fertdata = [];
+  List<PeriodGrade> gradedata = [];
+  List<YearlyFeartFixed> fertdatafixed = [];
 
   //Session
   dynamic greenhouse_ID;
@@ -34,7 +36,7 @@ class _ShowYearly extends State<ShowYearly> {
 
   getSession() async {
     dynamic greenhouseID = await SessionManager().get("greenhouseid");
-    dynamic date = await SessionManager().get("seletedate");
+    dynamic date = await SessionManager().get("year");
     setState(() {
       greenhouse_ID = greenhouseID.toString();
       year = date.toString();
@@ -46,10 +48,10 @@ class _ShowYearly extends State<ShowYearly> {
   Future getWatering() async {
     try {
       var url =
-          "https://meloned.relaxlikes.com/api/summary/weekly/get_watering.php";
+          "https://meloned.relaxlikes.com/api/summary/yearly/get_watering.php";
       var response = await http.post(Uri.parse(url), body: {
         "greenhouse_ID": greenhouse_ID,
-        "end_week_day": year,
+        "selected_year": year,
       });
 
       var data = json.decode(response.body);
@@ -68,20 +70,91 @@ class _ShowYearly extends State<ShowYearly> {
     }
   }
 
-  Future getFertilizer() async {
+  //NOT WORKING YET
+  // Future getFertilizer() async {
+  //   try {
+  //     var url =
+  //         "https://meloned.relaxlikes.com/api/summary/yearly/get_fertilizing.php";
+  //     var response = await http.post(Uri.parse(url), body: {
+  //       "greenhouse_ID": greenhouse_ID,
+  //       "selected_year": year,
+  //     });
+  //     var data = json.decode(response.body);
+  //     setState(() {
+  //       for (var i = 0; i < data.length; i++) {
+  //         fertdata.add(YearlyFeart(data[i]['period_name'], data[i]['fert_name'],
+  //             double.parse(data[i]['sum_fert'])));
+  //       }
+  //     });
+  //     print(fertdata.toString());
+  //     return fertdata;
+  //   } catch (e) {
+  //     print(e);
+  //   }
+
+  // }
+  Future getFertilizerfixed() async {
     try {
       var url =
-          "https://meloned.relaxlikes.com/api/summary/weekly/get_fertilizing.php";
+          "https://meloned.relaxlikes.com/api/summary/yearly/get_fertilizingfixed.php";
       var response = await http.post(Uri.parse(url), body: {
         "greenhouse_ID": greenhouse_ID,
         "selected_year": year,
       });
       var data = json.decode(response.body);
       setState(() {
-        fertdata.addAll(data);
+        for (var i = 0; i < data.length; i++) {
+          //check if all data in list = null then set to 0 or blank for chart because chart can't show null
+          if (data[i]['period_name'] == null &&
+              data[i]['อัลฟ่า'] == null &&
+              data[i]['ไฮโดรเมลอนAB'] == null &&
+              data[i]['แคลเอ็ม'] == null &&
+              data[i]['แกมมา'] == null &&
+              data[i]['โอเมกา'] == null) {
+            // set to 0
+            data[i]['period_name'] = 'ไม่มีข้อมูล';
+            data[i]['อัลฟ่า'] = 0;
+            data[i]['ไฮโดรเมลอนAB'] = 0;
+            data[i]['แคลเอ็ม'] = 0;
+            data[i]['แกมมา'] = 0;
+            data[i]['โอเมกา'] = 0;
+          } else {
+            fertdatafixed.add(YearlyFeartFixed(
+                data[i]['period_name'],
+                double.parse(data[i]['อัลฟ่า']),
+                double.parse(data[i]['ไฮโดรเมลอนAB']),
+                double.parse(data[i]['แคลเอ็ม']),
+                double.parse(data[i]['แกมมา']),
+                double.parse(data[i]['โอเมกา'])));
+          }
+        }
       });
-      print(fertdata);
-      return fertdata;
+      return fertdatafixed;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future getGrade() async {
+    try {
+      var url =
+          "https://meloned.relaxlikes.com/api/summary/yearly/get_grade.php";
+      var response = await http.post(Uri.parse(url), body: {
+        "greenhouse_ID": greenhouse_ID,
+        "year": year,
+      });
+      var data = json.decode(response.body);
+      setState(() {
+        //add data to list for chart
+        for (var i = 0; i < data.length; i++) {
+          gradedata.add(PeriodGrade(
+              data[i]['period_name'],
+              int.parse(data[i]['A']),
+              int.parse(data[i]['B']),
+              int.parse(data[i]['C'])));
+        }
+      });
+      return gradedata;
     } catch (e) {
       print(e);
     }
@@ -89,7 +162,8 @@ class _ShowYearly extends State<ShowYearly> {
 
   Future getData() async {
     await getWatering();
-    await getFertilizer();
+    await getFertilizerfixed();
+    await getGrade();
   }
 
   Future getAllData() async {
@@ -108,7 +182,9 @@ class _ShowYearly extends State<ShowYearly> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('รายงานสรุปรายปี' + year.toString(),),
+        title: Text(
+          'รายงานสรุปรายปี' + year.toString(),
+        ),
       ),
       drawer: Hamburger(),
       body: Container(
@@ -149,42 +225,6 @@ class _ShowYearly extends State<ShowYearly> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานการให้ปุ๋ยประจำปี',
-                                    textStyle: TextCustom.bold_b16()),
-                                legend: Legend(isVisible: false),
-
-                                tooltipBehavior: _tooltipBehavior,
-                                primaryXAxis: CategoryAxis(
-                                  title: AxisTitle(
-                                      text: 'สูตรปุ๋ย',
-                                      textStyle: TextCustom.normal_dg16()),
-                                ),
-                                primaryYAxis: NumericAxis(
-                                    title: AxisTitle(
-                                        text: 'ปริมาณปุ๋ย',
-                                        textStyle: TextCustom.normal_dg16())),
-                                series: <ChartSeries<WeeklyFert, String>>[
-                                  ColumnSeries<WeeklyFert, String>(
-                                      name: 'สูตรปุ๋ย',
-                                      dataSource: fertdata
-                                          .map((e) => WeeklyFert(e['fert_name'],
-                                              double.parse(e['ferting_amount'])))
-                                          .toList(),
-                                      xValueMapper: (WeeklyFert fert, _) =>
-                                          fert.fertname,
-                                      yValueMapper: (WeeklyFert fert, _) =>
-                                          fert.fertamount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
-                                ],
-                              ),
-                            ),
-
-                            //////// IF USE BAR CHART ////////
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.8,
-                              child: SfCartesianChart(
-                                title: ChartTitle(
                                     text: 'รายงานสรุปประจำปัการให้น้ำ',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
@@ -194,19 +234,155 @@ class _ShowYearly extends State<ShowYearly> {
                                     title: AxisTitle(
                                         text: 'จำนวนการให้น้ำ',
                                         textStyle: TextCustom.normal_dg16())),
-                                series: <ChartSeries<WeeklyWater, String>>[
-                                  ColumnSeries<WeeklyWater, String>(
-                                      name: 'ชื่อรอบการปลูก',
-                                      dataSource: waterdata
-                                          .map((e) => WeeklyWater(e['period_name'],
-                                              double.parse(e['water_count'])))
-                                          .toList(),
-                                      xValueMapper: (WeeklyWater water, _) =>
-                                          water.periodname,
-                                      yValueMapper: (WeeklyWater water, _) =>
-                                          water.watercount,
-                                      dataLabelSettings:
-                                          DataLabelSettings(isVisible: true)),
+                                series: <ChartSeries<YearlyWater, String>>[
+                                  ColumnSeries<YearlyWater, String>(
+                                    name: 'ชื่อรอบการปลูก',
+                                    dataSource: waterdata
+                                        .map((e) => YearlyWater(
+                                            e['period_name'],
+                                            double.parse(e['water_count'])))
+                                        .toList(),
+                                    xValueMapper: (YearlyWater water, _) =>
+                                        water.periodname,
+                                    yValueMapper: (YearlyWater water, _) =>
+                                        water.watercount,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            //////// STACK COLUMN CHART OF FERT ////////
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: SfCartesianChart(
+                                title: ChartTitle(
+                                    text: 'รายงานการให้ปุ๋ยประจำปี',
+                                    textStyle: TextCustom.bold_b16()),
+                                legend: Legend(isVisible: false),
+                                tooltipBehavior: _tooltipBehavior,
+                                primaryXAxis: CategoryAxis(
+                                  title: AxisTitle(
+                                      text: 'ชื่อรอบการปลูก',
+                                      textStyle: TextCustom.normal_dg16()),
+                                ),
+                                primaryYAxis: NumericAxis(
+                                    title: AxisTitle(
+                                        text: 'ปริมาณปุ๋ย',
+                                        textStyle: TextCustom.normal_dg16())),
+                                series: <ChartSeries<YearlyFeartFixed, String>>[
+                                  StackedColumnSeries<YearlyFeartFixed, String>(
+                                    name: 'สูตรปุ๋ย',
+                                    dataSource: fertdatafixed,
+                                    xValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.periodname,
+                                    yValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.alpha,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                  StackedColumnSeries<YearlyFeartFixed, String>(
+                                    name: 'สูตรปุ๋ย',
+                                    dataSource: fertdatafixed,
+                                    xValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.periodname,
+                                    yValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.hydromelonAB,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                  StackedColumnSeries<YearlyFeartFixed, String>(
+                                    name: 'สูตรปุ๋ย',
+                                    dataSource: fertdatafixed,
+                                    xValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.periodname,
+                                    yValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.kalM,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                  StackedColumnSeries<YearlyFeartFixed, String>(
+                                    name: 'สูตรปุ๋ย',
+                                    dataSource: fertdatafixed,
+                                    xValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.periodname,
+                                    yValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.gamma,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                  StackedColumnSeries<YearlyFeartFixed, String>(
+                                    name: 'สูตรปุ๋ย',
+                                    dataSource: fertdatafixed,
+                                    xValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.periodname,
+                                    yValueMapper: (YearlyFeartFixed fert, _) =>
+                                        fert.omega,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                             //////// STACK COLUMN CHART OF MELON ////////
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.8,
+                              child: SfCartesianChart(
+                                title: ChartTitle(
+                                    text: 'คุณภาพเมลอนประจำปี',
+                                    textStyle: TextCustom.bold_b16()),
+                                legend: Legend(isVisible: false),
+                                tooltipBehavior: _tooltipBehavior,
+                                primaryXAxis: CategoryAxis(
+                                  title: AxisTitle(
+                                      text: 'ชื่อรอบการปลูก',
+                                      textStyle: TextCustom.normal_dg16()),
+                                ),
+                                primaryYAxis: NumericAxis(
+                                    title: AxisTitle(
+                                        text: 'จำนวนเมลอน',
+                                        textStyle: TextCustom.normal_dg16())),
+                                series: <ChartSeries<PeriodGrade, String>>[
+                                  StackedColumnSeries<PeriodGrade, String>(
+                                    name: 'เกรด A',
+                                    dataSource: gradedata,
+                                    xValueMapper: (PeriodGrade grade, _) =>
+                                        grade.periodname,
+                                    yValueMapper: (PeriodGrade grade, _) =>
+                                        grade.gradeA,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                  StackedColumnSeries<PeriodGrade, String>(
+                                    name: 'เกรด B',
+                                    dataSource: gradedata,
+                                    xValueMapper: (PeriodGrade grade, _) =>
+                                        grade.periodname,
+                                    yValueMapper: (PeriodGrade grade, _) =>
+                                        grade.gradeB,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
+                                  StackedColumnSeries<PeriodGrade, String>(
+                                    name: 'เกรด C',
+                                    dataSource: gradedata,
+                                    xValueMapper: (PeriodGrade grade, _) =>
+                                        grade.periodname,
+                                    yValueMapper: (PeriodGrade grade, _) =>
+                                        grade.gradeC,
+                                    dataLabelSettings:
+                                        DataLabelSettings(isVisible: true),
+                                    borderRadius: BorderRadius.circular(0),
+                                  ),
                                 ],
                               ),
                             ),
@@ -257,6 +433,7 @@ class _ShowYearly extends State<ShowYearly> {
                           ],
                         ),
                       ),
+              
               ],
             ),
           ),
@@ -267,27 +444,62 @@ class _ShowYearly extends State<ShowYearly> {
   }
 }
 
-//NoSuchMethodError: Class 'String' has no instance method 'call'.
-//Receiver: "ferting_amount"
+// MODEL FOR DATA Keyword: modelyearly
 
-class WeeklyFert {
-  WeeklyFert(this.fertname, this.fertamount);
+class YearlyFeart {
+  YearlyFeart(this.periodname, this.fertname, this.fertamount);
 
+  final String? periodname;
   final String? fertname;
   final double? fertamount;
 
-  WeeklyFert.fromJson(Map<String, dynamic> json)
-      : fertname = json['fert_name'],
-        fertamount = double.parse(json['ferting_amount']);
+  YearlyFeart.fromJson(Map<String, dynamic> json)
+      : periodname = json['period_name'],
+        fertname = json['fert_name'],
+        fertamount = double.parse(json['sum_fert']);
 }
 
-class WeeklyWater {
-  WeeklyWater(this.periodname, this.watercount);
+class YearlyFeartFixed {
+  YearlyFeartFixed(this.periodname, this.alpha, this.hydromelonAB, this.kalM,
+      this.gamma, this.omega);
+
+  final String? periodname;
+  final double? alpha;
+  final double? hydromelonAB;
+  final double? kalM;
+  final double? gamma;
+  final double? omega;
+
+  YearlyFeartFixed.fromJson(Map<String, dynamic> json)
+      : periodname = json['period_name'],
+        alpha = double.parse(json['อัลฟ่า']),
+        hydromelonAB = double.parse(json['ไฮโดรเมลอนAB']),
+        kalM = double.parse(json['แคลเอ็ม']),
+        gamma = double.parse(json['แกมมา']),
+        omega = double.parse(json['โอเมกา']);
+}
+
+class YearlyWater {
+  YearlyWater(this.periodname, this.watercount);
 
   final String? periodname;
   final double? watercount;
 
-  WeeklyWater.fromJson(Map<String, dynamic> json)
+  YearlyWater.fromJson(Map<String, dynamic> json)
       : periodname = json['period_name'],
         watercount = double.parse(json['water_count']);
+}
+
+class PeriodGrade {
+  PeriodGrade(
+    this.periodname,
+    this.gradeA,
+    this.gradeB,
+    this.gradeC,
+  );
+
+  String? periodname;
+  int? gradeA;
+  int? gradeB;
+  int? gradeC;
 }
