@@ -184,8 +184,7 @@ class _SummaryMonthlyState extends State<SummaryMonthly> {
                 createSession();
 
                 //show report
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ShowMonthly()));
+                Navigator.pushNamed(context, '/monthlysummary');
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(

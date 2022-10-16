@@ -219,8 +219,7 @@ class _SummaryDailyState extends State<SummaryDaily> {
 
                 //Action
                 createSession();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ShowDaily()));
+                Navigator.pushNamed(context, '/dailysummary');
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(

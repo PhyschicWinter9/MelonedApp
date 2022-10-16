@@ -170,8 +170,7 @@ class _SummaryWeeklyState extends State<SummaryWeekly> {
 
                 //action
                 createSession();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ShowWeekly()));
+                Navigator.pushNamed(context, '/weeklysummary');
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(

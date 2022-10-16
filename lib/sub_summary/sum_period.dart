@@ -208,12 +208,7 @@ class _SummaryPeriodState extends State<SummaryPeriod> {
                 // print(selectedValueperiod);
                 //create session for greenhouse and period
                 createSession();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ShowPeriod(),
-                  ),
-                );
+                Navigator.pushNamed(context, '/periodsummary');
               },
               child: Text('ดูรายงาน', style: TextCustom.buttontext2()),
               style: ElevatedButton.styleFrom(
