@@ -28,8 +28,8 @@ class EditWater extends StatefulWidget {
 }
 
 class _EditWaterState extends State<EditWater> {
-  bool editMode = false;
 
+  //variable
   final wateramountController = TextEditingController();
 
   Future EditWater() async {
