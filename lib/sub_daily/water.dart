@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:newmelonedv2/sub_daily/carelist.dart';
+import 'package:newmelonedv2/sub_daily/sub_water/editwater.dart';
 import 'dart:convert';
 import '../style/colortheme.dart';
 import '../style/textstyle.dart';
@@ -55,7 +56,7 @@ class _WaterState extends State<Water> {
       // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
         Watering watering = Watering((i + 1), data[i]['water_ID'],
-            data[i]['water_time'], data[i]['period_ID']);
+            data[i]['water_time'],data[i]['mL'] ,data[i]['period_ID']);
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
@@ -215,10 +216,11 @@ class Watering {
   //water_id is count;
   final int count;
   final String time;
+  final String wateramount;
   final String period_ID;
   final String water_ID;
 
-  Watering(this.count, this.water_ID, this.time, this.period_ID);
+  Watering(this.count, this.water_ID, this.time, this.wateramount,this.period_ID);
 }
 
 class WaterCard extends StatefulWidget {
@@ -285,7 +287,18 @@ class _WaterCardState extends State<WaterCard> {
               ),
               padding: EdgeInsets.all(20),
             ),
-            onPressed: () {},
+            onPressed: () {
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditWater(
+                    waterid: widget.watering.water_ID,
+                    wateramount: widget.watering.wateramount,
+                  ),
+                ),
+              );
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
