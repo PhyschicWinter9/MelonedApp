@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:newmelonedv2/dailymenu.dart';
 import 'package:newmelonedv2/sub_daily/fert.dart';
+import 'package:newmelonedv2/sub_daily/sub_water/addwater.dart';
 import 'package:newmelonedv2/sub_summary/showreport/showdaily.dart';
 import 'package:newmelonedv2/sub_summary/showreport/showmonthly.dart';
 import 'package:newmelonedv2/sub_summary/showreport/showperiod.dart';
@@ -64,9 +65,10 @@ class _MyAppState extends State<MyApp> {
         '/splashscreen': (context) => SplashScreen(),
         '/menu': (context) => MainMenu(),
         '/daily': (context) => Daily(),
+        '/period': (context) => Period(),
         '/analyze': (context) => Analyze(),
         '/summary': (context) => Summary(),
-        '/period': (context) => Period(),
+        // '/addwater': (context) => AddWater(),
         '/newperiod': (context) => NewPeriod(),
         '/historyperiod': (context) => HistoryPeriod(),
         '/addfert': (context) => AddFert(),
