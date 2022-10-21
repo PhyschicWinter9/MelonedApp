@@ -15,6 +15,10 @@ class Note extends StatefulWidget {
 }
 
 class _NoteState extends State<Note> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
+  //Session
   dynamic period_ID;
 
   @override
@@ -23,9 +27,6 @@ class _NoteState extends State<Note> {
     super.initState();
     getSession();
   }
-
-  
-
 
   getSession() async {
     dynamic id = await SessionManager().get("period_ID");
@@ -58,6 +59,14 @@ class _NoteState extends State<Note> {
     } catch (e) {
       print(e);
     }
+  }
+
+    Future<void> _refresh() async {
+    final fetchnotebookdata = await detailNote(period_ID);
+    setState(() {
+      notebook.clear();
+      notebook = fetchnotebookdata;
+    });
   }
 
   @override
@@ -104,12 +113,16 @@ class _NoteState extends State<Note> {
             } else {
               return Expanded(
                 child: notebook.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: notebook.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return NoteCard(notebook: notebook[index]);
-                        },
-                      )
+                    ? RefreshIndicator(
+                      key: _refreshIndicatorKey,
+                      onRefresh: _refresh,
+                      child: ListView.builder(
+                          itemCount: notebook.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return NoteCard(notebook: notebook[index]);
+                          },
+                        ),
+                    )
                     : Container(
                         child: Column(
                           children: [
@@ -153,12 +166,10 @@ class NoteCard extends StatefulWidget {
 }
 
 class _NoteCardState extends State<NoteCard> {
-
   //create session noteid
   createSession() async {
     await SessionManager().set("note_ID", widget.notebook.noteid);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +201,6 @@ class _NoteCardState extends State<NoteCard> {
                 ),
               );
               createSession();
-              
             },
             child: Row(
               children: [

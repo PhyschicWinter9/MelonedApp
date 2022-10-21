@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -15,6 +17,10 @@ class Fert extends StatefulWidget {
 }
 
 class _FertState extends State<Fert> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
+
   //Session
   dynamic period_ID;
 
@@ -57,6 +63,14 @@ class _FertState extends State<Fert> {
     } catch (e) {
       print(e);
     }
+  }
+
+  Future<void> _refresh() async {
+    final fetchfertdata = await detailFert(period_ID);
+    setState(() {
+      ferting.clear();
+      ferting = fetchfertdata;
+    });
   }
 
   @override
@@ -110,12 +124,16 @@ class _FertState extends State<Fert> {
             } else {
               return Expanded(
                 child: ferting.isNotEmpty
-                    ? ListView.builder(
-                        itemCount: ferting.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return FertCard(ferting: ferting[index]);
-                        },
-                      )
+                    ? RefreshIndicator(
+                      key: _refreshIndicatorKey,
+                      onRefresh: _refresh,
+                      child: ListView.builder(
+                          itemCount: ferting.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return FertCard(ferting: ferting[index]);
+                          },
+                        ),
+                    )
                     : Container(
                         child: Column(
                           children: [

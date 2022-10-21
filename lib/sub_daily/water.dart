@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:lottie/lottie.dart';
 import 'package:newmelonedv2/sub_daily/carelist.dart';
+import 'package:newmelonedv2/sub_daily/sub_water/addwater.dart';
 import 'package:newmelonedv2/sub_daily/sub_water/editwater.dart';
 import 'dart:convert';
 import '../style/colortheme.dart';
@@ -19,6 +20,9 @@ class Water extends StatefulWidget {
 }
 
 class _WaterState extends State<Water> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+
   //Session
   dynamic period_ID;
 
@@ -26,6 +30,7 @@ class _WaterState extends State<Water> {
   void initState() {
     super.initState();
     getSession();
+    setState(() {});
   }
 
   getSession() async {
@@ -35,8 +40,6 @@ class _WaterState extends State<Water> {
       period_ID = id.toString();
     });
   }
-
-  bool editMode = false;
 
   //Array ของข้อมูลที่จะเอาไปแสดงใน ListViewแบบเรียงลำดับ
   List<Watering> watering = [];
@@ -56,7 +59,7 @@ class _WaterState extends State<Water> {
       // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
       for (var i = 0; i < data.length; i++) {
         Watering watering = Watering((i + 1), data[i]['water_ID'],
-            data[i]['water_time'],data[i]['mL'] ,data[i]['period_ID']);
+            data[i]['water_time'], data[i]['mL'], data[i]['period_ID']);
         this.watering.add(watering);
       }
       // ส่งข้อมูลกลับไปแสดงใน ListView
@@ -108,30 +111,12 @@ class _WaterState extends State<Water> {
     }
   }
 
-  Future<void> showlist() async {
-    await Future.delayed(Duration(seconds: 5));
-    setState(() {
-      detailWater(period_ID);
-    });
-  }
-
-  Future<void> clearlist() async {
-    await Future.delayed(Duration(seconds: 3));
+  Future<void> _refresh() async {
+    final fetchwaterdata = await detailWater(period_ID);
     setState(() {
       watering.clear();
+      watering = fetchwaterdata;
     });
-  }
-
-  void updatelist() async {
-    await addWater(period_ID);
-    await clearlist();
-    await showlist();
-  }
-
-  Future refresh() async {
-    Future.delayed(Duration(seconds: 2));
-    await clearlist();
-    await showlist();
   }
 
   @override
@@ -144,7 +129,13 @@ class _WaterState extends State<Water> {
             IconButton(
                 onPressed: () {
                   // addWater(period_ID);
-                  updatelist();
+                  // updatelist();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddWater(periodID: period_ID),
+                    ),
+                  );
                 },
                 icon: Icon(
                   Icons.add_circle,
@@ -180,7 +171,8 @@ class _WaterState extends State<Water> {
               return Expanded(
                 child: watering.isNotEmpty
                     ? RefreshIndicator(
-                        onRefresh: refresh,
+                        key: _refreshIndicatorKey,
+                        onRefresh: _refresh,
                         child: ListView.builder(
                           itemCount: watering.length,
                           itemBuilder: (BuildContext context, int index) {
@@ -188,21 +180,25 @@ class _WaterState extends State<Water> {
                           },
                         ),
                       )
-                    : Container(
-                        child: Column(
-                          children: [
-                            Lottie.asset(
-                              'assets/animate/empty.json',
-                              width: 250,
-                              height: 250,
-                            ),
-                            Text(
-                              'ไม่มีข้อมูลการให้น้ำ',
-                              style: TextCustom.normal_mdg20(),
-                            ),
-                          ],
+                    : RefreshIndicator(
+                      key: _refreshIndicatorKey,
+                      onRefresh: _refresh,
+                      child: Container(
+                          child: Column(
+                            children: [
+                              Lottie.asset(
+                                'assets/animate/empty.json',
+                                width: 250,
+                                height: 250,
+                              ),
+                              Text(
+                                'ไม่มีข้อมูลการให้น้ำ',
+                                style: TextCustom.normal_mdg20(),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
+                    ),
               );
             }
           },
@@ -220,7 +216,8 @@ class Watering {
   final String period_ID;
   final String water_ID;
 
-  Watering(this.count, this.water_ID, this.time, this.wateramount,this.period_ID);
+  Watering(
+      this.count, this.water_ID, this.time, this.wateramount, this.period_ID);
 }
 
 class WaterCard extends StatefulWidget {
@@ -264,7 +261,6 @@ class _WaterCardState extends State<WaterCard> {
           textColor: Colors.black,
           fontSize: 16.0,
         );
-        
       }
     } catch (e) {
       print(e);
@@ -288,7 +284,6 @@ class _WaterCardState extends State<WaterCard> {
               padding: EdgeInsets.all(20),
             ),
             onPressed: () {
-
               Navigator.push(
                 context,
                 MaterialPageRoute(
