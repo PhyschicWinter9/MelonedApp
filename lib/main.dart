@@ -24,6 +24,7 @@ import 'sub_analyze/editanalyze.dart';
 import 'sub_daily/humid.dart';
 import 'sub_daily/sub_fert/addfert.dart';
 import 'sub_daily/sub_fert/editfert.dart';
+import 'sub_daily/sub_humid/addhumid.dart';
 import 'sub_daily/sub_note/addnote.dart';
 import 'sub_daily/sub_note/editnote.dart';
 import 'sub_period/detail_period.dart';
@@ -76,6 +77,7 @@ class _MyAppState extends State<MyApp> {
         '/addnote': (context) => AddNote(),
         // '/editnote': (context) => EditNote(),*
         '/humid': (context) => Humid(),
+        // '/addhumid': (context) => AddHumid(),
         '/analyzedetail': (context) => AnalyzeDetail(),
         '/addanalyze': (context) => AddAnalyze(),
         '/afteranalyze': (context) => AfterAnalyze(),
