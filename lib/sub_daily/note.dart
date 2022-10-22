@@ -61,7 +61,7 @@ class _NoteState extends State<Note> {
     }
   }
 
-    Future<void> _refresh() async {
+  Future<void> _refresh() async {
     final fetchnotebookdata = await detailNote(period_ID);
     setState(() {
       notebook.clear();
@@ -71,78 +71,81 @@ class _NoteState extends State<Note> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/addnote');
-                },
-                icon: Icon(
-                  Icons.add_circle,
-                  color: ColorCustom.lightgreencolor(),
-                )),
-          ],
-        ),
-        FutureBuilder(
-          future: detailNote(period_ID),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LoadingAnimationWidget.waveDots(
-                      size: 50,
-                      color: ColorCustom.orangecolor(),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: Text(
-                        'กำลังโหลดข้อมูล...',
-                        style: TextCustom.normal_mdg20(),
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/addnote');
+                  },
+                  icon: Icon(
+                    Icons.add_circle,
+                    color: ColorCustom.lightgreencolor(),
+                  )),
+            ],
+          ),
+          FutureBuilder(
+            future: detailNote(period_ID),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LoadingAnimationWidget.waveDots(
+                        size: 50,
+                        color: ColorCustom.orangecolor(),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Expanded(
-                child: notebook.isNotEmpty
-                    ? RefreshIndicator(
-                      key: _refreshIndicatorKey,
-                      onRefresh: _refresh,
-                      child: ListView.builder(
-                          itemCount: notebook.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return NoteCard(notebook: notebook[index]);
-                          },
-                        ),
-                    )
-                    : Container(
-                        child: Column(
-                          children: [
-                            Lottie.asset(
-                              'assets/animate/empty.json',
-                              width: 250,
-                              height: 250,
-                            ),
-                            Text(
-                              'ไม่มีข้อมูลการจดบันทึก',
-                              style: TextCustom.normal_mdg20(),
-                            ),
-                          ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'กำลังโหลดข้อมูล...',
+                          style: TextCustom.normal_mdg20(),
                         ),
                       ),
-              );
-            }
-          },
-        )
-      ],
+                    ],
+                  ),
+                );
+              } else {
+                return Expanded(
+                  child: notebook.isNotEmpty
+                      ? RefreshIndicator(
+                          key: _refreshIndicatorKey,
+                          onRefresh: _refresh,
+                          child: ListView.builder(
+                            itemCount: notebook.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return NoteCard(notebook: notebook[index]);
+                            },
+                          ),
+                        )
+                      : Container(
+                          child: Column(
+                            children: [
+                              Lottie.asset(
+                                'assets/animate/empty.json',
+                                width: 250,
+                                height: 250,
+                              ),
+                              Text(
+                                'ไม่มีข้อมูลการจดบันทึก',
+                                style: TextCustom.normal_mdg20(),
+                              ),
+                            ],
+                          ),
+                        ),
+                );
+              }
+            },
+          )
+        ],
+      ),
     );
   }
 }

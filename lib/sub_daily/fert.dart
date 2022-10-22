@@ -20,7 +20,6 @@ class _FertState extends State<Fert> {
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
 
-
   //Session
   dynamic period_ID;
 
@@ -125,15 +124,15 @@ class _FertState extends State<Fert> {
               return Expanded(
                 child: ferting.isNotEmpty
                     ? RefreshIndicator(
-                      key: _refreshIndicatorKey,
-                      onRefresh: _refresh,
-                      child: ListView.builder(
+                        key: _refreshIndicatorKey,
+                        onRefresh: _refresh,
+                        child: ListView.builder(
                           itemCount: ferting.length,
                           itemBuilder: (BuildContext context, int index) {
                             return FertCard(ferting: ferting[index]);
                           },
                         ),
-                    )
+                      )
                     : Container(
                         child: Column(
                           children: [
@@ -184,55 +183,58 @@ class _FertCardState extends State<FertCard> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: ColorCustom.lightyellowcolor(),
-              onPrimary: ColorCustom.yellowcolor(),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              padding: EdgeInsets.all(20),
-            ),
-            onPressed: () {},
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('${widget.ferting.fertname}',
-                        style: TextCustom.normal_dg16()),
-                    Text('${widget.ferting.amount} ${widget.ferting.unit}',
-                        style: TextCustom.normal_dg16()),
-                    Text('${widget.ferting.time}',
-                        style: TextCustom.normal_dg16()),
-                  ],
+      child: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: ColorCustom.lightyellowcolor(),
+                onPrimary: ColorCustom.yellowcolor(),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                IconButton(
-                    onPressed: () {
-                      // Navigator.pushNamed(context, '/editfert');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditFert(
-                                    fert_ID: widget.ferting.fert_ID,
-                                    ferting_amount: widget.ferting.amount,
-                                    fert_name: widget.ferting.fertname,
-                                    ferting_ID: widget.ferting.ferting_ID,
-                                  )));
-                    },
-                    icon: Icon(
-                      Icons.settings,
-                      color: ColorCustom.orangecolor(),
-                      size: 30,
-                    )),
-              ],
+                padding: EdgeInsets.all(20),
+              ),
+              onPressed: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${widget.ferting.fertname}',
+                          style: TextCustom.normal_dg16()),
+                      Text('${widget.ferting.amount} ${widget.ferting.unit}',
+                          style: TextCustom.normal_dg16()),
+                      Text('${widget.ferting.time}',
+                          style: TextCustom.normal_dg16()),
+                    ],
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        // Navigator.pushNamed(context, '/editfert');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditFert(
+                                      fert_ID: widget.ferting.fert_ID,
+                                      ferting_amount: widget.ferting.amount,
+                                      fert_name: widget.ferting.fertname,
+                                      ferting_ID: widget.ferting.ferting_ID,
+                                    )));
+                      },
+                      icon: Icon(
+                        Icons.settings,
+                        color: ColorCustom.orangecolor(),
+                        size: 30,
+                      )),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
