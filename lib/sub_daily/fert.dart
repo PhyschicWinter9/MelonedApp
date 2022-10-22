@@ -81,78 +81,84 @@ class _FertState extends State<Fert> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/addfert');
-                },
-                icon: Icon(
-                  Icons.add_circle,
-                  color: ColorCustom.lightgreencolor(),
-                )),
-          ],
-        ),
-        FutureBuilder(
-          future: detailFert(period_ID),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.data == null) {
-              return Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LoadingAnimationWidget.waveDots(
-                      size: 50,
-                      color: ColorCustom.orangecolor(),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: Text(
-                        'กำลังโหลดข้อมูล...',
-                        style: TextCustom.normal_mdg20(),
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/addfert');
+                  },
+                  icon: Icon(
+                    Icons.add_circle,
+                    color: ColorCustom.lightgreencolor(),
+                  )),
+            ],
+          ),
+          FutureBuilder(
+            future: detailFert(period_ID),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.data == null) {
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      LoadingAnimationWidget.waveDots(
+                        size: 50,
+                        color: ColorCustom.orangecolor(),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return Expanded(
-                child: ferting.isNotEmpty
-                    ? RefreshIndicator(
-                        key: _refreshIndicatorKey,
-                        onRefresh: _refresh,
-                        child: ListView.builder(
-                          itemCount: ferting.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return FertCard(ferting: ferting[index]);
-                          },
-                        ),
-                      )
-                    : Container(
-                        child: Column(
-                          children: [
-                            Lottie.asset(
-                              'assets/animate/empty.json',
-                              width: 250,
-                              height: 250,
-                            ),
-                            Text(
-                              'ไม่มีข้อมูลการให้ปุ๋ย',
-                              style: TextCustom.normal_mdg20(),
-                            ),
-                          ],
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                        child: Text(
+                          'กำลังโหลดข้อมูล...',
+                          style: TextCustom.normal_mdg20(),
                         ),
                       ),
-              );
-            }
-          },
-        ),
-      ],
+                    ],
+                  ),
+                );
+              } else {
+                return Container(
+                  height: MediaQuery.of(context).size.height * 0.8,
+                  child: Expanded(
+                    child: ferting.isNotEmpty
+                        ? RefreshIndicator(
+                            key: _refreshIndicatorKey,
+                            onRefresh: _refresh,
+                            child: ListView.builder(
+                              itemCount: ferting.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return FertCard(ferting: ferting[index]);
+                              },
+                            ),
+                          )
+                        : Container(
+                            child: Column(
+                              children: [
+                                Lottie.asset(
+                                  'assets/animate/empty.json',
+                                  width: 250,
+                                  height: 250,
+                                ),
+                                Text(
+                                  'ไม่มีข้อมูลการให้ปุ๋ย',
+                                  style: TextCustom.normal_mdg20(),
+                                ),
+                              ],
+                            ),
+                          ),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 }

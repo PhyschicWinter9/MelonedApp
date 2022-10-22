@@ -121,91 +121,97 @@ class _WaterState extends State<Water> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: ScrollPhysics(),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              IconButton(
-                  onPressed: () {
-                    // addWater(period_ID);
-                    // updatelist();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddWater(periodID: period_ID),
-                      ),
-                    );
-                  },
-                  icon: Icon(
-                    Icons.add_circle,
-                    color: ColorCustom.lightgreencolor(),
-                  )),
-            ],
-          ),
-          FutureBuilder(
-            future: detailWater(period_ID),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LoadingAnimationWidget.waveDots(
-                        size: 50,
-                        color: ColorCustom.orangecolor(),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Center(
-                        child: Text(
-                          'กำลังโหลดข้อมูล...',
-                          style: TextCustom.normal_mdg20(),
+    return Container(
+      child: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      // addWater(period_ID);
+                      // updatelist();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddWater(periodID: period_ID),
                         ),
-                      ),
-                    ],
-                  ),
-                );
-              } else {
-                return Expanded(
-                  child: watering.isNotEmpty
-                      ? RefreshIndicator(
-                          key: _refreshIndicatorKey,
-                          onRefresh: _refresh,
-                          child: ListView.builder(
-                            itemCount: watering.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return WaterCard(watering: watering[index]);
-                            },
+                      );
+                    },
+                    icon: Icon(
+                      Icons.add_circle,
+                      color: ColorCustom.lightgreencolor(),
+                    )),
+              ],
+            ),
+            FutureBuilder(
+              future: detailWater(period_ID),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.data == null) {
+                  return Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoadingAnimationWidget.waveDots(
+                          size: 50,
+                          color: ColorCustom.orangecolor(),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Center(
+                          child: Text(
+                            'กำลังโหลดข้อมูล...',
+                            style: TextCustom.normal_mdg20(),
                           ),
-                        )
-                      : RefreshIndicator(
-                        key: _refreshIndicatorKey,
-                        onRefresh: _refresh,
-                        child: Container(
-                            child: Column(
-                              children: [
-                                Lottie.asset(
-                                  'assets/animate/empty.json',
-                                  width: 250,
-                                  height: 250,
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return Container(
+                    height: MediaQuery.of(context).size.height*0.8,
+                    child: Expanded(
+                      flex: 1,
+                      child: watering.isNotEmpty
+                          ? RefreshIndicator(
+                              key: _refreshIndicatorKey,
+                              onRefresh: _refresh,
+                              child: ListView.builder(
+                                itemCount: watering.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return WaterCard(watering: watering[index]);
+                                },
+                              ),
+                            )
+                          : RefreshIndicator(
+                            key: _refreshIndicatorKey,
+                            onRefresh: _refresh,
+                            child: Container(
+                                child: Column(
+                                  children: [
+                                    Lottie.asset(
+                                      'assets/animate/empty.json',
+                                      width: 250,
+                                      height: 250,
+                                    ),
+                                    Text(
+                                      'ไม่มีข้อมูลการให้น้ำ',
+                                      style: TextCustom.normal_mdg20(),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  'ไม่มีข้อมูลการให้น้ำ',
-                                  style: TextCustom.normal_mdg20(),
-                                ),
-                              ],
-                            ),
+                              ),
                           ),
-                      ),
-                );
-              }
-            },
-          ),
-        ],
+                    ),
+                  );
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
