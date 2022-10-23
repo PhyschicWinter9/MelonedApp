@@ -114,7 +114,7 @@ class _NoteState extends State<Note> {
                 );
               } else {
                 return Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   child: Column(
                     children: [
                       Expanded(
