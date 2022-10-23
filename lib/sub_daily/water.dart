@@ -172,7 +172,7 @@ class _WaterState extends State<Water> {
                   );
                 } else {
                   return Container(
-                    height: MediaQuery.of(context).size.height*0.8,
+                    height: MediaQuery.of(context).size.height * 0.5,
                     child: Column(
                       children: [
                         Expanded(
@@ -183,15 +183,17 @@ class _WaterState extends State<Water> {
                                   onRefresh: _refresh,
                                   child: ListView.builder(
                                     itemCount: watering.length,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return WaterCard(watering: watering[index]);
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return WaterCard(
+                                          watering: watering[index]);
                                     },
                                   ),
                                 )
                               : RefreshIndicator(
-                                key: _refreshIndicatorKey,
-                                onRefresh: _refresh,
-                                child: Container(
+                                  key: _refreshIndicatorKey,
+                                  onRefresh: _refresh,
+                                  child: Container(
                                     child: Column(
                                       children: [
                                         Lottie.asset(
@@ -206,7 +208,7 @@ class _WaterState extends State<Water> {
                                       ],
                                     ),
                                   ),
-                              ),
+                                ),
                         ),
                       ],
                     ),
@@ -243,42 +245,7 @@ class WaterCard extends StatefulWidget {
 }
 
 class _WaterCardState extends State<WaterCard> {
-  //REMOVE
-  Future RemoveWater(String water_ID) async {
-    try {
-      var url =
-          "https://meloned.relaxlikes.com/api/dailycare/delete_watering.php";
-      var response = await http.post(Uri.parse(url), body: {
-        'water_ID': water_ID,
-      });
-
-      var jsonData = json.decode(response.body);
-
-      if (jsonData == "Failed") {
-        Fluttertoast.showToast(
-          msg: "ลบข้อมูลไม่สำเร็จ",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          fontSize: 16.0,
-        );
-      } else {
-        Fluttertoast.showToast(
-          msg: "ลบข้อมูลสำเร็จ",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.white,
-          textColor: Colors.black,
-          fontSize: 16.0,
-        );
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -297,15 +264,15 @@ class _WaterCardState extends State<WaterCard> {
               padding: EdgeInsets.all(20),
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => EditWater(
-                    waterid: widget.watering.water_ID,
-                    wateramount: widget.watering.wateramount,
-                  ),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => EditWater(
+              //       waterid: widget.watering.water_ID,
+              //       wateramount: widget.watering.wateramount,
+              //     ),
+              //   ),
+              // );
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -323,17 +290,39 @@ class _WaterCardState extends State<WaterCard> {
                       child: Text('${widget.watering.time}',
                           style: TextCustom.normal_dg16()),
                     ),
+                    // Expanded(
+                    //   flex: 1,
+                    //   child: IconButton(
+                    //     onPressed: () {
+                    //       RemoveWater(widget.watering.water_ID);
+                    //       setState(() {});
+                    //     },
+                    //     icon: Icon(
+                    //       Icons.delete,
+                    //       color: ColorCustom.orangecolor(),
+                    //     ),
+                    //   ),
+                    // ),
                     Expanded(
-                        flex: 1,
-                        child: IconButton(
-                            onPressed: () {
-                              RemoveWater(widget.watering.water_ID);
-                              setState(() {});
-                            },
-                            icon: Icon(
-                              Icons.delete,
-                              color: ColorCustom.orangecolor(),
-                            )))
+                      flex: 1,
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => EditWater(
+                                waterid: widget.watering.water_ID,
+                                wateramount: widget.watering.wateramount,
+                              ),
+                            ),
+                          );
+                        },
+                        icon: Icon(
+                          Icons.settings,
+                          color: ColorCustom.orangecolor(),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ],

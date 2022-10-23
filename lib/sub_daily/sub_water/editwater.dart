@@ -63,6 +63,43 @@ class _EditWaterState extends State<EditWater> {
     }
   }
 
+  //REMOVE
+  Future RemoveWater(String water_ID) async {
+    try {
+      var url =
+          "https://meloned.relaxlikes.com/api/dailycare/delete_watering.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'water_ID': water_ID,
+      });
+
+      var jsonData = json.decode(response.body);
+
+      if (jsonData == "Failed") {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลไม่สำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลสำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +113,19 @@ class _EditWaterState extends State<EditWater> {
     return Scaffold(
       appBar: AppBar(
         title: Text('แก้ไขการให้น้ำ'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              RemoveWater(widget.waterid);
+              setState(() {
+                Navigator.pop(context, true);
+                
+              });
+            },
+            icon: Icon(Icons.delete),
+          ),
+
+        ],
       ),
       drawer: Hamburger(),
       body: BGContainer(
