@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_session_manager/flutter_session_manager.dart';
 import 'package:newmelonedv2/sub_daily/carelist.dart';
+import 'package:newmelonedv2/sub_daily/intensity.dart';
+import 'package:newmelonedv2/sub_daily/temp.dart';
 
 import 'analyze.dart';
 import 'period.dart';
@@ -46,21 +48,19 @@ class _DailyMenuState extends State<DailyMenu> {
     // final String pID = widget.period_ID;
     // print("Period ID on DailyMenu: $pID");
     return DefaultTabController(
-      length: 4,
+      length: 6,
       child: Scaffold(
         appBar: AppBar(
           title: Text(period_name),
           bottom: TabBar(
+            isScrollable: true,
             tabs: [
-              Tab(
-                  text: 'การให้น้ำ',
-                  icon: Icon(
-                    Icons.water_drop,
-                  )),
+              Tab(text: 'การให้น้ำ', icon: Icon(Icons.water_drop)),
               Tab(text: 'การให้ปุ๋ย', icon: Icon(Icons.science)),
               Tab(text: 'จดบันทึก', icon: Icon(Icons.format_list_bulleted)),
               Tab(text: 'ความชื้น', icon: Icon(Icons.water)),
-              
+              Tab(text: 'อุณหภูมิ', icon: Icon(Icons.thermostat)),
+              Tab(text: 'ความเข้มแสง', icon: Icon(Icons.wb_sunny)),
             ],
           ),
         ),
@@ -72,7 +72,8 @@ class _DailyMenuState extends State<DailyMenu> {
               Fert(),
               Note(),
               Humid(),
-
+              Temp(),
+              Intens(),
             ],
           ),
         ),
