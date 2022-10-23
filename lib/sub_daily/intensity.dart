@@ -155,7 +155,7 @@ class _IntenseState extends State<Intense> {
                                         height: 250,
                                       ),
                                       Text(
-                                        'ไม่มีข้อมูลค่าความชื้น',
+                                        'ไม่มีข้อมูลเกี่ยวกับความเข้มแสง',
                                         style: TextCustom.normal_mdg20(),
                                       ),
                                     ],

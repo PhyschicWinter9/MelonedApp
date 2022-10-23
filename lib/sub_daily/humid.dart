@@ -153,7 +153,7 @@ class _HumidState extends State<Humid> {
                                         height: 250,
                                       ),
                                       Text(
-                                        'ไม่มีข้อมูลค่าความชื้น',
+                                        'ไม่มีข้อมูลเกียวกับความชื้น',
                                         style: TextCustom.normal_mdg20(),
                                       ),
                                     ],
