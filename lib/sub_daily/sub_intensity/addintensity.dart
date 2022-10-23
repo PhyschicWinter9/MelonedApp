@@ -13,28 +13,28 @@ import '../../style/colortheme.dart';
 import '../../style/textstyle.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
-class AddIntens extends StatefulWidget {
+class AddIntense extends StatefulWidget {
   final String periodID;
 
-  AddIntens({
+  AddIntense({
     Key? key,
     required this.periodID,
   }) : super(key: key);
 
   @override
-  State<AddIntens> createState() => _AddIntensState();
+  State<AddIntense> createState() => _AddIntenseState();
 }
 
-class _AddIntensState extends State<AddIntens> {
+class _AddIntenseState extends State<AddIntense> {
   //variable
   final intensamountController = TextEditingController();
 
   Future AddIntens(String period_ID) async {
     var url =
-        "https://meloned.relaxlikes.com/api/dailycare/insert_watering.php";
+        "https://meloned.relaxlikes.com/api/dailycare/insert_intense.php";
     var response = await http.post(Uri.parse(url), body: {
       'period_ID': period_ID,
-      'ml': intensamountController.text,
+      'lux': intensamountController.text,
     });
 
     var jsonData = json.decode(response.body);

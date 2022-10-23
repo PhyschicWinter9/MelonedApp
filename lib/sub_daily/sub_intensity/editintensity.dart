@@ -14,12 +14,12 @@ import '../../style/textstyle.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
 class EditIntens extends StatefulWidget {
-  final String intensID;
+  final String intenseID;
   final String intensamount;
 
   const EditIntens({
     Key? key,
-    required this.intensID,
+    required this.intenseID,
     required this.intensamount,
   }) : super(key: key);
 
@@ -35,10 +35,10 @@ class _EditHumidState extends State<EditIntens> {
   Future EditIntens() async {
     try {
       var url = Uri.parse(
-          'https://meloned.relaxlikes.com/api/dailycare/edit_watering.php');
+          'https://meloned.relaxlikes.com/api/dailycare/edit_intense.php');
       var response = await http.post(url, body: {
-        'intens_ID': widget.intensID,
-        'ml': intensamountController.text,
+        'intens_ID': widget.intenseID,
+        'lux': intensamountController.text,
       });
       var data = jsonDecode(response.body);
       // return data;
@@ -63,10 +63,46 @@ class _EditHumidState extends State<EditIntens> {
     }
   }
 
+  //Delete Intensity
+  Future RemoveIntense(String intense_ID) async {
+    try {
+      var url = "https://meloned.relaxlikes.com/api/dailycare/delete_intense.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'intense_ID': intense_ID,
+      });
+
+      var jsonData = json.decode(response.body);
+
+      if (jsonData == "Failed No Data") {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลไม่สำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลสำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    print(widget.intensID);
+    print(widget.intenseID);
     print(widget.intensamount);
     intensamountController.text = widget.intensamount;
   }
@@ -76,6 +112,16 @@ class _EditHumidState extends State<EditIntens> {
     return Scaffold(
       appBar: AppBar(
         title: Text('แก้ไขค่าความเข้มแสง'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              RemoveIntense(widget.intenseID);
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.delete),
+          ),
+        
+        ],
       ),
       drawer: Hamburger(),
       body: BGContainer(
