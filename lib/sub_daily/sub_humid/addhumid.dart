@@ -27,14 +27,14 @@ class AddHumid extends StatefulWidget {
 
 class _AddHumidState extends State<AddHumid> {
   //variable
-  final wateramountController = TextEditingController();
+  final humidamountController = TextEditingController();
 
   Future AddHumid(String period_ID) async {
     var url =
-        "https://meloned.relaxlikes.com/api/dailycare/insert_watering.php";
+        "https://meloned.relaxlikes.com/api/dailycare/insert_humid.php";
     var response = await http.post(Uri.parse(url), body: {
       'period_ID': period_ID,
-      'ml': wateramountController.text,
+      'RH': humidamountController.text,
     });
 
     var jsonData = json.decode(response.body);
@@ -87,7 +87,7 @@ class _AddHumidState extends State<AddHumid> {
               ),
               sizedBox.Boxh5(),
               FormList(
-                controller: wateramountController,
+                controller: humidamountController,
                 hintText: 'ปริมาณ',
                 hideText: false,
               ),
