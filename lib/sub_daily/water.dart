@@ -173,38 +173,42 @@ class _WaterState extends State<Water> {
                 } else {
                   return Container(
                     height: MediaQuery.of(context).size.height*0.8,
-                    child: Expanded(
-                      flex: 1,
-                      child: watering.isNotEmpty
-                          ? RefreshIndicator(
-                              key: _refreshIndicatorKey,
-                              onRefresh: _refresh,
-                              child: ListView.builder(
-                                itemCount: watering.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return WaterCard(watering: watering[index]);
-                                },
-                              ),
-                            )
-                          : RefreshIndicator(
-                            key: _refreshIndicatorKey,
-                            onRefresh: _refresh,
-                            child: Container(
-                                child: Column(
-                                  children: [
-                                    Lottie.asset(
-                                      'assets/animate/empty.json',
-                                      width: 250,
-                                      height: 250,
+                    child: Column(
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: watering.isNotEmpty
+                              ? RefreshIndicator(
+                                  key: _refreshIndicatorKey,
+                                  onRefresh: _refresh,
+                                  child: ListView.builder(
+                                    itemCount: watering.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return WaterCard(watering: watering[index]);
+                                    },
+                                  ),
+                                )
+                              : RefreshIndicator(
+                                key: _refreshIndicatorKey,
+                                onRefresh: _refresh,
+                                child: Container(
+                                    child: Column(
+                                      children: [
+                                        Lottie.asset(
+                                          'assets/animate/empty.json',
+                                          width: 250,
+                                          height: 250,
+                                        ),
+                                        Text(
+                                          'ไม่มีข้อมูลการให้น้ำ',
+                                          style: TextCustom.normal_mdg20(),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      'ไม่มีข้อมูลการให้น้ำ',
-                                      style: TextCustom.normal_mdg20(),
-                                    ),
-                                  ],
-                                ),
+                                  ),
                               ),
-                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

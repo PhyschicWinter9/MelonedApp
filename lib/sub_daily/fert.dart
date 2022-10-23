@@ -125,33 +125,37 @@ class _FertState extends State<Fert> {
               } else {
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.8,
-                  child: Expanded(
-                    child: ferting.isNotEmpty
-                        ? RefreshIndicator(
-                            key: _refreshIndicatorKey,
-                            onRefresh: _refresh,
-                            child: ListView.builder(
-                              itemCount: ferting.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return FertCard(ferting: ferting[index]);
-                              },
-                            ),
-                          )
-                        : Container(
-                            child: Column(
-                              children: [
-                                Lottie.asset(
-                                  'assets/animate/empty.json',
-                                  width: 250,
-                                  height: 250,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: ferting.isNotEmpty
+                            ? RefreshIndicator(
+                                key: _refreshIndicatorKey,
+                                onRefresh: _refresh,
+                                child: ListView.builder(
+                                  itemCount: ferting.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return FertCard(ferting: ferting[index]);
+                                  },
                                 ),
-                                Text(
-                                  'ไม่มีข้อมูลการให้ปุ๋ย',
-                                  style: TextCustom.normal_mdg20(),
+                              )
+                            : Container(
+                                child: Column(
+                                  children: [
+                                    Lottie.asset(
+                                      'assets/animate/empty.json',
+                                      width: 250,
+                                      height: 250,
+                                    ),
+                                    Text(
+                                      'ไม่มีข้อมูลการให้ปุ๋ย',
+                                      style: TextCustom.normal_mdg20(),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                      ),
+                    ],
                   ),
                 );
               }

@@ -133,39 +133,43 @@ class _TempState extends State<Temp> {
               } else {
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.8,
-                  child: Expanded(
-                    child: temperature.isNotEmpty
-                        ? RefreshIndicator(
-                          key: _refreshIndicatorKey,
-                          onRefresh: _refresh,
-                          child: ListView.builder(
-                              itemCount: temperature.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return TempCard(
-                                  temperature: temperature[index],
-                                );
-                              },
-                            ),
-                        )
-                        : RefreshIndicator(
-                            key: _refreshIndicatorKey,
-                            onRefresh: _refresh,
-                            child: Container(
-                              child: Column(
-                                children: [
-                                  Lottie.asset(
-                                    'assets/animate/empty.json',
-                                    width: 250,
-                                    height: 250,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: temperature.isNotEmpty
+                            ? RefreshIndicator(
+                              key: _refreshIndicatorKey,
+                              onRefresh: _refresh,
+                              child: ListView.builder(
+                                  itemCount: temperature.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return TempCard(
+                                      temperature: temperature[index],
+                                    );
+                                  },
+                                ),
+                            )
+                            : RefreshIndicator(
+                                key: _refreshIndicatorKey,
+                                onRefresh: _refresh,
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Lottie.asset(
+                                        'assets/animate/empty.json',
+                                        width: 250,
+                                        height: 250,
+                                      ),
+                                      Text(
+                                        'ไม่มีข้อมูลค่าความชื้น',
+                                        style: TextCustom.normal_mdg20(),
+                                      ),
+                                    ],
                                   ),
-                                  Text(
-                                    'ไม่มีข้อมูลค่าความชื้น',
-                                    style: TextCustom.normal_mdg20(),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
+                      ),
+                    ],
                   ),
                 );
               }

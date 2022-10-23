@@ -115,33 +115,37 @@ class _NoteState extends State<Note> {
               } else {
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.8,
-                  child: Expanded(
-                    child: notebook.isNotEmpty
-                        ? RefreshIndicator(
-                            key: _refreshIndicatorKey,
-                            onRefresh: _refresh,
-                            child: ListView.builder(
-                              itemCount: notebook.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return NoteCard(notebook: notebook[index]);
-                              },
-                            ),
-                          )
-                        : Container(
-                            child: Column(
-                              children: [
-                                Lottie.asset(
-                                  'assets/animate/empty.json',
-                                  width: 250,
-                                  height: 250,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: notebook.isNotEmpty
+                            ? RefreshIndicator(
+                                key: _refreshIndicatorKey,
+                                onRefresh: _refresh,
+                                child: ListView.builder(
+                                  itemCount: notebook.length,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return NoteCard(notebook: notebook[index]);
+                                  },
                                 ),
-                                Text(
-                                  'ไม่มีข้อมูลการจดบันทึก',
-                                  style: TextCustom.normal_mdg20(),
+                              )
+                            : Container(
+                                child: Column(
+                                  children: [
+                                    Lottie.asset(
+                                      'assets/animate/empty.json',
+                                      width: 250,
+                                      height: 250,
+                                    ),
+                                    Text(
+                                      'ไม่มีข้อมูลการจดบันทึก',
+                                      style: TextCustom.normal_mdg20(),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
+                              ),
+                      ),
+                    ],
                   ),
                 );
               }
