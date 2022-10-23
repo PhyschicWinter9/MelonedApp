@@ -64,7 +64,6 @@ Install my-project with flutter
   flutter pub get
 ```
 
-
 ## Authors
 
 - [@mintira](https://github.com/mintira)
