@@ -22,12 +22,7 @@ class _TempState extends State<Temp> {
       GlobalKey<RefreshIndicatorState>();
 
   //List
-  List<Temperature> temperature = [
-    Temperature(80.99, '7:25'),
-    Temperature(60.25, '12:25'),
-    Temperature(79.25, '17:25'),
-    Temperature(80.25, '22:25'),
-  ];
+  List<Temperature> temperature = [];
 
   //Session Manager
   dynamic period_ID;
@@ -41,46 +36,40 @@ class _TempState extends State<Temp> {
 
   getSession() async {
     dynamic id = await SessionManager().get("period_ID");
-    // print(id.runtimeType);
     setState(() {
       period_ID = id.toString();
     });
   }
 
-  Future detailHumidity(String period_ID) async {
-    // print("Period ID on Water.dart : $period_ID");
+  Future detailTemp(String period_ID) async {
     try {
-      //   var url =
-      //       "https://meloned.relaxlikes.com/api/dailycare/view_watering.php";
-      //   var response = await http.post(Uri.parse(url), body: {
-      //     'period_ID': period_ID,
-      //   });
-      //   // return json.decode(response.body);
-      //   //แปลงข้อมูลให้เป็น JSON
-      //   var data = json.decode(response.body);
-      //   // print(data);
-      //   // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
-      //   for (var i = 0; i < data.length; i++) {
-      //     Humidity humidity = Humidity((i + 1), data[i]['water_ID'],
-      //         data[i]['water_time'], data[i]['mL'], data[i]['period_ID']);
-      //     this.humidity.add(humidity);
-      //   }
-      //   // ส่งข้อมูลกลับไปแสดงใน ListView
-      //   return humidity;
-      // print(url);
-
+      var url = "https://meloned.relaxlikes.com/api/dailycare/view_temp.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'period_ID': period_ID,
+      });
+      // return json.decode(response.body);
+      //แปลงข้อมูลให้เป็น JSON
+      var data = json.decode(response.body);
+      // print(data);
+      // วนลูปข้อมูลที่ได้จาก API แล้วเก็บไว้ใน Array
+      for (var i = 0; i < data.length; i++) {
+        Temperature temperature = Temperature((i + 1), data[i]['temp_ID'],
+            data[i]['temp_time'], data[i]['celsius'], data[i]['period_ID']);
+        this.temperature.add(temperature);
+      }
+      // ส่งข้อมูลกลับไปแสดงใน ListView
+      return temperature;
     } catch (e) {
       print(e);
     }
-    // print(watering);
   }
 
   Future<void> _refresh() async {
-    // final fetchwaterdata = await detailWater(period_ID);
-    // setState(() {
-    //   watering.clear();
-    //   watering = fetchwaterdata;
-    // });
+    final fetchtempdata = await detailTemp(period_ID);
+    setState(() {
+      temperature.clear();
+      temperature = fetchtempdata;
+    });
   }
 
   @override
@@ -107,7 +96,7 @@ class _TempState extends State<Temp> {
             ],
           ),
           FutureBuilder(
-            future: detailHumidity(period_ID),
+            future: detailTemp(period_ID),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.data == null) {
                 return Container(
@@ -132,23 +121,24 @@ class _TempState extends State<Temp> {
                 );
               } else {
                 return Container(
-                  height: MediaQuery.of(context).size.height * 0.8,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   child: Column(
                     children: [
                       Expanded(
                         child: temperature.isNotEmpty
                             ? RefreshIndicator(
-                              key: _refreshIndicatorKey,
-                              onRefresh: _refresh,
-                              child: ListView.builder(
+                                key: _refreshIndicatorKey,
+                                onRefresh: _refresh,
+                                child: ListView.builder(
                                   itemCount: temperature.length,
-                                  itemBuilder: (BuildContext context, int index) {
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
                                     return TempCard(
                                       temperature: temperature[index],
                                     );
                                   },
                                 ),
-                            )
+                              )
                             : RefreshIndicator(
                                 key: _refreshIndicatorKey,
                                 onRefresh: _refresh,
@@ -161,7 +151,7 @@ class _TempState extends State<Temp> {
                                         height: 250,
                                       ),
                                       Text(
-                                        'ไม่มีข้อมูลค่าความชื้น',
+                                        'ไม่มีข้อมูลเกี่ยวกับอุณหภูมิ',
                                         style: TextCustom.normal_mdg20(),
                                       ),
                                     ],
@@ -182,10 +172,14 @@ class _TempState extends State<Temp> {
 }
 
 class Temperature {
-  final double tempvalue;
+  final int count;
   final String time;
+  final String temperatureamount;
+  final String period_ID;
+  final String temp_ID;
 
-  Temperature(this.tempvalue, this.time);
+  Temperature(this.count, this.temp_ID, this.time, this.temperatureamount,
+      this.period_ID);
 }
 
 class TempCard extends StatefulWidget {
@@ -214,13 +208,13 @@ class _TempCardState extends State<TempCard> {
               padding: EdgeInsets.all(20),
             ),
             onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EditTemp(
-                            tempID: '1',
-                            tempamount: widget.temperature.tempvalue.toString(),
-                          )));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => EditTemp(
+              //               tempID: widget.temperature.temp_ID,
+              //               tempamount: widget.temperature.temperatureamount,
+              //             )));
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,14 +230,15 @@ class _TempCardState extends State<TempCard> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('ความชื้น', style: TextCustom.normal_dg16()),
+                              Text('อุณหภูมิ', style: TextCustom.normal_dg16()),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('${widget.temperature.tempvalue}',
+                                  Text(
+                                      '${widget.temperature.temperatureamount}',
                                       style: TextCustom.normal_mdg16()),
-                                  SizedBox(width: 5),
-                                  Text('%RH', style: TextCustom.normal_dg16()),
+                                  SizedBox(width: 2),
+                                  Text('°C', style: TextCustom.normal_dg16()),
                                 ],
                               ),
                               Text('${widget.temperature.time}',
@@ -253,21 +248,22 @@ class _TempCardState extends State<TempCard> {
                         ],
                       ),
                     ),
-                    // SizedBox(
-                    //   width: 5,
-                    // ),
-                    // Expanded(
-                    //   flex: 1,
-                    //   child: Text('${widget.humidity.time}',
-                    //       style: TextCustom.normal_dg16()),
-                    // ),
                     Expanded(
                         flex: 1,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => EditTemp(
+                                            tempID: widget.temperature.temp_ID,
+                                            tempamount: widget
+                                                .temperature.temperatureamount,
+                                          )));
+                            },
                             icon: Icon(
-                              Icons.delete,
-                              color: ColorCustom.lightgreencolor(),
+                              Icons.settings,
+                              color: ColorCustom.orangecolor(),
                             ))),
                   ],
                 ),

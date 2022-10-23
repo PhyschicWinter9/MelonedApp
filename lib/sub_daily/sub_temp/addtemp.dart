@@ -31,10 +31,10 @@ class _AddTempState extends State<AddTemp> {
 
   Future AddTemp(String period_ID) async {
     var url =
-        "https://meloned.relaxlikes.com/api/dailycare/insert_watering.php";
+        "https://meloned.relaxlikes.com/api/dailycare/insert_temp.php";
     var response = await http.post(Uri.parse(url), body: {
       'period_ID': period_ID,
-      'ml': tempamountController.text,
+      'celsius': tempamountController.text,
     });
 
     var jsonData = json.decode(response.body);

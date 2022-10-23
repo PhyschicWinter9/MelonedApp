@@ -28,17 +28,16 @@ class EditTemp extends StatefulWidget {
 }
 
 class _EditTempState extends State<EditTemp> {
-
   //variable
   final tempamountController = TextEditingController();
 
   Future EditTemp() async {
     try {
       var url = Uri.parse(
-          'https://meloned.relaxlikes.com/api/dailycare/edit_watering.php');
+          'https://meloned.relaxlikes.com/api/dailycare/edit_temp.php');
       var response = await http.post(url, body: {
         'temp_ID': widget.tempID,
-        'ml': tempamountController.text,
+        'celsius': tempamountController.text,
       });
       var data = jsonDecode(response.body);
       // return data;
@@ -63,6 +62,42 @@ class _EditTempState extends State<EditTemp> {
     }
   }
 
+  //Delete Temperature
+  Future RemoveTemp(String temp_ID) async {
+    try {
+      var url = "https://meloned.relaxlikes.com/api/dailycare/delete_temp.php";
+      var response = await http.post(Uri.parse(url), body: {
+        'temp_ID': temp_ID,
+      });
+
+      var jsonData = json.decode(response.body);
+
+      if (jsonData == "Failed") {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลไม่สำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      } else {
+        Fluttertoast.showToast(
+          msg: "ลบข้อมูลสำเร็จ",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0,
+        );
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -76,6 +111,15 @@ class _EditTempState extends State<EditTemp> {
     return Scaffold(
       appBar: AppBar(
         title: Text('แก้ไขอุณหภูมิ'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              RemoveTemp(widget.tempID);
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.delete),
+          ),
+        ],
       ),
       drawer: Hamburger(),
       body: BGContainer(
