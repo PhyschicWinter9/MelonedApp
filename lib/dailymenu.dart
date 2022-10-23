@@ -73,7 +73,7 @@ class _DailyMenuState extends State<DailyMenu> {
               Note(),
               Humid(),
               Temp(),
-              Intens(),
+              Intense(),
             ],
           ),
         ),
