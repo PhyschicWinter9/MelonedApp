@@ -33,7 +33,7 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/app/outputs/flutter-apk/app-release.apk
-          asset_name: app-release.apk
+          asset_name: MelonedApp.apk
           tag: ${{ github.ref }}
           overwrite: true
 
