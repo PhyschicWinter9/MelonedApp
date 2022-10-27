@@ -174,7 +174,7 @@ class _ShowPeriod extends State<ShowPeriod> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานการให้ปุ๋ยประจำเดือน',
+                                    text: 'รายงานการให้ปุ๋ยประจำรอบการปลูก',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
                                 tooltipBehavior: _tooltipBehavior,
@@ -211,7 +211,7 @@ class _ShowPeriod extends State<ShowPeriod> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานสรุปประจำเดือนการให้น้ำ',
+                                    text: 'รายงานการให้น้ำประจำรอบการปลูก',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
                                 tooltipBehavior: _tooltipBehavior,

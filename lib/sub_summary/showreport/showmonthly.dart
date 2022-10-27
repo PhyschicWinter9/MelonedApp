@@ -202,7 +202,7 @@ class _ShowMonthly extends State<ShowMonthly> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานสรุปประจำเดือนการให้น้ำ',
+                                    text: 'รายงานการให้น้ำประจำเดือน',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
                                 tooltipBehavior: _tooltipBehavior,

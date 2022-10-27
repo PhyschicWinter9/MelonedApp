@@ -195,7 +195,7 @@ class _ShowWeekly extends State<ShowWeekly> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานสรุปประจำสัปดาห์การให้น้ำ',
+                                    text: 'รายงานการให้น้ำประจำสัปดาห์',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
                                 tooltipBehavior: _tooltipBehavior,

@@ -225,7 +225,7 @@ class _ShowYearly extends State<ShowYearly> {
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
                                 title: ChartTitle(
-                                    text: 'รายงานสรุปประจำปัการให้น้ำ',
+                                    text: 'รายงานการให้น้ำประจำปี',
                                     textStyle: TextCustom.bold_b16()),
                                 legend: Legend(isVisible: false),
                                 tooltipBehavior: _tooltipBehavior,
@@ -331,7 +331,7 @@ class _ShowYearly extends State<ShowYearly> {
                                 ],
                               ),
                             ),
-                             //////// STACK COLUMN CHART OF MELON ////////
+                            //////// STACK COLUMN CHART OF MELON ////////
                             Container(
                               width: MediaQuery.of(context).size.width * 0.8,
                               child: SfCartesianChart(
@@ -433,7 +433,6 @@ class _ShowYearly extends State<ShowYearly> {
                           ],
                         ),
                       ),
-              
               ],
             ),
           ),

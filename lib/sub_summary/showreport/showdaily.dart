@@ -226,7 +226,7 @@ class _ShowDaily extends State<ShowDaily> {
                             Center(
                               child: Title(
                                 child: Text(
-                                  'รายงานสรุปประจำวันการให้น้ำ',
+                                  'รายงานการให้น้ำประจำวัน',
                                   style: TextCustom.bold_b16(),
                                 ),
                                 color: ColorCustom.browncolor(),
