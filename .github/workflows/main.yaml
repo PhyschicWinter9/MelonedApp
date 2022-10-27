@@ -19,15 +19,16 @@ jobs:
           flutter-version: '3.0.5'
           channel: 'stable'
       - name: Get pub cache dir
-        id: pub-cache
-        run: echo "::set-output name=dir::$(pub cache dir)"
-      - name: Cache pub packages
-        uses: actions/cache@v2
+        id: pub-cache\
+      - name: Set output
+        run: echo "{name}={$(flutter pub cache dir)}" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v2
         with:
           path: ${{ steps.pub-cache.outputs.dir }}
           key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.lock') }}
           restore-keys: |
             ${{ runner.os }}-pub-cache-
+       echo "{name}={value}" >> $GITHUB_OUTPUT
       - name: Install dependencies
         run: flutter pub get
       - name: Build apk
