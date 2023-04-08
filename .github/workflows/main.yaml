@@ -1,5 +1,4 @@
-# flutter github action workflow build and test flutter app on push and pull request to master branch and upload apk to github release on tag push and autorun on release and fix no such file or directory, 
-
+# flutter github action workflow build and test flutter app on push and pull request to master branch and upload apk to github release on tag push and autorun on release and fix no such file or directory error new version of flutter github action workflow
 name: Flutter CI
 on:
   push:
@@ -14,25 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '3.0.5'
           channel: 'stable'
-      - name: Get pub cache dir
-        id: pub-cache\
-      - name: Set output
-        run: echo "{name}={$(flutter pub cache dir)}" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v2
-        with:
-          path: ${{ steps.pub-cache.outputs.dir }}
-          key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-cache-
-       echo "{name}={value}" >> $GITHUB_OUTPUT
       - name: Install dependencies
         run: flutter pub get
       - name: Build apk
-        run: flutter build apk --split-per-abi
+        run: flutter build apk --release
       - name: Upload apk
         uses: actions/upload-artifact@v2
         with:
@@ -41,6 +28,7 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    if: github.event_name == 'release'
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@v2
@@ -64,55 +52,5 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./app-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/vnd.android.package-archive
-  autorun:
-    needs: release
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
-        with:
-          channel: 'stable'
-      - name: Get pub cache dir
-        id: pub-cache
-        run: echo "::set-output name=dir::$(pub cache dir)"
-      - name: Cache pub packages
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.pub-cache.outputs.dir }}
-          key: ${{ runner.os }}-pub-cache-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-cache-
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Build apk
-        run: flutter build apk --split-per-abi
-      - name: Upload apk
-        uses: actions/upload-artifact@v2
-        with:
-          name: apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./app-release.apk
           asset_name: MelonedApp.apk
-          asset_content_type: application/vnd.android.package-archive
-
-
 
