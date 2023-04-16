@@ -8,24 +8,25 @@ class MelonedLoading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircularProgressIndicator(
-          color: ColorCustom.browncolor(),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Text(
-          'กำลังโหลดข้อมูล',
-          style: GoogleFonts.kanit(
-            fontSize: 20,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(
             color: ColorCustom.browncolor(),
-            fontWeight: FontWeight.bold,
           ),
-        )
-      ],
-    ));
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            'กำลังโหลดข้อมูล',
+            style: GoogleFonts.kanit(
+              fontSize: 20,
+              color: ColorCustom.browncolor(),
+              fontWeight: FontWeight.bold,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
